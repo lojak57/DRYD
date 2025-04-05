@@ -1,0 +1,575 @@
+[
+  {
+    "id": "quote-001",
+    "quoteNumber": "Q-2024-0001",
+    "status": "DRAFT",
+    "quoteType": "FIXED_PRICE",
+    "customerId": "cust-001",
+    "siteAddress": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "scopeOfWork": {
+      "summary": "Water damage restoration in basement from broken pipe",
+      "waterMitigation": "Water extraction and drying of affected areas",
+      "affectedMaterials": "Carpet, baseboards, and lower sections of drywall",
+      "dryingProcess": "2 dehumidifiers and 4 air movers for approximately 5 days",
+      "cleaningSanitizing": "Antimicrobial treatment and final cleanup"
+    },
+    "lineItems": [
+      {
+        "id": "li-001-1",
+        "description": "Water Extraction",
+        "quantity": 1,
+        "unitPrice": 750,
+        "total": 750,
+        "category": "Mitigation"
+      },
+      {
+        "id": "li-001-2",
+        "description": "Equipment Rental - Dehumidifiers (5 days)",
+        "quantity": 2,
+        "unitPrice": 85,
+        "total": 850,
+        "category": "Equipment"
+      },
+      {
+        "id": "li-001-3",
+        "description": "Equipment Rental - Air Movers (5 days)",
+        "quantity": 4,
+        "unitPrice": 45,
+        "total": 900,
+        "category": "Equipment"
+      },
+      {
+        "id": "li-001-4",
+        "description": "Antimicrobial Treatment",
+        "quantity": 1,
+        "unitPrice": 450,
+        "total": 450,
+        "category": "Mitigation"
+      },
+      {
+        "id": "li-001-5",
+        "description": "Debris Removal and Disposal",
+        "quantity": 1,
+        "unitPrice": 325,
+        "total": 325,
+        "category": "Cleanup"
+      }
+    ],
+    "subtotal": 3275,
+    "taxRate": 0.065,
+    "taxAmount": 212.88,
+    "total": 3487.88,
+    "dateCreated": "2024-04-15T09:30:00Z",
+    "notes": "Customer requested quote for basement flooding. Waiting on insurance information before finalizing.",
+    "preparedByUserId": "office-01"
+  },
+  {
+    "id": "quote-002",
+    "quoteNumber": "Q-2024-0002",
+    "status": "SENT",
+    "quoteType": "T_AND_E",
+    "customerId": "cust-002",
+    "siteAddress": {
+      "street": "456 Pine Avenue, Unit 102",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "scopeOfWork": {
+      "summary": "Fire damage restoration for Unit 102 kitchen",
+      "affectedMaterials": "Cabinets, countertop, walls, and ceiling",
+      "demolition": "Removal of damaged cabinets and drywall",
+      "cleaningSanitizing": "Smoke and soot removal from all surfaces",
+      "reconstruction": "Installation of new cabinets, countertop, and drywall; painting",
+      "exclusions": "Appliance replacement not included"
+    },
+    "lineItems": [
+      {
+        "id": "li-002-1",
+        "description": "Initial Assessment and Inspection",
+        "quantity": 1,
+        "unitPrice": 250,
+        "total": 250,
+        "category": "Assessment"
+      },
+      {
+        "id": "li-002-2",
+        "description": "Smoke and Soot Removal - Labor",
+        "quantity": 16,
+        "unitPrice": 85,
+        "total": 1360,
+        "isEstimate": true,
+        "category": "Labor"
+      },
+      {
+        "id": "li-002-3",
+        "description": "Odor Treatment",
+        "quantity": 1,
+        "unitPrice": 550,
+        "total": 550,
+        "category": "Mitigation"
+      },
+      {
+        "id": "li-002-4",
+        "description": "Structural Repairs - Materials",
+        "quantity": 1,
+        "unitPrice": 2800,
+        "total": 2800,
+        "isEstimate": true,
+        "category": "Materials"
+      },
+      {
+        "id": "li-002-5",
+        "description": "Structural Repairs - Labor",
+        "quantity": 40,
+        "unitPrice": 95,
+        "total": 3800,
+        "isEstimate": true,
+        "category": "Labor"
+      },
+      {
+        "id": "li-002-6",
+        "description": "Final Cleaning",
+        "quantity": 1,
+        "unitPrice": 450,
+        "total": 450,
+        "category": "Cleanup"
+      }
+    ],
+    "subtotal": 9210,
+    "taxRate": 0.065,
+    "taxAmount": 598.65,
+    "total": 9808.65,
+    "dateCreated": "2024-04-10T14:45:00Z",
+    "dateSent": "2024-04-12T10:15:00Z",
+    "dateExpires": "2024-05-12T23:59:59Z",
+    "notes": "This is a time and expense quote. Final costs may vary based on actual time spent and materials used.",
+    "preparedByUserId": "office-02"
+  },
+  {
+    "id": "quote-003",
+    "quoteNumber": "Q-2024-0003",
+    "status": "ACCEPTED",
+    "quoteType": "FIXED_PRICE",
+    "customerId": "cust-003",
+    "siteAddress": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "scopeOfWork": {
+      "summary": "Mold remediation in bathroom",
+      "containment": "Full containment with negative air pressure",
+      "affectedMaterials": "Shower wall, surrounding drywall, and flooring",
+      "demolition": "Removal of affected drywall and flooring",
+      "cleaningSanitizing": "HEPA vacuuming and antimicrobial treatment",
+      "reconstruction": "Installation of new drywall, tile, and flooring"
+    },
+    "lineItems": [
+      {
+        "id": "li-003-1",
+        "description": "Mold Testing and Assessment",
+        "quantity": 1,
+        "unitPrice": 350,
+        "total": 350,
+        "category": "Assessment"
+      },
+      {
+        "id": "li-003-2",
+        "description": "Containment Setup",
+        "quantity": 1,
+        "unitPrice": 275,
+        "total": 275,
+        "category": "Preparation"
+      },
+      {
+        "id": "li-003-3",
+        "description": "Removal of Affected Materials",
+        "quantity": 1,
+        "unitPrice": 850,
+        "total": 850,
+        "category": "Remediation"
+      },
+      {
+        "id": "li-003-4",
+        "description": "HEPA Vacuuming and Cleaning",
+        "quantity": 1,
+        "unitPrice": 450,
+        "total": 450,
+        "category": "Remediation"
+      },
+      {
+        "id": "li-003-5",
+        "description": "Antimicrobial Treatment",
+        "quantity": 1,
+        "unitPrice": 375,
+        "total": 375,
+        "category": "Remediation"
+      },
+      {
+        "id": "li-003-6",
+        "description": "Reconstruction - Materials",
+        "quantity": 1,
+        "unitPrice": 1200,
+        "total": 1200,
+        "category": "Materials"
+      },
+      {
+        "id": "li-003-7",
+        "description": "Reconstruction - Labor",
+        "quantity": 24,
+        "unitPrice": 85,
+        "total": 2040,
+        "category": "Labor"
+      },
+      {
+        "id": "li-003-8",
+        "description": "Post-Remediation Verification Testing",
+        "quantity": 1,
+        "unitPrice": 300,
+        "total": 300,
+        "category": "Testing"
+      }
+    ],
+    "subtotal": 5840,
+    "taxRate": 0.065,
+    "taxAmount": 379.60,
+    "total": 6219.60,
+    "dateCreated": "2024-04-05T11:20:00Z",
+    "dateSent": "2024-04-06T09:45:00Z",
+    "dateExpires": "2024-05-06T23:59:59Z",
+    "notes": "Quote accepted by customer via email on 04/08/2024.",
+    "preparedByUserId": "office-01",
+    "associatedJobId": null
+  },
+  {
+    "id": "quote-004",
+    "quoteNumber": "Q-2024-0004",
+    "status": "ACCEPTED",
+    "quoteType": "FIXED_PRICE",
+    "customerId": "cust-001",
+    "siteAddress": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "scopeOfWork": {
+      "summary": "Storm damage restoration - roof leak and water damage",
+      "waterMitigation": "Water extraction and drying of affected ceiling and walls",
+      "affectedMaterials": "Ceiling drywall, insulation, and wall paint",
+      "dryingProcess": "Dehumidifiers and air movers for approximately 3 days",
+      "demolition": "Removal of damaged ceiling materials",
+      "reconstruction": "Replacement of insulation, drywall, and painting of affected areas"
+    },
+    "lineItems": [
+      {
+        "id": "li-004-1",
+        "description": "Emergency Water Extraction",
+        "quantity": 1,
+        "unitPrice": 550,
+        "total": 550,
+        "category": "Mitigation"
+      },
+      {
+        "id": "li-004-2",
+        "description": "Equipment Rental (3 days)",
+        "quantity": 1,
+        "unitPrice": 675,
+        "total": 675,
+        "category": "Equipment"
+      },
+      {
+        "id": "li-004-3",
+        "description": "Ceiling Demolition and Disposal",
+        "quantity": 1,
+        "unitPrice": 950,
+        "total": 950,
+        "category": "Demolition"
+      },
+      {
+        "id": "li-004-4",
+        "description": "Insulation Replacement",
+        "quantity": 1,
+        "unitPrice": 475,
+        "total": 475,
+        "category": "Materials"
+      },
+      {
+        "id": "li-004-5",
+        "description": "Drywall Installation and Finishing",
+        "quantity": 1,
+        "unitPrice": 1250,
+        "total": 1250,
+        "category": "Reconstruction"
+      },
+      {
+        "id": "li-004-6",
+        "description": "Painting",
+        "quantity": 1,
+        "unitPrice": 850,
+        "total": 850,
+        "category": "Reconstruction"
+      }
+    ],
+    "subtotal": 4750,
+    "taxRate": 0.065,
+    "taxAmount": 308.75,
+    "total": 5058.75,
+    "dateCreated": "2024-03-28T10:15:00Z",
+    "dateSent": "2024-03-28T14:30:00Z",
+    "dateExpires": "2024-04-28T23:59:59Z",
+    "notes": "Quote accepted by customer on 03/30/2024.",
+    "preparedByUserId": "office-02",
+    "associatedJobId": null
+  },
+  {
+    "id": "quote-005",
+    "quoteNumber": "Q-2024-0005",
+    "status": "DECLINED",
+    "quoteType": "FIXED_PRICE",
+    "customerId": "cust-004",
+    "siteAddress": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "scopeOfWork": {
+      "summary": "Commercial water damage restoration in hotel storage room",
+      "waterMitigation": "Water extraction and drying of affected areas",
+      "affectedMaterials": "Carpeting, baseboards, and lower sections of walls",
+      "dryingProcess": "Commercial dehumidifiers and air movers",
+      "cleaningSanitizing": "Deep cleaning and sanitization of all affected areas"
+    },
+    "lineItems": [
+      {
+        "id": "li-005-1",
+        "description": "Water Extraction - Commercial Grade",
+        "quantity": 1,
+        "unitPrice": 1200,
+        "total": 1200,
+        "category": "Mitigation"
+      },
+      {
+        "id": "li-005-2",
+        "description": "Equipment Rental (5 days)",
+        "quantity": 1,
+        "unitPrice": 1850,
+        "total": 1850,
+        "category": "Equipment"
+      },
+      {
+        "id": "li-005-3",
+        "description": "Baseboard Removal and Replacement",
+        "quantity": 120,
+        "unitPrice": 12,
+        "total": 1440,
+        "category": "Reconstruction"
+      },
+      {
+        "id": "li-005-4",
+        "description": "Commercial Sanitization",
+        "quantity": 1,
+        "unitPrice": 950,
+        "total": 950,
+        "category": "Cleaning"
+      },
+      {
+        "id": "li-005-5",
+        "description": "After-Hours Labor Premium",
+        "quantity": 24,
+        "unitPrice": 35,
+        "total": 840,
+        "category": "Labor"
+      }
+    ],
+    "subtotal": 6280,
+    "taxRate": 0.065,
+    "taxAmount": 408.20,
+    "total": 6688.20,
+    "dateCreated": "2024-03-15T13:40:00Z",
+    "dateSent": "2024-03-16T09:10:00Z",
+    "dateExpires": "2024-04-16T23:59:59Z",
+    "notes": "Customer declined - went with a different service provider.",
+    "preparedByUserId": "office-01"
+  },
+  {
+    "id": "quote-006",
+    "quoteNumber": "Q-2024-0006",
+    "status": "CONVERTED_TO_JOB",
+    "quoteType": "FIXED_PRICE",
+    "customerId": "cust-005",
+    "siteAddress": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "scopeOfWork": {
+      "summary": "Office water damage from sprinkler system malfunction",
+      "waterMitigation": "Water extraction and drying of affected office spaces",
+      "affectedMaterials": "Carpeting, baseboards, office furniture, and documents",
+      "dryingProcess": "Commercial dehumidifiers and air movers for 4 days",
+      "cleaningSanitizing": "Document recovery services and office sanitation"
+    },
+    "lineItems": [
+      {
+        "id": "li-006-1",
+        "description": "Emergency Response and Assessment",
+        "quantity": 1,
+        "unitPrice": 750,
+        "total": 750,
+        "category": "Emergency"
+      },
+      {
+        "id": "li-006-2",
+        "description": "Water Extraction - Commercial",
+        "quantity": 1,
+        "unitPrice": 1850,
+        "total": 1850,
+        "category": "Mitigation"
+      },
+      {
+        "id": "li-006-3",
+        "description": "Equipment Rental (4 days)",
+        "quantity": 1,
+        "unitPrice": 1600,
+        "total": 1600,
+        "category": "Equipment"
+      },
+      {
+        "id": "li-006-4",
+        "description": "Document Recovery and Drying",
+        "quantity": 1,
+        "unitPrice": 2200,
+        "total": 2200,
+        "category": "Specialty"
+      },
+      {
+        "id": "li-006-5",
+        "description": "Office Furniture Drying/Treatment",
+        "quantity": 1,
+        "unitPrice": 1100,
+        "total": 1100,
+        "category": "Specialty"
+      },
+      {
+        "id": "li-006-6",
+        "description": "Commercial Sanitization",
+        "quantity": 1,
+        "unitPrice": 950,
+        "total": 950,
+        "category": "Cleaning"
+      }
+    ],
+    "subtotal": 8450,
+    "taxRate": 0.065,
+    "taxAmount": 549.25,
+    "total": 8999.25,
+    "dateCreated": "2024-03-02T08:25:00Z",
+    "dateSent": "2024-03-02T10:15:00Z",
+    "dateExpires": "2024-04-02T23:59:59Z",
+    "notes": "Emergency service quote. Accepted and converted to job on 03/02/2024.",
+    "preparedByUserId": "office-02",
+    "associatedJobId": "job-001"
+  },
+  {
+    "id": "quote-007",
+    "quoteNumber": "Q-2024-0007",
+    "status": "CONVERTED_TO_JOB",
+    "quoteType": "T_AND_E",
+    "customerId": "cust-002",
+    "siteAddress": {
+      "street": "456 Pine Avenue, Unit 305",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "scopeOfWork": {
+      "summary": "Mold remediation in apartment bathroom and adjacent bedroom",
+      "containment": "Full containment with negative air pressure",
+      "affectedMaterials": "Bathroom wall, subfloor, and bedroom carpet",
+      "demolition": "Removal of affected drywall, subfloor, and carpet",
+      "cleaningSanitizing": "HEPA vacuuming and antimicrobial treatment",
+      "reconstruction": "Installation of new materials and finishes"
+    },
+    "lineItems": [
+      {
+        "id": "li-007-1",
+        "description": "Mold Inspection and Testing",
+        "quantity": 1,
+        "unitPrice": 375,
+        "total": 375,
+        "category": "Assessment"
+      },
+      {
+        "id": "li-007-2",
+        "description": "Containment Setup",
+        "quantity": 1,
+        "unitPrice": 525,
+        "total": 525,
+        "category": "Preparation"
+      },
+      {
+        "id": "li-007-3",
+        "description": "Demolition and Removal",
+        "quantity": 1,
+        "unitPrice": 1850,
+        "total": 1850,
+        "isEstimate": true,
+        "category": "Remediation"
+      },
+      {
+        "id": "li-007-4",
+        "description": "Antimicrobial Treatment",
+        "quantity": 1,
+        "unitPrice": 750,
+        "total": 750,
+        "category": "Remediation"
+      },
+      {
+        "id": "li-007-5",
+        "description": "Reconstruction Materials",
+        "quantity": 1,
+        "unitPrice": 2200,
+        "total": 2200,
+        "isEstimate": true,
+        "category": "Materials"
+      },
+      {
+        "id": "li-007-6",
+        "description": "Reconstruction Labor",
+        "quantity": 32,
+        "unitPrice": 85,
+        "total": 2720,
+        "isEstimate": true,
+        "category": "Labor"
+      },
+      {
+        "id": "li-007-7",
+        "description": "Post-Remediation Testing",
+        "quantity": 1,
+        "unitPrice": 325,
+        "total": 325,
+        "category": "Testing"
+      }
+    ],
+    "subtotal": 8745,
+    "taxRate": 0.065,
+    "taxAmount": 568.43,
+    "total": 9313.43,
+    "dateCreated": "2024-03-10T15:20:00Z",
+    "dateSent": "2024-03-11T09:30:00Z",
+    "dateExpires": "2024-04-11T23:59:59Z",
+    "notes": "Quote approved by property management on 03/15/2024 and converted to job.",
+    "preparedByUserId": "office-01",
+    "associatedJobId": "job-002"
+  }
+]

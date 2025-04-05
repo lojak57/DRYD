@@ -1,0 +1,2209 @@
+<script lang="ts">
+  import { onMount, tick, createEventDispatcher } from 'svelte';
+  import { writable, derived } from 'svelte/store';
+  import { fade } from 'svelte/transition';
+  import { page } from '$app/stores';
+  import { goto } from '$app/navigation';
+  import { getJob, getJobLogs, updateJob, updateJobStatus, updateJobCompletionTask } from '$lib/services/jobs';
+  import { getTechnicians } from '$lib/services/users';
+  import { addLogEntry, deleteLogEntry, updateLogEntry } from '$lib/services/logEntries';
+  import type { Job, CompletionTasks } from '$lib/types/Job';
+  import { JobStatus } from '$lib/types/Job';
+  import type { LogEntry } from '$lib/types/LogEntry';
+  import { LogEntryType } from '$lib/types/LogEntry';
+  import type { User } from '$lib/types/User';
+  import { Role } from '$lib/types/User';
+  import { currentUser } from '$lib/stores/authStore';
+  import type { WorkflowTask } from '$lib/config/workflowConfig';
+  import { WORKFLOW_ORDER, WORKFLOW_LABELS, TASKS_BY_STATUS } from '$lib/config/workflowConfig';
+  import JobWorkflowStepper from '$lib/components/jobs/JobWorkflowStepper.svelte';
+  import LogEntryList from '$lib/components/jobs/LogEntryList.svelte';
+  import JobCompletionModal from '$lib/components/jobs/JobCompletionModal.svelte';
+  import MoistureReadingForm from '$lib/components/jobs/MoistureReadingForm.svelte';
+  import TechnicianAssignment from '$lib/components/jobs/TechnicianAssignmentForm.svelte';
+  import TechnicalNotes from '$lib/components/jobs/TechnicalNotes.svelte';
+  import EquipmentForm from '$lib/components/jobs/EquipmentForm.svelte';
+  import PhotoUpload from '$lib/components/jobs/PhotoUpload.svelte';
+  import TaskActionModal from '$lib/components/jobs/TaskActionModal.svelte';
+  import ScheduleJobWithTechnicianModal from '$lib/components/jobs/scheduling/ScheduleJobWithTechnicianModal.svelte';
+  import { showSuccessToast, showErrorToast } from '$lib/utils/toast';
+  import JobCostSummary from '$lib/components/jobs/JobCostSummary.svelte';
+  import JobInvoice from '$lib/components/jobs/JobInvoice.svelte';
+  import PageHeader from '$lib/components/ui/PageHeader.svelte';
+  import TechCompletionChecklist from '$lib/components/jobs/TechCompletionChecklist.svelte';
+
+  const currentJob = writable<Job | null>(null);
+  const isLoading = writable<boolean>(true);
+  const error = writable<string | null>(null);
+  const customerName = writable<string>('');
+  
+  // Add state to manage which form is visible
+  let showForm: 'note' | 'photo' | 'reading' | 'equipment' | 'expense' | null = null;
+  
+  // Add state for filtering and view mode
+  let selectedFilter: LogEntryType | 'ALL' = 'ALL';
+  let viewMode: 'log' | 'gallery' = 'log';
+  
+  // Reactive statement to get the current Job ID from the URL
+  $: currentJobId = $page.params.jobId;
+
+  // Reactive statement to filter ALL log entries for the current job and sort them
+  $: jobLogEntries = $allLogEntries
+    .filter(entry => entry.jobId === currentJobId)
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()); // Sort newest first
+
+  // Reactive statement to apply the UI filter (NOTE, PHOTO, etc.) to the job's logs
+  $: filteredLogEntries = jobLogEntries.filter(entry =>
+    selectedFilter === 'ALL' || entry.type === selectedFilter
+  );
+
+  // State for tracking job completion
+  let isCompletingJob = false;
+  let completionError = '';
+  
+  // Equipment billing calculations
+  $: equipmentUsage = ($currentJob && jobLogEntries.length > 0)
+    ? calculateEquipmentUsage(jobLogEntries)
+    : new Map();
+
+  $: billingSummary = ($currentJob && equipmentUsage.size > 0)
+    ? calculateTotalCosts(equipmentUsage)
+    : { details: [], totalCost: 0 };
+  
+  // Add a store for labor entries
+  const laborEntries = writable<any[]>([]);
+
+  // Add state for completion modal
+  let showCompletionModal = false;
+  let techDetails: { id: string, name: string }[] = [];
+
+  // Add state for task completion modal
+  let showTaskModal = false;
+  let currentTaskAction = '';
+  let currentTaskKey = '';
+  let currentTask: WorkflowTask | null = null;
+  let selectedTask: WorkflowTask | null = null;
+
+  // Create an object to store user names by ID
+  let assignedUserNames: Record<string, string> = {};
+
+  // Add a reactive declaration to check if all tasks are complete
+  $: allTasksComplete = $currentJob?.completionTasks
+    ? Object.values($currentJob.completionTasks).every(status => status === true)
+    : false;
+
+  // Add state for tracking technician assignment updates
+  let isUpdatingAssignments = false;
+  let assignmentError = '';
+  let assignmentSuccess = false;
+  
+  // Track when all tasks for a specific status are completed
+  let allCompletedStatuses: Record<JobStatus, boolean> = Object.values(JobStatus).reduce((acc, status) => {
+    acc[status] = false;
+    return acc;
+  }, {} as Record<JobStatus, boolean>);
+  
+  // Track whether we should show the status advancement prompt
+  let showStatusAdvancementPrompt = false;
+  let statusToAdvanceFrom: JobStatus | null = null;
+  let statusToAdvanceTo: JobStatus | null = null;
+
+  // Function to handle status advancement prompts
+  function addCompletedStatusPrompt(status: JobStatus) {
+    if (!$currentJob || !$currentUser) return;
+    
+    // Only proceed for specific statuses and if user has appropriate role
+    if (status === JobStatus.PENDING_COMPLETION && 
+        ($currentUser.role === Role.OFFICE || $currentUser.role === Role.ADMIN)) {
+      
+      console.log('Adding prompt to advance from PENDING_COMPLETION to COMPLETED');
+      
+      const promptElement = document.createElement('div');
+      promptElement.id = 'advance-status-prompt';
+      promptElement.className = 'fixed bottom-4 right-4 bg-green-100 p-4 rounded-lg border-2 border-green-300 shadow-lg z-50 animate-pulse';
+      promptElement.innerHTML = `
+        <h3 class="text-lg font-bold text-green-800 mb-2">All Tasks Completed!</h3>
+        <p class="text-green-700 mb-4">All required tasks for the current stage are complete.</p>
+        <button
+          id="advance-to-completed-btn"
+          class="w-full py-2 px-4 bg-green-600 hover:bg-green-700 text-white font-bold rounded transition-colors"
+        >
+          Mark Job as COMPLETED
+        </button>
+      `;
+      
+      // Remove any existing prompt
+      const existingPrompt = document.getElementById('advance-status-prompt');
+      if (existingPrompt) {
+        existingPrompt.remove();
+      }
+      
+      // Add the prompt to the DOM
+      document.body.appendChild(promptElement);
+      
+      // Add click event to the button
+      const advanceBtn = document.getElementById('advance-to-completed-btn');
+      if (advanceBtn) {
+        advanceBtn.addEventListener('click', () => {
+          console.log('Clicked to advance status to COMPLETED');
+          
+          // Update job status to COMPLETED
+          updateJobStatus($currentJob.id, JobStatus.COMPLETED)
+            .then(updatedJob => {
+              if (updatedJob) {
+                // Update the store
+                currentJob.set(updatedJob);
+                
+                // Add a log entry for the status change
+                addLogEntry({
+                  jobId: updatedJob.id,
+                  userId: $currentUser?.id || 'unknown-user',
+                  timestamp: new Date(),
+                  type: LogEntryType.NOTE,
+                  content: `Job status changed from ${JobStatus.PENDING_COMPLETION} to ${JobStatus.COMPLETED}: All review tasks completed, job is now marked as complete`
+                });
+                
+                showSuccessToast('Job marked as completed');
+                
+                // Remove the prompt
+                const prompt = document.getElementById('advance-status-prompt');
+                if (prompt) {
+                  prompt.remove();
+                }
+                
+                // FIXED: Use refreshJobData instead of reloading the page
+                // This prevents redirection issues
+                setTimeout(() => refreshJobData(), 500);
+              }
+            })
+            .catch(err => {
+              console.error('Error updating job status:', err);
+              showErrorToast('Failed to update job status. Please try again.');
+            });
+        });
+      }
+    }
+  }
+  
+  // Handle advancing job status
+  function handleAdvanceJobStatus() {
+    if (!$currentJob || !statusToAdvanceFrom || !statusToAdvanceTo) return;
+    
+    console.log(`Advancing job status from ${statusToAdvanceFrom} to ${statusToAdvanceTo}`);
+    
+    // Update job status
+    updateJobStatus($currentJob.id, statusToAdvanceTo)
+      .then(updatedJob => {
+        if (updatedJob) {
+          // Update the store
+          currentJob.set(updatedJob);
+          
+          // Add a log entry for the status change
+          addLogEntry({
+            jobId: updatedJob.id,
+            userId: $currentUser?.id || 'unknown-user',
+            timestamp: new Date(),
+            type: LogEntryType.NOTE,
+            content: `Job status changed from ${statusToAdvanceFrom} to ${statusToAdvanceTo}: All tasks completed, job status advanced`
+          });
+          
+          showSuccessToast(`Job status updated to ${statusToAdvanceTo}`);
+          
+          // Hide the prompt
+          showStatusAdvancementPrompt = false;
+          
+          // Refresh the job data
+          setTimeout(() => refreshJobData(), 500);
+        }
+      })
+      .catch(err => {
+        console.error('Error updating job status:', err);
+        showErrorToast('Failed to update job status. Please try again.');
+      });
+  }
+  
+  // Handler for when all tasks for a status are completed
+  function handleStatusTasksCompleted(event: CustomEvent<{ status: JobStatus }>) {
+    const { status } = event.detail;
+    console.log(`All tasks for status ${status} are completed!`);
+    allCompletedStatuses[status] = true;
+    
+    // Check if we should add a prompt to advance status
+    addCompletedStatusPrompt(status);
+  }
+  
+  // Add state for schedule date updates
+  let scheduleDateError = '';
+  let scheduleDateSuccess = false;
+  let isUpdatingSchedule = false;
+
+  // Add reactive declaration to check if job status can be advanced based on required tasks for current status
+  $: canAdvanceStatus = (() => {
+    if (!$currentJob) return false;
+    
+    // Get the required tasks for the current status
+    const tasksForCurrentStatus = TASKS_BY_STATUS[$currentJob.status] || [];
+    
+    if (tasksForCurrentStatus.length === 0) return false;
+    
+    // Check each task if it's completed
+    return tasksForCurrentStatus.every(task => {
+      // Check task completion based on task ID
+      switch (task.id) {
+        case 'schedule_job':
+          return $currentJob.scheduledStartDate !== undefined;
+          
+        case 'assign_techs':
+          return $currentJob.assignedUserIds && $currentJob.assignedUserIds.length > 0;
+          
+        case 'confirm_dispatch':
+          // For now, we'll assume this is manual - we can update this later with real logic
+          return $currentJob.status === JobStatus.IN_PROGRESS;
+          
+        case 'log_final_readings':
+          return $currentJob.completionTasks?.finalReadingsLogged === true;
+          
+        case 'upload_after_photos':
+          return $currentJob.completionTasks?.afterPhotosTaken === true;
+          
+        case 'mark_ready_for_review':
+          // This requires all checklist items to be completed
+          return allTasksComplete;
+          
+        case 'review_checklist':
+          // This would typically be a manual verification by office staff
+          return $currentJob.status === JobStatus.PENDING_COMPLETION;
+          
+        case 'enter_labor':
+          // Check if labor entries exist
+          return $laborEntries.length > 0;
+          
+        case 'finalize_job':
+          // This is typically manual by office staff
+          return $currentJob.status === JobStatus.PENDING_COMPLETION;
+          
+        case 'create_invoice':
+          // This is a manual task to create and submit an invoice
+          return $currentJob.status === JobStatus.COMPLETED;
+          
+        case 'review_invoice':
+          // This requires an invoice to have been created and submitted
+          return $currentJob.status === JobStatus.INVOICE_APPROVAL;
+          
+        case 'record_payment':
+          // This would check if payment is recorded
+          return $currentJob.status === JobStatus.INVOICED;
+          
+        default:
+          return false;
+      }
+    });
+  })();
+
+  // Automatically advance from NEW to SCHEDULED when all required tasks are complete
+  $: {
+    if (canAdvanceStatus && $currentJob && $currentJob.status === JobStatus.NEW) {
+      // Use a timeout to avoid infinite reactivity loop
+      setTimeout(async () => {
+        try {
+          console.log('Automatically advancing job from NEW to SCHEDULED');
+          const updatedJob = await updateJobStatus($currentJob.id, JobStatus.SCHEDULED);
+          if (updatedJob) {
+            currentJob.set(updatedJob);
+            
+            // Add a log entry to record this action
+            await addLogEntry({
+              jobId: updatedJob.id,
+              userId: $currentUser?.id || 'unknown',
+              type: LogEntryType.NOTE,
+              content: 'Job automatically marked as SCHEDULED after assigning technicians and setting schedule date.',
+              timestamp: new Date()
+            });
+          }
+        } catch (err) {
+          console.error('Error advancing job status to SCHEDULED:', err);
+        }
+      }, 0);
+    }
+  }
+
+  // Function to advance job to IN_PROGRESS status
+  async function startJob() {
+    if (!$currentJob || $currentJob.status !== JobStatus.SCHEDULED) return;
+    
+    try {
+      const updatedJob = await updateJobStatus($currentJob.id, JobStatus.IN_PROGRESS);
+      if (updatedJob) {
+        currentJob.set(updatedJob);
+        
+        // Add a log entry
+        await addLogEntry({
+          jobId: updatedJob.id,
+          userId: $currentUser?.id || 'unknown',
+          type: LogEntryType.NOTE,
+          content: 'Job marked as IN PROGRESS by office staff.',
+          timestamp: new Date()
+        });
+      }
+    } catch (err) {
+      console.error('Error starting job:', err);
+    }
+  }
+
+  // Function to load labor data for completed jobs
+  async function loadLaborData(jobId: string) {
+    if (!jobId) return;
+    
+    try {
+      const entries = await getLaborEntriesByJobId(jobId);
+      laborEntries.set(entries);
+    } catch (err) {
+      console.error('Error loading labor data:', err);
+    }
+  }
+
+  // Function to refresh job data
+  async function refreshJobData() {
+    if (!currentJobId) return;
+    
+    try {
+      const updatedJob = await getJobById(currentJobId);
+      if (updatedJob) {
+        console.log('Refreshed job data:', updatedJob, 'scheduledStartDate:', updatedJob.scheduledStartDate);
+        
+        // No need to check for equipment removal as task has been removed
+        currentJob.set(updatedJob);
+      }
+    } catch (err) {
+      console.error('Error refreshing job data:', err);
+    }
+  }
+
+  // Handle form submission
+  function handleFormSubmit(event: CustomEvent) {
+    const logEntry = event.detail;
+    
+    // Hide the form after successful submission
+    showForm = null;
+    
+    // If equipment was added or removed, refresh the job data to update equipment IDs
+    if (logEntry.type === LogEntryType.EQUIPMENT_PLACEMENT || 
+        logEntry.type === LogEntryType.EQUIPMENT_REMOVAL) {
+      refreshJobData();
+    }
+    
+    // Update completion tasks if relevant - use the synchronizeTaskData function
+    if ($currentJob && $currentJob.completionTasks) {
+      if (logEntry.type === LogEntryType.MOISTURE_READING) {
+        // For moisture readings, check if it's part of the completion workflow
+        if ($currentJob.status === JobStatus.IN_PROGRESS) {
+          synchronizeTaskData(
+            'finalReadingsLogged',
+            'log_final_readings',
+            'Log Final Moisture Readings',
+            'Final moisture readings logged via form'
+          );
+        }
+      } else if (logEntry.type === LogEntryType.PHOTO) {
+        const photoData = logEntry.content;
+        if (typeof photoData === 'object' && 
+            'caption' in photoData && 
+            typeof photoData.caption === 'string' && 
+            photoData.caption.toLowerCase().includes('after')) {
+          // For "after" photos, synchronize with task completion
+          synchronizeTaskData(
+            'afterPhotosTaken',
+            'upload_after_photos',
+            'Upload "After" Photos',
+            `After photo uploaded: ${photoData.caption}`
+          );
+        }
+      } else if (logEntry.type === LogEntryType.EQUIPMENT_REMOVAL) {
+        // Equipment removal task has been removed from workflow 
+        console.log('Equipment removal detected but task has been removed from workflow');
+        refreshJobData();
+      }
+    }
+  }
+
+  // Add a function to check if all completion tasks are complete
+  function areAllTasksComplete(tasks?: CompletionTasks): boolean {
+    if (!tasks) return false;
+    return Object.values(tasks).every(value => value === true);
+  }
+  
+  // Handle task click from workflow stepper
+  function handleTaskClick(event: CustomEvent<{ task: WorkflowTask }>) {
+    const { task } = event.detail;
+    console.log('RECEIVED IN PAGE - task ID:', task.id, 'task full data:', task);
+    console.log('BEFORE RESET - showForm:', showForm, 'showTaskModal:', showTaskModal);
+    
+    // Reset all form and modal states first
+    showForm = null;
+    showTaskModal = false;
+    currentTaskAction = '';
+    currentTaskKey = '';
+    currentTask = null;
+    
+    // Use setTimeout to ensure state updates are processed sequentially
+    setTimeout(() => {
+      // Store the task for use in the modal
+      currentTask = task;
+      
+      // Handle specific forms for certain task types
+      if (task.id === 'log_readings' || task.id === 'log_final_readings') {
+        showForm = 'reading';
+        console.log('Setting form to reading:', task.id);
+      } else if (task.id === 'upload_photos' || task.id === 'upload_after_photos') {
+        showForm = 'photo';
+        console.log('Setting form to photo:', task.id);
+      } else if (task.id === 'add_equipment') {
+        showForm = 'equipment';
+        console.log('Setting form to equipment:', task.id);
+      } else {
+        // For all other tasks, use the modal approach
+        currentTaskAction = task.id;
+        currentTaskKey = task.checklistKey || '';
+        showTaskModal = true;
+        console.log('Opening modal for task:', task.id, 'showTaskModal =', showTaskModal);
+      }
+      
+      console.log('AFTER UPDATE - showForm:', showForm, 'showTaskModal:', showTaskModal, 'currentTaskAction:', currentTaskAction);
+    }, 0);
+  }
+  
+  // Handle workflow action
+  function handleWorkflowAction(event: CustomEvent<any>) {
+    const action = event.detail;
+    console.log('handleWorkflowAction received action:', action);
+    
+    if (typeof action === 'string') {
+      // Simple actions like task IDs
+      switch(action) {
+        case 'log_readings':
+          console.log('Triggering reading form');
+          showTaskModal = false;
+          showForm = 'reading';
+          break;
+        case 'upload_photos':
+          console.log('Triggering photo form');
+          showTaskModal = false;
+          showForm = 'photo';
+          break;
+        case 'equipment':
+          console.log('Triggering equipment form');
+          showTaskModal = false;
+          showForm = 'equipment';
+          break;
+        case 'schedule_job':
+          console.log('Triggering schedule modal');
+          showForm = null;
+          currentTaskAction = 'schedule_job';
+          showTaskModal = true;
+          break;
+        case 'assign_techs':
+          console.log('Triggering assign techs modal');
+          showForm = null;
+          currentTaskAction = 'assign_techs';
+          showTaskModal = true;
+          break;
+        default:
+          console.log('Default action:', action);
+          showForm = null;
+          currentTaskAction = action;
+          showTaskModal = true;
+      }
+    } else if (typeof action === 'object') {
+      // Complex actions with data
+      console.log('Complex action object:', action);
+      switch(action.action) {
+        case 'updateJob':
+          if (action.jobId && action.data) {
+            handleJobUpdate(new CustomEvent('updateJob', { 
+              detail: { completionTasks: action.data.completionTasks } 
+            }));
+          }
+          break;
+        case 'updateJobStatus':
+          if (action.jobId && action.status) {
+            handleStatusUpdate(new CustomEvent('updateStatus', { 
+              detail: { newStatus: action.status } 
+            }));
+          }
+          break;
+      }
+    }
+  }
+  
+  // New function to synchronize task completion with activity log and data persistence
+  async function synchronizeTaskData(taskKey: keyof CompletionTasks, taskId: string, taskLabel: string, details: string) {
+    if (!$currentJob) return;
+    
+    console.log(`Synchronizing task data for ${taskKey}: ${taskId} - ${taskLabel}`);
+    console.log(`Current task completion state before update:`, $currentJob.completionTasks);
+    
+    try {
+      // Step 1: Update the job's completion task flag
+      const completionTasks: CompletionTasks = {
+        finalReadingsLogged: $currentJob.completionTasks?.finalReadingsLogged || false,
+        afterPhotosTaken: $currentJob.completionTasks?.afterPhotosTaken || false,
+        mark_ready_for_review: $currentJob.completionTasks?.mark_ready_for_review || false,
+        [taskKey]: true // Set the specific task to true
+      };
+      
+      console.log(`New completion tasks to be saved:`, completionTasks);
+      
+      // Step 2: Update the job with the new completion tasks
+      const updatedJob = await updateJobCompletionTask($currentJob.id, completionTasks);
+      
+      if (updatedJob) {
+        console.log(`Job updated with new completion tasks:`, updatedJob.completionTasks);
+        
+        // Step 3: Update the store
+        currentJob.set(updatedJob);
+        
+        // Step 4: Add a standardized log entry
+        const logEntryContent = {
+          taskId,
+          taskLabel,
+          completed: true,
+          details
+        };
+        
+        console.log(`Creating task completion log entry:`, logEntryContent);
+        
+        await addLogEntry({
+          jobId: $currentJob.id,
+          userId: $currentUser?.id || '',
+          type: LogEntryType.TASK_COMPLETION,
+          timestamp: new Date(),
+          content: logEntryContent
+        });
+        
+        console.log(`Task ${taskId} synchronized successfully - completion status and activity log updated`);
+        
+        // Step 5: Refresh the job data to ensure UI is up-to-date
+        refreshJobData();
+        
+        return true;
+      }
+    } catch (err) {
+      console.error(`Error synchronizing task ${taskId}:`, err);
+      return false;
+    }
+  }
+  
+  // Handle task completion from workflow stepper
+  function handleTaskCompleted(event: CustomEvent<{ taskId: string, data?: any }>) {
+    const { taskId, data } = event.detail;
+    console.log('Parent received task completed:', taskId, data);
+
+    // Close modal first
+    showTaskModal = false;
+    selectedTask = null;
+
+    // Then process the task completion
+    if (taskId === 'schedule_and_assign' && data) {
+      console.log('Schedule and assign task completed with data:', data);
+      // Extract the dates and assigned technicians from the form data
+      const updateData: Partial<Job> = {};
+      
+      // Handle start date
+      if (data.startDate) {
+        updateData.scheduledStartDate = new Date(data.startDate);
+        console.log('Setting scheduledStartDate:', updateData.scheduledStartDate);
+      }
+      
+      // Handle estimated completion date
+      if (data.estimatedCompletionDate) {
+        updateData.estimatedCompletionDate = new Date(data.estimatedCompletionDate);
+      }
+      
+      // Handle assigned technicians
+      if (data.assignedUserIds && Array.isArray(data.assignedUserIds)) {
+        updateData.assignedUserIds = data.assignedUserIds;
+        console.log('Setting assignedUserIds:', updateData.assignedUserIds);
+      }
+      
+      // Update the job with the new data
+      if (Object.keys(updateData).length > 0 && $currentJob) {
+        updateJob($currentJob.id, updateData).then(updatedJob => {
+          if (updatedJob) {
+            currentJob.set(updatedJob);
+            
+            // If the job is in NEW status and we've set both schedule and technicians, advance to SCHEDULED
+            if (updatedJob.status === JobStatus.NEW && 
+                updatedJob.scheduledStartDate && 
+                updatedJob.assignedUserIds && 
+                updatedJob.assignedUserIds.length > 0) {
+              console.log('Both scheduling and assignment complete, advancing to SCHEDULED');
+              updateJobStatus($currentJob.id, JobStatus.SCHEDULED).then(statusUpdatedJob => {
+                if (statusUpdatedJob) {
+                  currentJob.set(statusUpdatedJob);
+                }
+              });
+            }
+          }
+        });
+      }
+    } else if (taskId === 'schedule_job' && data) {
+      console.log('Schedule job task completed with data:', data);
+      if (data.scheduledStartDate || data.estimatedCompletionDate) {
+        // Extract the dates from the form data
+        const updateData: Partial<Job> = {};
+        
+        if (data.scheduledStartDate) {
+          const scheduledDate = new Date(data.scheduledStartDate);
+          updateData.scheduledStartDate = scheduledDate;
+          console.log('Setting scheduledStartDate:', scheduledDate);
+        }
+        
+        if (data.estimatedCompletionDate) {
+          updateData.estimatedCompletionDate = new Date(data.estimatedCompletionDate);
+        }
+        
+        // Update the job with the new dates
+        if ($currentJob) {
+          console.log('Updating job dates:', updateData);
+          updateJob($currentJob.id, updateData).then(updatedJob => {
+            if (updatedJob) {
+              console.log('Job updated with new dates:', updatedJob);
+              console.log('Updated scheduledStartDate:', updatedJob.scheduledStartDate);
+              
+              // Set the job in the store
+              currentJob.set(updatedJob);
+              
+              // Add a log entry for the schedule action
+              addLogEntry({
+                jobId: updatedJob.id,
+                userId: $currentUser?.id || 'unknown',
+                type: LogEntryType.TASK_COMPLETION,
+                content: {
+                  taskId: 'schedule_job',
+                  taskLabel: 'Schedule Job',
+                  completed: true,
+                  details: `Job scheduled for ${new Date(data.scheduledStartDate).toLocaleDateString()}${data.estimatedCompletionDate ? ` with estimated completion on ${new Date(data.estimatedCompletionDate).toLocaleDateString()}` : ''}`
+                },
+                timestamp: new Date()
+              });
+              
+              // Refresh job data
+              refreshJobData();
+            }
+          }).catch(err => console.error('Error updating job dates:', err));
+        }
+      }
+    } else if (taskId === 'confirm_dispatch') {
+      // Standardize the dispatch confirmation with our synchronization pattern
+      console.log('Confirming dispatch with data:', data);
+      // No actual task flag to set, but we need to record the activity
+      addLogEntry({
+        jobId: $currentJob?.id || '',
+        userId: $currentUser?.id || '',
+        type: LogEntryType.TASK_COMPLETION,
+        timestamp: new Date(),
+        content: {
+          taskId: 'confirm_dispatch',
+          taskLabel: 'Confirm Technician Dispatched',
+          completed: true,
+          details: data?.notes || 'Technician dispatch confirmed'
+        }
+      }).then(() => {
+        console.log('Dispatch confirmation recorded in activity log');
+        refreshJobData();
+      });
+    } else if (taskId === 'assign_techs') {
+      // Handle technician assignment
+      console.log('Technician assignment completed with data:', data);
+      if (data && data.assignedUserIds) {
+        handleTechnicianAssignment(new CustomEvent('save', { detail: { assignedUserIds: data.assignedUserIds } }));
+      }
+    } else if (taskId === 'mark_ready_for_review') {
+      handleMarkReadyForReview(taskId, data);
+    } else if (taskId === 'log_final_readings') {
+      console.log('Moisture readings data from task modal:', data);
+      
+      // FIXED: Always synchronize task data for proper completion
+      if (!synchronizeTaskData('finalReadingsLogged', 'log_final_readings', 'Log Final Moisture Readings', 
+          data?.notes || `Moisture reading: ${data?.value}% in ${data?.location} (${data?.material})`)) {
+        console.error('Failed to synchronize task data for moisture readings');
+        showErrorToast('Failed to update task status. Please try again.');
+        return;
+      }
+      
+      // If data includes actual reading data, create a moisture reading log entry
+      if (data && data.location && data.material && typeof data.value !== 'undefined') {
+        // Create an additional moisture reading log entry with the specific data
+        addLogEntry({
+          jobId: $currentJob?.id || '',
+          userId: $currentUser?.id || '',
+          type: LogEntryType.MOISTURE_READING,
+          timestamp: new Date(),
+          content: {
+            location: data.location,
+            material: data.material,
+            value: data.value,
+            referenceId: data.referenceId
+          }
+        }).then(() => {
+          console.log('Moisture reading log entry created from task data');
+        });
+      }
+    } else if (taskId === 'upload_after_photos') {
+      console.log('Photo data from task modal:', data);
+      
+      // Debug output to help diagnose issues
+      console.log('⭐ Current completion tasks before photo update:', $currentJob?.completionTasks);
+      console.log('⭐ Photo task data:', data);
+      
+      // IMPORTANT: Make sure we're always properly updating the afterPhotosTaken flag
+      // This is critical for task completion status
+      if (!synchronizeTaskData(
+        'afterPhotosTaken', 
+        'upload_after_photos', 
+        'Upload "After" Photos',
+        data?.notes || `Photo uploaded: ${data?.caption || 'After photo'}`
+      )) {
+        console.error('Failed to synchronize task data for photo uploads');
+        showErrorToast('Failed to update task status. Please try again.');
+        return;
+      }
+      
+      console.log('⭐ Photo task successfully synchronized');
+      
+      // If we didn't already create a photo log entry in the TaskActionModal,
+      // create one here to ensure the photo shows in the activity log
+      if (data && data.url && !data.alreadyLogged) {
+        console.log('⭐ Creating photo log entry from task data');
+        
+        // Create a photo log entry with the specific data
+        addLogEntry({
+          jobId: $currentJob?.id || '',
+          userId: $currentUser?.id || '',
+          type: LogEntryType.PHOTO,
+          timestamp: new Date(),
+          content: {
+            url: data.url,
+            caption: data.caption || 'After photo',
+            tags: data.tags || ['after']
+          }
+        }).then(() => {
+          console.log('Photo log entry created from task data');
+          refreshJobData();
+        });
+      } else {
+        console.log('⭐ Photo already logged or missing URL data:', data);
+        // Refresh the job data anyway to ensure UI is updated
+        refreshJobData();
+      }
+    } else if (taskId === 'confirm_equip_removed') {
+      // This task has been removed, nothing needs to be done
+      console.log('Equipment removal task no longer exists');
+    }
+  }
+  
+  // Function to show toast messages
+  function showSuccessToast(message: string) {
+    // In a real implementation, this would show a toast notification
+    console.log('SUCCESS:', message);
+  }
+  
+  function showErrorToast(message: string) {
+    // In a real implementation, this would show a toast notification
+    console.error('ERROR:', message);
+  }
+
+  // Handle "Submit for Office Review" task completion
+  async function handleMarkReadyForReview(taskId: string, data: any) {
+    console.log('Handling mark_ready_for_review task completion with data:', data);
+    
+    if (!$currentJob) {
+      showErrorToast('Job not found');
+      return;
+    }
+    
+    // Update the job status to PENDING_COMPLETION
+    try {
+      // First ensure all other tasks are marked as complete to avoid data inconsistencies
+      const completedTasks: CompletionTasks = {
+        finalReadingsLogged: true,
+        afterPhotosTaken: true,
+        mark_ready_for_review: true
+      };
+      
+      // Update the job record with both status change and completion tasks
+      const updatedJob = await updateJob($currentJob.id, { 
+        status: JobStatus.PENDING_COMPLETION,
+        completionTasks: completedTasks
+      });
+      
+        if (updatedJob) {
+        console.log('Job updated to PENDING_COMPLETION status:', updatedJob);
+        
+        // Update the store
+          currentJob.set(updatedJob);
+        
+        // Add a standardized log entry for this status change
+        await addLogEntry({
+          jobId: updatedJob.id,
+          userId: $currentUser?.id || 'unknown-user',
+          timestamp: new Date(),
+          type: LogEntryType.TASK_COMPLETION,
+          content: {
+            taskId: 'mark_ready_for_review',
+            taskLabel: 'Submit for Office Review',
+            completed: true,
+            from: JobStatus.IN_PROGRESS,
+            to: JobStatus.PENDING_COMPLETION,
+            details: data?.submissionNotes || 'Job submitted for office review'
+          }
+        });
+        
+        // Also add a note entry for the status change
+        await addLogEntry({
+          jobId: updatedJob.id,
+          userId: $currentUser?.id || 'unknown-user',
+          timestamp: new Date(),
+          type: LogEntryType.NOTE,
+          content: `Job status changed from ${JobStatus.IN_PROGRESS} to ${JobStatus.PENDING_COMPLETION}: All technician tasks completed, job submitted for office review`
+        });
+        
+        // Show success toast and refresh job data
+        showSuccessToast('Job submitted for office review');
+        
+        // Refresh job data to ensure UI consistency
+        refreshJobData();
+        }
+      } catch (err) {
+      console.error('Error updating job status:', err);
+      showErrorToast('Failed to update job status. Please try again.');
+    }
+  }
+  
+  // Handle all technician tasks complete
+  function handleAllTechTasksComplete() {
+    console.log('All technician tasks complete!');
+    
+    // Check if the job is still in progress
+    if ($currentJob && $currentJob.status === JobStatus.IN_PROGRESS) {
+      // Show notification or prompt to move to next step
+      if (confirm('All technician tasks are complete. Submit job for office review?')) {
+        // Update job status to pending completion
+        updateJobStatus($currentJob.id, JobStatus.PENDING_COMPLETION);
+      }
+    }
+  }
+  
+  // Handle status update from workflow stepper
+  function handleStatusUpdate(event: CustomEvent<{ newStatus: JobStatus }>) {
+    const { newStatus } = event.detail;
+    console.log('Status update in parent:', newStatus);
+    
+    if ($currentJob) {
+      updateJobStatus($currentJob.id, newStatus);
+    }
+  }
+  
+  // Close task modal
+  function closeTaskModal() {
+    showTaskModal = false;
+    currentTaskAction = '';
+    currentTaskKey = '';
+    console.log('Modal closed, resetting state: showTaskModal =', showTaskModal, 'currentTaskAction =', currentTaskAction);
+  }
+  
+  // Function to update a task as complete
+  async function updateTaskStatus(taskKeyOrTasks: keyof CompletionTasks | CompletionTasks, value?: boolean) {
+    if (!$currentJob) return;
+    
+    try {
+      let updatedJob;
+      
+      // If taskKeyOrTasks is a CompletionTasks object
+      if (typeof taskKeyOrTasks === 'object') {
+        updatedJob = await updateJobCompletionTask($currentJob.id, taskKeyOrTasks);
+      } 
+      // If taskKeyOrTasks is a key and value is provided
+      else if (typeof value === 'boolean') {
+        // Create a properly typed CompletionTasks object with default values
+        const completionTasks: CompletionTasks = {
+          finalReadingsLogged: $currentJob.completionTasks?.finalReadingsLogged || false,
+          afterPhotosTaken: $currentJob.completionTasks?.afterPhotosTaken || false,
+          mark_ready_for_review: $currentJob.completionTasks?.mark_ready_for_review || false,
+          [taskKeyOrTasks]: value
+        };
+        updatedJob = await updateJobCompletionTask($currentJob.id, completionTasks);
+      }
+      
+      if (updatedJob) {
+        currentJob.set(updatedJob);
+      }
+    } catch (err) {
+      console.error('Error updating task status:', err);
+    }
+  }
+  
+  // Log completion task update based on log entries
+  async function updateLogEntryBasedTask(taskKey: keyof CompletionTasks, value: boolean) {
+    if (!$currentJob) return;
+    
+    if ($currentJob.completionTasks && !$currentJob.completionTasks[taskKey]) {
+      try {
+        // Create a properly typed CompletionTasks object with default values
+        const completionTasks: CompletionTasks = {
+          finalReadingsLogged: $currentJob.completionTasks?.finalReadingsLogged || false,
+          afterPhotosTaken: $currentJob.completionTasks?.afterPhotosTaken || false,
+          mark_ready_for_review: $currentJob.completionTasks?.mark_ready_for_review || false,
+          [taskKey]: value
+        };
+        
+        // Call with the correct signature
+        const updatedJob = await updateJobCompletionTask($currentJob.id, completionTasks);
+        if (updatedJob) {
+          currentJob.set(updatedJob);
+        }
+      } catch (err) {
+        console.error(`Error updating ${taskKey} task status:`, err);
+      }
+    }
+  }
+  
+  // Update the task status based on log entries
+  $: {
+    if ($currentJob && jobLogEntries.length > 0) {
+      // Check for readings to update finalReadingsLogged
+      const hasRecentReadings = jobLogEntries.some(entry => 
+        entry.type === LogEntryType.MOISTURE_READING && 
+        new Date(entry.timestamp).getTime() > Date.now() - (24 * 60 * 60 * 1000) // Within last 24 hours
+      );
+      
+      if (hasRecentReadings && $currentJob.completionTasks && !$currentJob.completionTasks.finalReadingsLogged) {
+        updateLogEntryBasedTask('finalReadingsLogged', true);
+      }
+      
+      // Check for photos to update afterPhotosTaken
+      const hasRecentPhotos = jobLogEntries.some(entry => 
+        entry.type === LogEntryType.PHOTO && 
+        typeof entry.content === 'object' && 
+        'caption' in entry.content &&
+        typeof entry.content.caption === 'string' &&
+        entry.content.caption.toLowerCase().includes('after') &&
+        new Date(entry.timestamp).getTime() > Date.now() - (24 * 60 * 60 * 1000) // Within last 24 hours
+      );
+      
+      if (hasRecentPhotos && $currentJob.completionTasks && !$currentJob.completionTasks.afterPhotosTaken) {
+        updateLogEntryBasedTask('afterPhotosTaken', true);
+      }
+      
+      // We no longer need to check for equipment removal
+    }
+  }
+
+  // Mark Ready for Completion function
+  async function markReadyForCompletion() {
+    if (!$currentJob || !allTasksComplete) return;
+    
+    try {
+      // Update job status to PENDING_COMPLETION
+      const updatedJob = await updateJobStatus($currentJob.id, JobStatus.PENDING_COMPLETION);
+      if (updatedJob) {
+        currentJob.set(updatedJob);
+        
+        // Add a log entry to record this action
+        await addLogEntry({
+          jobId: updatedJob.id,
+          userId: $currentUser?.id || 'unknown',
+          type: LogEntryType.NOTE,
+          content: 'Technician marked job as ready for final completion.',
+          timestamp: new Date()
+        });
+      }
+    } catch (err) {
+      console.error('Error marking job as ready for completion:', err);
+    }
+  }
+
+  // Replace the old markJobComplete function with these new functions
+  function openCompleteJobModal() {
+    showCompletionModal = true;
+  }
+
+  function handleCancelCompletion() {
+    showCompletionModal = false;
+  }
+
+  async function handleConfirmCompletion(laborData: any[]) {
+    if (!$currentJob) return;
+    
+    isCompletingJob = true;
+    completionError = '';
+    
+    try {
+      // 1. Add Labor Entries
+      if (laborData.length > 0) {
+        const entriesToAdd = laborData.map(ld => {
+          const tech = techDetails.find(t => t.id === ld.userId);
+          return {
+            jobId: $currentJob.id,
+            userId: ld.userId,
+            userName: tech ? tech.name : `Technician ${ld.userId}`,
+            hours: ld.hours
+          };
+        });
+        
+        await addLaborEntries(entriesToAdd);
+        
+        // Update the local labor entries store
+        const newEntries = await getLaborEntriesByJobId($currentJob.id);
+        laborEntries.set(newEntries);
+      }
+      
+      // 2. Update Job Status
+      const updatedJob = await updateJobStatus($currentJob.id, JobStatus.COMPLETED);
+      
+      // 3. Update the local job store
+      if (updatedJob) {
+        currentJob.set(updatedJob);
+      }
+      
+      // 4. Close the modal
+      showCompletionModal = false;
+    } catch (err) {
+      console.error('Error completing job:', err);
+      completionError = 'Failed to complete the job. Please try again.';
+    } finally {
+      isCompletingJob = false;
+    }
+  }
+
+  // Handle technician assignment save
+  async function handleTechnicianAssignment(event: CustomEvent) {
+    if (!$currentJob) return;
+    
+    const { assignedUserIds } = event.detail;
+    isUpdatingAssignments = true;
+    assignmentError = '';
+    assignmentSuccess = false;
+    
+    try {
+      // Update the job with assigned technicians
+      const updatedJob = await updateJob($currentJob.id, { assignedUserIds });
+      if (updatedJob) {
+        // Update local store
+        currentJob.set(updatedJob);
+        
+        // Check if we should advance the status
+        if (updatedJob.status === JobStatus.NEW && assignedUserIds && assignedUserIds.length > 0) {
+          console.log('Technicians assigned, checking if status should advance...');
+          
+          // Check if both scheduling and assignment are complete
+          if (updatedJob.scheduledStartDate) {
+            console.log('Both scheduling and assignment complete, advancing to SCHEDULED');
+            const statusUpdatedJob = await updateJobStatus($currentJob.id, JobStatus.SCHEDULED);
+            if (statusUpdatedJob) {
+              currentJob.set(statusUpdatedJob);
+            }
+          } else {
+            console.log('Assignment complete but scheduling pending');
+          }
+        }
+        
+        assignmentSuccess = true;
+        // Clear success message after 3 seconds
+        setTimeout(() => {
+          assignmentSuccess = false;
+        }, 3000);
+      } else {
+        assignmentError = 'Failed to update technician assignments';
+      }
+    } catch (err) {
+      console.error('Error updating technician assignments:', err);
+      assignmentError = 'An error occurred while updating technician assignments';
+    } finally {
+      isUpdatingAssignments = false;
+    }
+  }
+
+  // Handle job update from workflow stepper
+  function handleJobUpdate(event: CustomEvent<{ completionTasks: CompletionTasks }>) {
+    const { completionTasks } = event.detail;
+    if ($currentJob) {
+      updateTaskStatus(completionTasks);
+    }
+  }
+
+  // Handle task clicked from TechCompletionChecklist
+  function handleTechTask(event: CustomEvent<{ key: keyof CompletionTasks, action: string }>) {
+    const { key, action } = event.detail;
+    console.log('Tech task clicked:', key, action);
+    
+    // Map action to task ID
+    let taskId;
+    switch (action) {
+      case 'reading':
+        taskId = 'log_final_readings';
+        break;
+      case 'photo':
+        taskId = 'upload_after_photos';
+        break;
+      case 'review':
+        // Use our submit for office review handler
+        handleSubmitForOfficeReview();
+        return;
+      default:
+        console.warn('Unknown action:', action);
+      return;
+    }
+    
+    // Create a task to use with handleTaskClick
+    const task = {
+      id: taskId,
+      label: key.toString(),
+      requiredRole: [Role.TECH]
+    };
+    
+    // Use the existing task handler
+    handleTaskClick(new CustomEvent('taskClick', { detail: { task } }));
+  }
+
+  // Handle when user clicks the Submit for Office Review button
+  async function handleSubmitForOfficeReview() {
+    console.log('Handling submit for office review button click');
+    
+    // Create a WorkflowTask object for mark_ready_for_review
+    const markReadyTask = {
+      id: 'mark_ready_for_review',
+      label: 'Submit for Office Review',
+      requiredRole: [Role.TECH]
+    };
+    
+    // Show the task modal for the office review submission
+    selectedTask = markReadyTask;
+    showTaskModal = true;
+  }
+
+  onMount(async () => {
+    isLoading.set(true);
+    error.set(null);
+    
+    try {
+      // Load job details
+      const jobData = await getJobById(currentJobId);
+      if (jobData) {
+        currentJob.set(jobData);
+        
+        // Load customer name
+        const customer = await getCustomerById(jobData.customerId);
+        if (customer) {
+          customerName.set(customer.name);
+        }
+        
+        // Load technician names
+        if (jobData.assignedUserIds && jobData.assignedUserIds.length > 0) {
+          for (const userId of jobData.assignedUserIds) {
+            try {
+              const user = await getUserById(userId);
+              if (user) {
+                assignedUserNames[userId] = getFullName(user);
+                // Also store for the completion modal
+                techDetails.push({ id: userId, name: getFullName(user) });
+              }
+            } catch (err) {
+              console.error(`Error loading user ${userId}:`, err);
+            }
+          }
+        }
+        
+        // If job is completed, load labor data
+        if (jobData.status === JobStatus.COMPLETED) {
+          loadLaborData(jobData.id);
+        }
+      } else {
+        error.set('Job not found');
+      }
+    } catch (err) {
+      console.error('Error loading job details:', err);
+      error.set('Error loading job details. Please try again.');
+    } finally {
+      isLoading.set(false);
+    }
+  });
+  
+  // Format date for display
+  function formatDate(date: Date | undefined): string {
+    if (!date) return 'N/A';
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  // Handle date changes for job scheduling
+  async function handleScheduleDateChange(dateField: 'scheduledStartDate' | 'estimatedCompletionDate', value: string) {
+    if (!$currentJob) return;
+    
+    isUpdatingSchedule = true;
+    scheduleDateError = '';
+    scheduleDateSuccess = false;
+    
+    try {
+      const updateData: Partial<Job> = {};
+      updateData[dateField] = new Date(value);
+      
+      console.log(`Updating ${dateField} to:`, value, new Date(value));
+      
+      const updatedJob = await updateJob($currentJob.id, updateData);
+      if (updatedJob) {
+        currentJob.set(updatedJob);
+        scheduleDateSuccess = true;
+        
+        // Add a log entry
+        await addLogEntry({
+          jobId: updatedJob.id,
+          userId: $currentUser?.id || 'unknown',
+          type: LogEntryType.NOTE,
+          content: `Updated job ${dateField === 'scheduledStartDate' ? 'start date' : 'estimated completion date'} to ${new Date(value).toLocaleDateString()}`,
+          timestamp: new Date()
+        });
+        
+        // Clear success message after 3 seconds
+        setTimeout(() => {
+          scheduleDateSuccess = false;
+        }, 3000);
+        
+        // Refresh job data to ensure all fields are updated
+        setTimeout(() => {
+          refreshJobData();
+        }, 300);
+      }
+    } catch (err) {
+      console.error(`Error updating ${dateField}:`, err);
+      scheduleDateError = `Failed to update ${dateField === 'scheduledStartDate' ? 'start date' : 'estimated completion date'}`;
+    } finally {
+      isUpdatingSchedule = false;
+    }
+  }
+
+  // Handle task completion from modal
+  function handleTaskCompletedFromModal(event: CustomEvent<{ taskId: string, data?: any }>) {
+    const { taskId, data } = event.detail;
+    console.log('Task completed from modal:', taskId, data);
+
+    // Close any open modals
+    showTaskModal = false;
+    selectedTask = null;
+
+    // For schedule_and_assign, open the schedule modal
+    if (taskId === 'schedule_and_assign' && data?.openScheduleModal) {
+      console.log('Opening schedule modal from task completion');
+      
+      // Show the schedule modal with the current job
+      if ($currentJob) {
+        showScheduleJobModal = true;
+        console.log('Showing schedule job modal for job:', $currentJob.id);
+      }
+    } else {
+      // Pass to the normal task completed handler for other tasks
+      handleTaskCompleted(event);
+    }
+  }
+
+  // Function to check if a specific status can be advanced to the next one
+  function canAdvanceBetweenStatuses(fromStatus: JobStatus, toStatus: JobStatus): boolean {
+    if (!$currentJob) return false;
+    
+    // Check if this is a valid workflow transition
+    const fromIndex = WORKFLOW_ORDER.indexOf(fromStatus);
+    const toIndex = WORKFLOW_ORDER.indexOf(toStatus);
+    
+    if (fromIndex === -1 || toIndex === -1 || toIndex !== fromIndex + 1) {
+      return false; // Not a valid sequential transition
+    }
+    
+    // Get the required tasks for the current status
+    const tasksForStatus = TASKS_BY_STATUS[fromStatus] || [];
+    
+    if (tasksForStatus.length === 0) return true; // No tasks to complete
+    
+    // Check each task if it's completed
+    return tasksForStatus.every(task => {
+      // Check task completion based on task ID
+      switch (task.id) {
+        case 'schedule_job':
+          return $currentJob.scheduledStartDate !== undefined;
+          
+        case 'assign_techs':
+          return $currentJob.assignedUserIds && $currentJob.assignedUserIds.length > 0;
+          
+        case 'confirm_dispatch':
+          return true; // If we're checking from SCHEDULED to IN_PROGRESS, this would be true
+          
+        case 'log_final_readings':
+          return $currentJob.completionTasks?.finalReadingsLogged === true;
+          
+        case 'upload_after_photos':
+          return $currentJob.completionTasks?.afterPhotosTaken === true;
+          
+        case 'mark_ready_for_review':
+          return $currentJob.completionTasks?.mark_ready_for_review === true;
+          
+        case 'review_checklist':
+          return true; // Manual check, assume completed if in the right stage
+          
+        case 'enter_labor':
+          return $laborEntries.length > 0;
+          
+        case 'finalize_job':
+          return true; // Manual check, assume completed if in the right stage
+          
+        case 'create_invoice':
+          return true; // Manual check, assume completed if checking for advance
+          
+        case 'review_invoice':
+          return true; // Manual check
+          
+        case 'record_payment':
+          return true; // Manual check
+          
+        default:
+          return false;
+      }
+    });
+  }
+
+  // Also add a boolean to track schedule modal visibility
+  let showScheduleJobModal = false;
+
+  // Also add this function to close the schedule modal
+  function closeScheduleJobModal() {
+    showScheduleJobModal = false;
+  }
+
+  // Add function to handle schedule modal submission
+  function handleScheduleSubmit(event: CustomEvent<{ 
+    startDate: Date; 
+    estimatedCompletionDate?: Date;
+    assignedUserIds: string[];
+  }>) {
+    if ($currentJob) {
+      const updateData: Partial<Job> = {
+        scheduledStartDate: event.detail.startDate,
+        assignedUserIds: event.detail.assignedUserIds
+      };
+      
+      if (event.detail.estimatedCompletionDate) {
+        updateData.estimatedCompletionDate = event.detail.estimatedCompletionDate;
+      }
+      
+      updateJob($currentJob.id, updateData).then(updatedJob => {
+        if (updatedJob) {
+          currentJob.set(updatedJob);
+          
+          if (updatedJob.status === JobStatus.NEW && 
+              updatedJob.scheduledStartDate && 
+              updatedJob.assignedUserIds && 
+              updatedJob.assignedUserIds.length > 0) {
+            console.log('Both scheduling and assignment complete, advancing to SCHEDULED');
+            updateJobStatus($currentJob.id, JobStatus.SCHEDULED).then(statusUpdatedJob => {
+              if (statusUpdatedJob) {
+                currentJob.set(statusUpdatedJob);
+              }
+            });
+          }
+        }
+      });
+    }
+    
+    showScheduleJobModal = false;
+  }
+
+  // ... rest of existing code ...
+
+  // After the existing modals, add our new modal
+  {#if showScheduleJobModal && $currentJob}
+    <ScheduleJobWithTechnicianModal 
+      job={$currentJob}
+      on:close={closeScheduleJobModal}
+      on:submit={handleScheduleSubmit}
+    />
+  {/if}
+
+  // ... rest of existing code ...
+</script>
+
+<div class="max-w-6xl mx-auto">
+  {#if $currentJob}
+    <PageHeader title={$currentJob.title} back="/dashboard">
+      <div slot="actions">
+        Job #{$currentJob.jobNumber}
+      </div>
+    </PageHeader>
+
+    <!-- Main Job/Customer/Address Details Grid -->
+    <div class="bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden">
+      <div class="p-4 bg-dryd-gradient text-white">
+        <div class="flex justify-between items-center">
+          <div>
+            <div class="inline-flex items-center px-3 py-1 rounded-full {
+              $currentJob.status === JobStatus.NEW ? 'bg-blue-500' :
+              $currentJob.status === JobStatus.SCHEDULED ? 'bg-purple-500' :
+              $currentJob.status === JobStatus.IN_PROGRESS ? 'bg-amber-500' :
+              $currentJob.status === JobStatus.PENDING_COMPLETION ? 'bg-blue-500' :
+              $currentJob.status === JobStatus.ON_HOLD ? 'bg-red-500' :
+              $currentJob.status === JobStatus.COMPLETED ? 'bg-green-500' :
+              $currentJob.status === JobStatus.INVOICE_APPROVAL ? 'bg-indigo-400' :
+              $currentJob.status === JobStatus.INVOICED ? 'bg-indigo-500' :
+              $currentJob.status === JobStatus.PAID ? 'bg-teal-500' :
+              'bg-gray-500'
+            }">
+              <span class="font-semibold text-xs text-white">{$currentJob.status}</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- EMERGENCY SUBMIT BUTTON - Always visible when conditions are met -->
+      {#if $currentUser?.role === Role.TECH && 
+           $currentJob?.status === JobStatus.IN_PROGRESS && 
+           $currentJob?.completionTasks?.finalReadingsLogged === true && 
+           $currentJob?.completionTasks?.afterPhotosTaken === true && 
+           !$currentJob?.completionTasks?.mark_ready_for_review}
+        <div class="my-4 px-4 py-6 bg-yellow-100 border-2 border-yellow-400 rounded-lg shadow-lg animate-pulse">
+          <div class="flex flex-col items-center text-center">
+            <h2 class="text-2xl font-bold text-yellow-800 mb-2">✨ JOB READY FOR SUBMISSION! ✨</h2>
+            <p class="text-yellow-700 mb-6 text-lg">
+              All required tasks are complete. Click the button below to submit this job.
+            </p>
+            <button
+              type="button"
+              class="w-full max-w-md py-6 px-8 bg-blue-600 hover:bg-blue-700 text-white text-2xl font-extrabold rounded-lg shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors flex items-center justify-center"
+              on:click={handleSubmitForOfficeReview}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8 mr-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+              </svg>
+              SUBMIT JOB NOW
+            </button>
+            
+            <!-- Debug Information -->
+          </div>
+        </div>
+      {/if}
+      
+      <!-- CREATE INVOICE BUTTON - For COMPLETED jobs -->
+      {#if ($currentUser?.role === Role.OFFICE || $currentUser?.role === Role.ADMIN) && 
+           $currentJob?.status === JobStatus.COMPLETED}
+           
+        <!-- AUTOMATIC INVOICE SUBMISSION BUTTON - Shows when all required tasks in COMPLETED stage are done -->
+        {#if allCompletedStatuses[JobStatus.COMPLETED]}
+          <div class="my-4 px-4 py-6 bg-green-100 border-2 border-green-300 rounded-lg shadow-lg animate-pulse">
+            <div class="flex flex-col items-center text-center">
+              <h2 class="text-2xl font-bold text-green-800 mb-2">✅ ALL TASKS COMPLETED!</h2>
+              <p class="text-green-700 mb-6 text-lg">
+                All required tasks for this job are now complete. You can now submit the invoice for approval.
+              </p>
+              <button
+                type="button"
+                class="w-full max-w-md py-4 px-6 bg-green-600 hover:bg-green-700 text-white text-xl font-bold rounded-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-green-300 transition-colors flex items-center justify-center"
+                on:click={() => {
+                  if (!$currentJob) return;
+                  
+                  // Update job status to INVOICE_APPROVAL
+                  updateJobStatus($currentJob.id, JobStatus.INVOICE_APPROVAL)
+                    .then(updatedJob => {
+                      if (updatedJob) {
+                        // Update the store
+                        currentJob.set(updatedJob);
+                        
+                        // Add a log entry for the status change
+                        addLogEntry({
+                          jobId: updatedJob.id,
+                          userId: $currentUser?.id || 'unknown-user',
+                          timestamp: new Date(),
+                          type: LogEntryType.NOTE,
+                          content: `Job status changed from ${JobStatus.COMPLETED} to ${JobStatus.INVOICE_APPROVAL}: All tasks completed, invoice ready for approval`
+                        });
+                        
+                        showSuccessToast('Job moved to Invoice Approval stage');
+                      }
+                    })
+                    .catch(err => {
+                      console.error('Error updating job status:', err);
+                      showErrorToast('Failed to update job status. Please try again.');
+                    });
+                }}
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
+                </svg>
+                SUBMIT INVOICE FOR APPROVAL
+              </button>
+            </div>
+          </div>
+        {/if}
+        
+        <div class="my-4 px-4 py-6 bg-blue-100 border-2 border-blue-300 rounded-lg shadow-lg">
+          <div class="flex flex-col items-center text-center">
+            <h2 class="text-2xl font-bold text-blue-800 mb-2">📋 CREATE INVOICE FOR THIS JOB</h2>
+            <p class="text-blue-700 mb-6 text-lg">
+              This job is complete. Create and submit an invoice for approval.
+            </p>
+            <button
+              type="button"
+              class="w-full max-w-md py-4 px-6 bg-blue-600 hover:bg-blue-700 text-white text-xl font-bold rounded-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-blue-300 transition-colors flex items-center justify-center"
+              on:click={() => {
+                if (!$currentJob) return;
+                
+                // Open task modal for create_invoice task
+                const createInvoiceTask = TASKS_BY_STATUS[JobStatus.COMPLETED]?.find(t => t.id === 'create_invoice');
+                if (createInvoiceTask) {
+                  selectedTask = createInvoiceTask;
+                  showTaskModal = true;
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              CREATE & SUBMIT INVOICE
+            </button>
+          </div>
+        </div>
+      {/if}
+      
+      <!-- REVIEW INVOICE BUTTON - For INVOICE_APPROVAL jobs -->
+      {#if ($currentUser?.role === Role.OFFICE || $currentUser?.role === Role.ADMIN) && 
+           $currentJob?.status === JobStatus.INVOICE_APPROVAL}
+        <div class="my-4 px-4 py-6 bg-indigo-100 border-2 border-indigo-300 rounded-lg shadow-lg">
+          <div class="flex flex-col items-center text-center">
+            <h2 class="text-2xl font-bold text-indigo-800 mb-2">📝 REVIEW & APPROVE INVOICE</h2>
+            <p class="text-indigo-700 mb-6 text-lg">
+              An invoice has been created and is ready for review. Approve to send it to the customer.
+            </p>
+            <button
+              type="button"
+              class="w-full max-w-md py-4 px-6 bg-indigo-600 hover:bg-indigo-700 text-white text-xl font-bold rounded-lg shadow-lg focus:outline-none focus:ring-4 focus:ring-indigo-300 transition-colors flex items-center justify-center"
+              on:click={() => {
+                if (!$currentJob) return;
+                
+                // Open task modal for review_invoice task
+                const reviewInvoiceTask = TASKS_BY_STATUS[JobStatus.INVOICE_APPROVAL]?.find(t => t.id === 'review_invoice');
+                if (reviewInvoiceTask) {
+                  selectedTask = reviewInvoiceTask;
+                  showTaskModal = true;
+                }
+              }}
+            >
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                <path stroke-linecap="round" stroke-linejoin="round" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              REVIEW & APPROVE INVOICE
+            </button>
+          </div>
+        </div>
+      {/if}
+
+      <div class="p-6 bg-gray-50">
+        <!-- Job Status Workflow -->
+        <div class="mb-6">
+          <h3 class="text-lg font-semibold mb-3 text-gray-700">Job Progress</h3>
+          <JobWorkflowStepper 
+            currentStatus={$currentJob.status} 
+            job={$currentJob}
+            on:requestAction={handleWorkflowAction}
+            on:taskClick={handleTaskClick}
+            on:updateJob={handleJobUpdate}
+            on:updateStatus={handleStatusUpdate}
+            on:allTechTasksComplete={handleAllTechTasksComplete}
+            on:taskCompleted={handleTaskCompleted}
+            on:statusTasksCompleted={handleStatusTasksCompleted}
+          />
+          
+          <!-- Status advancement buttons -->
+          {#if $currentJob.status === JobStatus.SCHEDULED && $currentUser && (isOffice($currentUser) || $currentUser.role === Role.ADMIN)}
+            <div class="mt-4 flex justify-end">
+              <button
+                class="px-4 py-2 bg-emerald-600 hover:bg-emerald-700 text-white rounded-md shadow-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+                on:click={startJob}
+              >
+                Start Job Work
+              </button>
+        </div>
+          {/if}
+        
+        <!-- Job Details -->
+        <div class="mt-6 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Customer Information -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-blue-50 border-b border-blue-100">
+              <h3 class="text-md font-semibold text-blue-800">Customer Information</h3>
+            </div>
+            <div class="p-4">
+              <p class="text-gray-900 font-medium">{$customerName}</p>
+            </div>
+          </div>
+          
+          <!-- Job Details -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-green-50 border-b border-green-100">
+              <h3 class="text-md font-semibold text-green-800">Job Details</h3>
+            </div>
+            <div class="p-4">
+              <p class="text-gray-900 font-medium">Job Type: <span class="font-normal">{$currentJob.jobType || 'Not specified'}</span></p>
+              <p class="text-gray-900 font-medium mt-2">Description: <span class="font-normal">{$currentJob.description || 'Not specified'}</span></p>
+              <p class="text-gray-900 font-medium mt-2">Insurance: <span class="font-normal">{$currentJob.insuranceInfo?.company || 'Not specified'}</span></p>
+              {#if $currentJob.assignedUserIds && $currentJob.assignedUserIds.length > 0}
+                <div class="mt-3">
+                  <p class="text-gray-900 font-medium">Assigned To:</p>
+                  <div class="flex flex-wrap items-center mt-1">
+                    {#each techDetails as tech}
+                      <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-blue-100 text-blue-800 mr-2 mb-1">
+                        {tech.name}
+                      </span>
+                    {/each}
+                  </div>
+                </div>
+              {/if}
+            </div>
+          </div>
+          
+          <!-- Key Dates -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-amber-50 border-b border-amber-100">
+              <h3 class="text-md font-semibold text-amber-800">Key Dates</h3>
+            </div>
+            <div class="p-4">
+              <p class="text-gray-900 font-medium">Incident Date: <span class="font-normal">{$currentJob.incidentDate ? formatDate(new Date($currentJob.incidentDate)) : 'Not set'}</span></p>
+              <p class="text-gray-900 font-medium mt-2">Scheduled: <span class="font-normal">{$currentJob.scheduledStartDate ? formatDate(new Date($currentJob.scheduledStartDate)) : 'Not scheduled'}</span></p>
+              <p class="text-gray-900 font-medium mt-2">Estimated Completion: <span class="font-normal">{$currentJob.estimatedCompletionDate ? formatDate(new Date($currentJob.estimatedCompletionDate)) : 'Not set'}</span></p>
+            </div>
+          </div>
+          
+          <!-- Site Address -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-purple-50 border-b border-purple-100">
+              <h3 class="text-md font-semibold text-purple-800">Site Address</h3>
+            </div>
+            <div class="p-4">
+              {#if $currentJob.siteAddress}
+                <p class="text-gray-900">{$currentJob.siteAddress.street}</p>
+                <p class="text-gray-900">{$currentJob.siteAddress.city}, {$currentJob.siteAddress.state} {$currentJob.siteAddress.zip}</p>
+              {:else}
+                <p class="text-gray-500 italic">No address provided</p>
+              {/if}
+            </div>
+          </div>
+          
+          <!-- Scope of Work -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-indigo-50 border-b border-indigo-100">
+              <h3 class="text-md font-semibold text-indigo-800">Scope of Work</h3>
+            </div>
+            <div class="p-4">
+              <p class="text-gray-800 whitespace-pre-wrap">
+                {$currentJob.description || 'No scope of work provided'}
+              </p>
+                
+                <!-- Add link to originating quote -->
+                {#if $currentJob.originatingQuoteId}
+                  <div class="mt-4 pt-3 border-t border-gray-200">
+                    <a 
+                      href="/quotes/{$currentJob.originatingQuoteId}" 
+                      class="inline-flex items-center text-blue-600 hover:text-blue-800 transition-colors"
+                    >
+                      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2" />
+                      </svg>
+                      View Original Quote
+                    </a>
+                  </div>
+                {/if}
+            </div>
+          </div>
+          
+          <!-- Notes -->
+          <div class="bg-white rounded-lg shadow-sm border border-gray-200 overflow-hidden">
+            <div class="p-4 bg-red-50 border-b border-red-100">
+              <h3 class="text-md font-semibold text-red-800">Access Instructions</h3>
+            </div>
+            <div class="p-4">
+              <p class="text-gray-800 whitespace-pre-wrap">{$currentJob.accessInstructions || 'No special instructions'}</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Action Buttons & Activity Log Section -->
+        {#if $currentJob.status !== JobStatus.COMPLETED}
+          <div class="my-4 p-3 bg-gray-100 rounded shadow">
+            <!-- Quick action buttons -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+              <button 
+                  on:click={(e) => {
+                    e.preventDefault();
+                    // First close the modal
+                    showTaskModal = false;
+                    // Then set the form after a small delay
+                    setTimeout(() => {
+                      showForm = 'note';
+                      console.log('Quick action: showing note form, showForm =', showForm, 'showTaskModal =', showTaskModal);
+                    }, 0);
+                  }}
+                  class="flex flex-col items-center justify-center px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm hover:bg-blue-50 hover:border-blue-300 hover:shadow active:bg-blue-100 active:shadow-inner active:transform active:scale-[0.98] transition-all duration-150"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 text-blue-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                </svg>
+                <span class="font-medium text-gray-700 hover:text-blue-700 transition-colors duration-150">Add Note</span>
+              </button>
+              
+              <button 
+                  on:click={(e) => {
+                    e.preventDefault();
+                    showForm = 'photo';
+                    showTaskModal = false;
+                  }}
+                  class="flex flex-col items-center justify-center px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm hover:bg-purple-50 hover:border-purple-300 hover:shadow active:bg-purple-100 active:shadow-inner active:transform active:scale-[0.98] transition-all duration-150"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 text-purple-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="font-medium text-gray-700 hover:text-purple-700 transition-colors duration-150">Add Photo</span>
+              </button>
+              
+              <button 
+                  on:click={(e) => {
+                    e.preventDefault();
+                    showForm = 'reading';
+                    showTaskModal = false;
+                  }}
+                  class="flex flex-col items-center justify-center px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm hover:bg-indigo-50 hover:border-indigo-300 hover:shadow active:bg-indigo-100 active:shadow-inner active:transform active:scale-[0.98] transition-all duration-150"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 text-indigo-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                </svg>
+                <span class="font-medium text-gray-700 hover:text-indigo-700 transition-colors duration-150">Add Reading</span>
+              </button>
+              
+              <button
+                  on:click={(e) => {
+                    e.preventDefault();
+                    showForm = 'equipment';
+                    showTaskModal = false;
+                  }}
+                  class="flex flex-col items-center justify-center px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm hover:bg-green-50 hover:border-green-300 hover:shadow active:bg-green-100 active:shadow-inner active:transform active:scale-[0.98] transition-all duration-150"
+              >
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 text-green-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+                  <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                </svg>
+                <span class="font-medium text-gray-700 hover:text-green-700 transition-colors duration-150">Equipment Log</span>
+              </button>
+                
+                <button
+                  on:click={(e) => {
+                    e.preventDefault();
+                    showForm = 'expense';
+                    showTaskModal = false;
+                  }}
+                  class="flex flex-col items-center justify-center px-4 py-3 bg-gray-100 border border-gray-300 rounded-lg shadow-sm hover:bg-yellow-50 hover:border-yellow-300 hover:shadow active:bg-yellow-100 active:shadow-inner active:transform active:scale-[0.98] transition-all duration-150"
+                >
+                  <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mb-1 text-yellow-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z" />
+                  </svg>
+                  <span class="font-medium text-gray-700 hover:text-yellow-600 transition-colors duration-150">Add Expense</span>
+              </button>
+            </div>
+          </div>
+        {/if}
+
+          <!-- Conditionally Rendered Forms - Keep these for direct form access, but they're no longer the primary way to complete tasks -->
+        {#if showForm === 'note'}
+          <div class="mb-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+            <h3 class="text-lg font-semibold text-blue-800 mb-4">Add a Note</h3>
+            <AddNoteForm 
+              jobId={$currentJob?.id || ''} 
+              userId={$currentUser?.id || 'tech-1'} 
+                on:submit={handleFormSubmit}
+            />
+          </div>
+        {:else if showForm === 'photo'}
+          <div class="mb-6 p-4 bg-purple-50 border border-purple-100 rounded-lg">
+            <h3 class="text-lg font-semibold text-purple-800 mb-4">Add a Photo</h3>
+            <AddPhotoForm 
+              jobId={$currentJob?.id || ''} 
+              userId={$currentUser?.id || 'tech-1'} 
+                on:submit={handleFormSubmit}
+            />
+          </div>
+        {:else if showForm === 'reading'}
+          <div class="mb-6 p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+            <h3 class="text-lg font-semibold text-indigo-800 mb-4">Add Moisture Reading</h3>
+            <AddReadingForm 
+              jobId={$currentJob?.id || ''} 
+              userId={$currentUser?.id || 'tech-1'} 
+                on:submit={handleFormSubmit}
+            />
+          </div>
+        {:else if showForm === 'equipment'}
+          <div class="mb-6 p-4 bg-green-50 border border-green-100 rounded-lg">
+            <h3 class="text-lg font-semibold text-green-800 mb-4">Equipment Log</h3>
+            <AddEquipmentLogForm 
+              jobId={$currentJob?.id || ''} 
+              userId={$currentUser?.id || 'tech-1'} 
+                on:submit={handleFormSubmit}
+              />
+            </div>
+          {:else if showForm === 'expense'}
+            <div class="mb-6 p-4 bg-yellow-50 border border-yellow-100 rounded-lg">
+              <h3 class="text-lg font-semibold text-yellow-700 mb-4">Add Expense</h3>
+              <AddExpenseForm 
+                jobId={$currentJob?.id || ''} 
+                userId={$currentUser?.id || 'tech-1'} 
+                on:submit={handleFormSubmit}
+            />
+          </div>
+        {/if}
+
+        <!-- Container for Log OR Report -->
+        <div class="mt-6">
+          {#if $currentJob.status === JobStatus.COMPLETED}
+            <!-- Render JobCompletionReport -->
+            <JobCompletionReport
+              job={$currentJob}
+              logEntries={jobLogEntries}
+              laborEntries={$laborEntries}
+              billingSummary={billingSummary as any}
+            />
+          {:else}
+            <!-- Render Activity Log Feed -->
+              <div class="bg-gray-100 rounded-lg shadow-md border border-gray-200 overflow-hidden">
+              <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <h3 class="text-xl font-bold text-gray-800">Activity Log</h3>
+              </div>
+              
+              <div class="p-5">
+                <!-- Activity Log Feed -->
+                <ActivityLogFeed 
+                  logEntries={filteredLogEntries} 
+                  isLoading={$isLoading} 
+                    jobId={currentJobId}
+                    userId={$currentUser?.id || ''}
+                />
+              </div>
+            </div>
+
+            <!-- TECHNICIAN COMPLETION CHECKLIST AREA -->
+              {#if $currentUser?.role === Role.TECH && $currentJob && $currentJob.status === JobStatus.IN_PROGRESS}
+              <div class="mt-8 border-t pt-6">
+                  <!-- Debug output -->
+                  <pre class="bg-gray-100 p-4 text-xs overflow-auto mb-4">
+                    Tech Role: {$currentUser?.role === Role.TECH}
+                    Status: {$currentJob?.status}
+                    Status is IN_PROGRESS: {$currentJob?.status === JobStatus.IN_PROGRESS}
+                    finalReadingsLogged: {$currentJob?.completionTasks?.finalReadingsLogged}
+                    afterPhotosTaken: {$currentJob?.completionTasks?.afterPhotosTaken} 
+                    mark_ready_for_review: {$currentJob?.completionTasks?.mark_ready_for_review}
+                    Should show button: {$currentUser?.role === Role.TECH && 
+                      $currentJob?.status === JobStatus.IN_PROGRESS && 
+                      $currentJob?.completionTasks?.finalReadingsLogged === true && 
+                      $currentJob?.completionTasks?.afterPhotosTaken === true &&
+                      !$currentJob?.completionTasks?.mark_ready_for_review}
+                  </pre>
+                  
+                  <!-- Fix missing completionTasks data -->
+                  {#if $currentJob && $currentJob.status === JobStatus.IN_PROGRESS}
+                    <div class="mb-4">
+                      <button
+                        type="button"
+                        class="w-full py-2 px-4 bg-red-600 hover:bg-red-700 text-white font-medium rounded focus:outline-none focus:ring-2 focus:ring-red-500 focus:ring-offset-2 transition-colors"
+                        on:click={() => {
+                          if (!$currentJob) return;
+                          
+                          // Force update completion tasks to match visual state
+                          // This fixes cases where the UI shows tasks completed but data hasn't updated
+                          console.log("Forcing completion task update");
+                          const completionTasks = {
+                            finalReadingsLogged: true,
+                            afterPhotosTaken: true,
+                            mark_ready_for_review: false
+                          };
+                          
+                          updateJobCompletionTask($currentJob.id, completionTasks)
+                            .then(updatedJob => {
+                              if (updatedJob) {
+                                currentJob.set(updatedJob);
+                                console.log("Updated completion tasks:", updatedJob.completionTasks);
+                              }
+                            })
+                            .catch(err => console.error("Error updating completion tasks:", err));
+                        }}
+                      >
+                        Fix Task Completion Data
+                      </button>
+                      <p class="text-xs text-gray-500 mt-1 text-center">Click this button if tasks appear complete but the Submit button doesn't show</p>
+                    </div>
+                  {/if}
+                  
+                  <div id="completionChecklist" class="mt-6">
+                <TechCompletionChecklist 
+                  tasks={$currentJob.completionTasks} 
+                  jobId={$currentJob.id} 
+                    on:taskClicked={handleTechTask}
+                  />
+
+                  <!-- Add Submit for Office Review button when all tasks are completed -->
+                  {#if $currentJob?.completionTasks?.finalReadingsLogged === true && 
+                      $currentJob?.completionTasks?.afterPhotosTaken === true && 
+                      $currentJob?.status === JobStatus.IN_PROGRESS &&
+                      !$currentJob?.completionTasks?.mark_ready_for_review}
+                    <div class="mt-4 p-4 border-2 border-green-300 bg-green-50 rounded-lg">
+                      <div class="flex items-center justify-between">
+                        <div>
+                          <h3 class="font-medium text-green-800">All tasks completed!</h3>
+                          <p class="text-sm text-green-700">You've completed all required tasks for this job.</p>
+                        </div>
+                        <button
+                          type="button"
+                          class="px-6 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md font-medium focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2 transition-colors"
+                          on:click={handleSubmitForOfficeReview}
+                        >
+                          Submit for Office Review
+                        </button>
+                      </div>
+                    </div>
+                  {/if}
+                  </div>
+
+                <button
+                  on:click={markReadyForCompletion}
+                    disabled={!canAdvanceStatus}
+                  class="mt-4 w-full font-bold py-2 px-4 rounded transition-all duration-150 ease-in-out"
+                    class:bg-green-600={canAdvanceStatus}
+                    class:hover:bg-green-700={canAdvanceStatus}
+                    class:text-white={canAdvanceStatus}
+                    class:bg-gray-300={!canAdvanceStatus}
+                    class:text-gray-500={!canAdvanceStatus}
+                    class:cursor-not-allowed={!canAdvanceStatus}
+                  >
+                    {canAdvanceStatus ? 'Mark Ready for Completion' : 'Complete All Required Tasks First'}
+                </button>
+              </div>
+            {/if}
+            <!-- END TECHNICIAN COMPLETION AREA -->
+          {/if}
+        </div>
+
+        <!-- Office/Admin Only - Final Completion Button -->
+          {#if $currentUser && ($currentUser.role === Role.ADMIN || $currentUser.role === Role.OFFICE) && $currentJob.status === JobStatus.PENDING_COMPLETION}
+          <div class="mt-4">
+            <button
+              on:click={openCompleteJobModal}
+                disabled={isCompletingJob || !canAdvanceStatus}
+                class="w-full py-3 px-4 rounded-md shadow-sm transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 font-bold"
+                class:bg-green-600={canAdvanceStatus}
+                class:hover:bg-green-700={canAdvanceStatus}
+                class:text-white={canAdvanceStatus}
+                class:bg-gray-300={!canAdvanceStatus}
+                class:text-gray-500={!canAdvanceStatus}
+                class:disabled:opacity-50={canAdvanceStatus}
+                class:disabled:cursor-not-allowed={canAdvanceStatus}
+            >
+              {#if isCompletingJob}
+                <span class="inline-flex items-center justify-center">
+                  <svg class="animate-spin -ml-1 mr-2 h-5 w-5 text-white" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Processing...
+                </span>
+              {:else}
+                <span class="inline-flex items-center justify-center">
+                  <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                    Finalize Job & Enter Labor
+                </span>
+              {/if}
+            </button>
+              {#if !canAdvanceStatus && $currentJob.status === JobStatus.PENDING_COMPLETION}
+                <p class="mt-2 text-amber-600 text-sm text-center">Please review the workflow steps. Some required tasks are not complete.</p>
+              {/if}
+            {#if completionError}
+              <p class="mt-2 text-red-600 text-sm text-center">{completionError}</p>
+            {/if}
+          </div>
+        {/if}
+          
+          <!-- Auto-complete button for completed tasks in PENDING_COMPLETION -->
+          {#if $currentUser && ($currentUser.role === Role.ADMIN || $currentUser.role === Role.OFFICE) && 
+                $currentJob.status === JobStatus.PENDING_COMPLETION &&
+                allCompletedStatuses[JobStatus.PENDING_COMPLETION]}
+            <div class="mt-6 pt-4 border-t border-gray-200">
+              <div class="bg-green-100 p-4 rounded-lg border-2 border-green-300 animate-pulse">
+                <h3 class="text-xl font-bold text-green-800 text-center mb-2">✅ All Review Tasks Completed!</h3>
+                <p class="text-green-700 text-center mb-4">All required review tasks are finished. You can now mark this job as complete.</p>
+                <button
+                  type="button"
+                  class="w-full py-3 px-4 bg-green-600 hover:bg-green-700 text-white text-lg font-bold rounded-lg shadow-lg focus:outline-none"
+                  on:click={() => {
+                    if (!$currentJob) return;
+                    
+                    // Update job status to COMPLETED
+                    updateJobStatus($currentJob.id, JobStatus.COMPLETED)
+                      .then(updatedJob => {
+                        if (updatedJob) {
+                          // Update the store
+                          currentJob.set(updatedJob);
+                          
+                          // Add a log entry for the status change
+                          addLogEntry({
+                            jobId: updatedJob.id,
+                            userId: $currentUser?.id || 'unknown-user',
+                            timestamp: new Date(),
+                            type: LogEntryType.NOTE,
+                            content: `Job status changed from ${JobStatus.PENDING_COMPLETION} to ${JobStatus.COMPLETED}: All review tasks completed, job is now marked as complete`
+                          });
+                          
+                          showSuccessToast('Job marked as completed');
+                        }
+                      })
+                      .catch(err => {
+                        console.error('Error updating job status:', err);
+                        showErrorToast('Failed to update job status. Please try again.');
+                      });
+                  }}
+                >
+                  <span class="inline-flex items-center justify-center">
+                    <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                    </svg>
+                    MARK JOB AS COMPLETED
+                  </span>
+                </button>
+              </div>
+          </div>
+        {/if}
+
+        <!-- Completion Modal -->
+        {#if showCompletionModal && $currentJob}
+          <JobCompletionModal
+            job={$currentJob}
+            onComplete={handleConfirmCompletion}
+            onCancel={handleCancelCompletion}
+          />
+        {/if}
+
+          <!-- Task Modal -->
+          {#if showTaskModal && selectedTask && $currentJob}
+            <div transition:fade={{ duration: 200 }}>
+              <TaskActionModal
+                bind:isOpen={showTaskModal}
+                task={selectedTask}
+                job={$currentJob}
+                logEntries={filteredLogEntries}
+                on:close={() => {
+                  console.log("Parent handling close event");
+                  showTaskModal = false;
+                  selectedTask = null;
+                }}
+                on:taskCompleted={handleTaskCompletedFromModal}
+              />
+      </div>
+          {/if}
+
+          <!-- Technician Assignment Section (only visible to office/admin users) -->
+          {#if $currentUser && isOffice($currentUser)}
+            <div id="techAssignmentSection" class="mt-6">
+              <TechnicianAssignment 
+                job={$currentJob} 
+                on:save={handleTechnicianAssignment} 
+              />
+              
+              {#if isUpdatingAssignments}
+                <div class="text-sm text-gray-500 flex items-center mb-4">
+                  <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-dryd-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                    <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                    <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                  </svg>
+                  Updating assignments...
+        </div>
+              {:else if assignmentError}
+                <div class="text-sm text-red-500 mb-4">{assignmentError}</div>
+              {:else if assignmentSuccess}
+                <div class="text-sm text-green-500 mb-4">Technician assignments updated successfully!</div>
+              {/if}
+            </div>
+          {/if}
+
+          <!-- Add a job scheduling section after technician assignment section -->
+          {#if $currentUser && isOffice($currentUser)}
+            <div class="mt-6">
+              <h3 class="text-lg font-medium text-gray-900 mb-3">Job Scheduling</h3>
+              <div class="bg-white shadow rounded-md p-4">
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div>
+                    <label for="scheduledStartDate" class="block text-sm font-medium text-gray-700">Scheduled Start Date</label>
+                    <input 
+                      type="date" 
+                      id="scheduledStartDate"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      value={$currentJob.scheduledStartDate ? new Date($currentJob.scheduledStartDate).toISOString().split('T')[0] : ''}
+                      on:change={(event) => {
+                        const target = event.target as HTMLInputElement;
+                        if (target && target.value) {
+                          handleScheduleDateChange('scheduledStartDate', target.value);
+                        }
+                      }}
+                    />
+                  </div>
+                  <div>
+                    <label for="estimatedCompletionDate" class="block text-sm font-medium text-gray-700">Estimated Completion</label>
+                    <input 
+                      type="date" 
+                      id="estimatedCompletionDate"
+                      class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500"
+                      value={$currentJob.estimatedCompletionDate ? new Date($currentJob.estimatedCompletionDate).toISOString().split('T')[0] : ''}
+                      on:change={(event) => {
+                        const target = event.target as HTMLInputElement;
+                        if (target && target.value) {
+                          handleScheduleDateChange('estimatedCompletionDate', target.value);
+                        }
+                      }}
+                    />
+                  </div>
+                </div>
+                {#if scheduleDateError}
+                  <p class="mt-2 text-sm text-red-600">{scheduleDateError}</p>
+                {/if}
+                {#if scheduleDateSuccess}
+                  <p class="mt-2 text-sm text-green-600">Job scheduling updated successfully</p>
+                {/if}
+              </div>
+            </div>
+          {/if}
+        </div>
+      </div>
+    </div>
+
+  {:else if $isLoading}
+    <div class="flex justify-center items-center h-64">
+      <p class="text-gray-500">Loading job details...</p>
+    </div>
+  {:else if $error}
+    <div class="bg-red-50 p-6 rounded-lg border border-red-200 mb-4">
+      <p class="text-red-700">{$error}</p>
+      <a href="/dashboard" class="text-blue-600 hover:text-blue-800 mt-4 inline-block">← Back to Dashboard</a>
+    </div>
+  {/if}
+
+  <!-- After the existing modals, add our new modal -->
+  {#if showScheduleJobModal && $currentJob}
+    <ScheduleJobWithTechnicianModal 
+      job={$currentJob}
+      on:close={closeScheduleJobModal}
+      on:submit={handleScheduleSubmit}
+    />
+  {/if}
+</div> 

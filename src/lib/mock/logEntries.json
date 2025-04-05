@@ -1,0 +1,2413 @@
+[
+  {
+    "id": "1330d362-b99b-4577-a4df-4839f6bd5afc",
+    "jobId": "2e8d9a3f-3e59-4d3d-aac2-f7cfe6452ff8",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-03T17:05:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/3/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "6f298c17-ed14-4bf4-b47d-56bbb547d015",
+    "jobId": "a753be0f-b105-4b18-8b58-c64f9a40b275",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-22T22:37:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/22/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "6a83dc6f-d6f8-45dd-846e-68bc6b66b990",
+    "jobId": "5dcfee6c-bc07-4738-8a1f-82ea7bfbc41a",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-23T14:45:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/23/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "e1da7a70-e06a-470f-ac89-84aec95e4ccb",
+    "jobId": "b7eae2a0-4742-4c68-ae1b-05ba2e48087d",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T01:29:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/1/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "4f87331a-d169-4bc3-84e1-1a3194aa032f",
+    "jobId": "c1fd8c83-c122-43db-af8b-2b48a579b140",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-09T16:38:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/9/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "83b5c495-f325-47c0-883e-fd8510900b97",
+    "jobId": "c0b995d0-4c12-4438-bac4-b45a2db3dca8",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-06T15:47:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/6/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "2b0e2507-f936-4224-bfe4-1719d2704a49",
+    "jobId": "c102d368-dfaa-4e6b-b9a9-179fd1561885",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-25T01:05:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/24/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "1634e095-b6ee-45c8-8f6e-54ec95231bba",
+    "jobId": "504b208e-4fa3-4cd8-830d-6efee90d051b",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-17T15:54:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/17/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "51817f21-1506-4c19-9655-99bdf3aa2043",
+    "jobId": "2cd8556b-703a-440f-92e3-624336027702",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-19T23:42:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/19/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "54aa401d-81b2-4525-8408-f96c34746492",
+    "jobId": "61308532-42e2-4c60-9b43-9c322a628823",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-03T17:44:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/3/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "e1424fe7-26fe-4b83-9694-4366514cb30a",
+    "jobId": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-12T16:38:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/12/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "cc61451e-7927-4cd9-a9ed-534c6018f6c1",
+    "jobId": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "userId": "tech-05",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-13T01:58:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-010",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "de2e7f78-e8e6-4363-8a4d-ba576f1929d0",
+    "jobId": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "userId": "tech-05",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-13T01:31:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-006",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "d5f5f3a6-b7e5-4446-9aa1-5aec34e63957",
+    "jobId": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "userId": "tech-05",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-12T19:15:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "522dc010-8c87-44f7-ada0-e33bf04ef2dc",
+    "jobId": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "userId": "tech-05",
+    "type": "NOTE",
+    "createdAt": "2025-02-13T18:26:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 35% complete."
+  },
+  {
+    "id": "95dfda65-d723-4a35-ab3c-d6d51eba4e24",
+    "jobId": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "userId": "tech-05",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-12T17:08:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 25,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "f5475ac1-0933-4dd8-9e8a-49fd1dfb8132",
+    "jobId": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "userId": "tech-05",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-13T00:19:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 77,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "e313ce20-2c80-4c40-bdd1-5e1f646d38d7",
+    "jobId": "efffed03-0d5d-451c-88ee-f6879f6b1ae9",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-04T23:35:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/4/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "96c56b7f-5ac9-469c-b116-c9c6c0d35403",
+    "jobId": "efffed03-0d5d-451c-88ee-f6879f6b1ae9",
+    "userId": "tech-04",
+    "type": "NOTE",
+    "createdAt": "2025-02-04T17:57:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Progress update: Work continuing as planned. 10% complete."
+  },
+  {
+    "id": "a3181cd2-f40a-49c8-ae4b-b6a72803db03",
+    "jobId": "efffed03-0d5d-451c-88ee-f6879f6b1ae9",
+    "userId": "tech-04",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-04T17:34:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 71,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "7e716ade-298a-40bc-be83-6268351f6676",
+    "jobId": "efffed03-0d5d-451c-88ee-f6879f6b1ae9",
+    "userId": "tech-04",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-04T16:54:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Living Room",
+        "readingType": "MOISTURE",
+        "value": 45,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "b31a1e4d-9eaa-47f9-b832-82c83fb0d495",
+    "jobId": "efffed03-0d5d-451c-88ee-f6879f6b1ae9",
+    "userId": "tech-04",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-04T22:14:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 69,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "5d3eb101-4a40-4e9f-8afd-2f355974891f",
+    "jobId": "d50ce592-b775-496d-bca2-c126eb2f56db",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-13T16:40:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/13/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "129ca262-8c06-4aa9-b604-7cde70ace617",
+    "jobId": "d50ce592-b775-496d-bca2-c126eb2f56db",
+    "userId": "tech-09",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-13T17:06:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-007",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "3c4720c4-ec88-4fbd-932c-315c433b2b0e",
+    "jobId": "d50ce592-b775-496d-bca2-c126eb2f56db",
+    "userId": "tech-09",
+    "type": "NOTE",
+    "createdAt": "2025-03-13T20:43:37.170Z",
+    "isPublic": false,
+    "category": "ISSUE",
+    "content": "Progress update: Work continuing as planned. 13% complete."
+  },
+  {
+    "id": "983b5b41-c386-4568-b130-aaa490928e1e",
+    "jobId": "d50ce592-b775-496d-bca2-c126eb2f56db",
+    "userId": "tech-09",
+    "type": "NOTE",
+    "createdAt": "2025-03-13T20:45:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 30% complete."
+  },
+  {
+    "id": "28514995-404f-4430-a392-99809c371ec4",
+    "jobId": "d50ce592-b775-496d-bca2-c126eb2f56db",
+    "userId": "tech-09",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-13T20:06:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Kitchen",
+        "readingType": "MOISTURE",
+        "value": 37,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "db3e2d49-676e-4aa0-a12a-e8d4291a7965",
+    "jobId": "d50ce592-b775-496d-bca2-c126eb2f56db",
+    "userId": "tech-09",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-13T23:55:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Kitchen",
+        "readingType": "MOISTURE",
+        "value": 46,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "39882a29-1fa0-4567-ad60-94e98d187684",
+    "jobId": "0a0061c4-a8b2-4f4c-bf6f-00ce073fb1c5",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-05T15:18:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/5/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "82513f1a-bbf2-437d-9f4f-30186ebe3c23",
+    "jobId": "0a0061c4-a8b2-4f4c-bf6f-00ce073fb1c5",
+    "userId": "tech-06",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-05T16:53:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-006",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "9dcb9a7d-5c52-459a-93e3-f51416d2f4f4",
+    "jobId": "0a0061c4-a8b2-4f4c-bf6f-00ce073fb1c5",
+    "userId": "tech-06",
+    "type": "NOTE",
+    "createdAt": "2025-03-05T22:00:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 45% complete."
+  },
+  {
+    "id": "2c66c53c-a222-4bf3-8101-81a1d270a914",
+    "jobId": "0a0061c4-a8b2-4f4c-bf6f-00ce073fb1c5",
+    "userId": "tech-06",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-07T16:43:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 18,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "79a9ba95-4e61-46e7-a7ca-6b79f898debb",
+    "jobId": "0a0061c4-a8b2-4f4c-bf6f-00ce073fb1c5",
+    "userId": "tech-06",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-07T00:02:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Living Room",
+        "readingType": "MOISTURE",
+        "value": 49,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "47e74ae0-94fe-4c61-b45a-dfe350da9e16",
+    "jobId": "0a0061c4-a8b2-4f4c-bf6f-00ce073fb1c5",
+    "userId": "tech-06",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-06T15:55:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 41,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "9f7b4603-3131-4b52-8038-90499fd2328f",
+    "jobId": "73f35473-061b-4270-a247-69595f82ff6f",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-29T21:12:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/29/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "fe0af7ef-760a-49b7-98c4-105659e04745",
+    "jobId": "73f35473-061b-4270-a247-69595f82ff6f",
+    "userId": "tech-03",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-29T20:25:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-005",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "69691dfd-3877-4281-b826-fcf29bf20799",
+    "jobId": "73f35473-061b-4270-a247-69595f82ff6f",
+    "userId": "tech-03",
+    "type": "NOTE",
+    "createdAt": "2025-03-29T22:10:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Progress update: Work continuing as planned. 34% complete."
+  },
+  {
+    "id": "ef7a74cc-d3e9-440b-9736-2f3fdfd60b17",
+    "jobId": "73f35473-061b-4270-a247-69595f82ff6f",
+    "userId": "tech-03",
+    "type": "NOTE",
+    "createdAt": "2025-03-30T00:04:37.170Z",
+    "isPublic": false,
+    "category": "ISSUE",
+    "content": "Progress update: Work continuing as planned. 34% complete."
+  },
+  {
+    "id": "13eedc41-3752-467d-9abb-9400749e07c6",
+    "jobId": "73f35473-061b-4270-a247-69595f82ff6f",
+    "userId": "tech-03",
+    "type": "NOTE",
+    "createdAt": "2025-03-29T15:25:37.170Z",
+    "isPublic": false,
+    "category": "ISSUE",
+    "content": "Progress update: Work continuing as planned. 45% complete."
+  },
+  {
+    "id": "aa5bd610-5f95-43cf-b25a-365298bf394b",
+    "jobId": "73f35473-061b-4270-a247-69595f82ff6f",
+    "userId": "tech-03",
+    "type": "NOTE",
+    "createdAt": "2025-03-29T23:56:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 41% complete."
+  },
+  {
+    "id": "33742146-e589-408c-83de-864664a639b2",
+    "jobId": "73f35473-061b-4270-a247-69595f82ff6f",
+    "userId": "tech-03",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-29T18:06:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 13,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "b7ad5652-750f-42f0-bfe7-6960c5131885",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T22:23:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/10/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "3a24a6c7-b181-4bb2-8e61-9357e6a519c7",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T15:36:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-005",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "26b80dcc-d849-4930-86ed-8c349f50eac7",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T23:54:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-008",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "4dfcfc26-9180-47fa-81e7-6700db8ec147",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T22:20:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-007",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "0ba7bff1-7a27-4af4-9e0c-13c771103809",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T21:25:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 37% complete."
+  },
+  {
+    "id": "a1d6b631-84db-455a-abb5-b39e2d1b4f79",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T20:55:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 32% complete."
+  },
+  {
+    "id": "e1413934-209a-4cf0-a3a5-f4e461c1d034",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T21:02:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 50% complete."
+  },
+  {
+    "id": "eeb9b939-0df7-4340-a4f8-cbeb38cd55a6",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-10T20:18:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 69,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "617732d4-ec40-4b16-ac46-d21ec48d415c",
+    "jobId": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "userId": "tech-08",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-10T14:36:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 41,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "65ac79cd-18c5-4746-bc53-39712cb335c4",
+    "jobId": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-07T22:59:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/7/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "56768e09-c301-402a-adfc-9de51baac400",
+    "jobId": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "userId": "tech-05",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-07T22:01:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-008",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "12e6d45f-cea8-436f-8739-09c2061ef9e0",
+    "jobId": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "userId": "tech-05",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-08T00:02:37.170Z",
+    "isPublic": false,
+      "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "10f7871f-f240-4557-9afd-04168f63f40a",
+    "jobId": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "userId": "tech-05",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-07T16:15:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-007",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "9eb760ad-dd69-4867-b083-66a01ee41a28",
+    "jobId": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "userId": "tech-05",
+    "type": "NOTE",
+    "createdAt": "2025-02-07T21:09:37.170Z",
+    "isPublic": false,
+    "category": "ISSUE",
+    "content": "Progress update: Work continuing as planned. 17% complete."
+  },
+  {
+    "id": "d8a17158-bac8-4233-9b38-2971e722ec53",
+    "jobId": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "userId": "tech-05",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-07T20:41:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Kitchen",
+        "readingType": "MOISTURE",
+        "value": 26,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "35529e70-6044-4330-9227-750421ac4a28",
+    "jobId": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "userId": "tech-05",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-07T16:18:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Kitchen",
+        "readingType": "MOISTURE",
+        "value": 40,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "6d648d64-4313-42ff-91b0-6fe9e9f37471",
+    "jobId": "3e52663f-518d-4ca2-8379-c550b3fab6e5",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-16T19:09:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/16/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "a655b666-c8b4-49e5-aa46-314d3b191675",
+    "jobId": "3e52663f-518d-4ca2-8379-c550b3fab6e5",
+    "userId": "tech-10",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-16T15:55:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-008",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "e9c31fb1-5017-4614-b7fc-dd860af61fe0",
+    "jobId": "3e52663f-518d-4ca2-8379-c550b3fab6e5",
+    "userId": "tech-10",
+    "type": "NOTE",
+    "createdAt": "2025-01-16T17:46:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 22% complete."
+  },
+  {
+    "id": "0a424108-8541-4ff5-8b21-88718917474b",
+    "jobId": "3e52663f-518d-4ca2-8379-c550b3fab6e5",
+    "userId": "tech-10",
+    "type": "NOTE",
+    "createdAt": "2025-01-17T01:53:37.170Z",
+    "isPublic": false,
+    "category": "INTERNAL",
+    "content": "Progress update: Work continuing as planned. 47% complete."
+  },
+  {
+    "id": "110d7349-da0f-4a4d-8b3a-6a38aec27114",
+    "jobId": "3e52663f-518d-4ca2-8379-c550b3fab6e5",
+    "userId": "tech-10",
+    "type": "NOTE",
+    "createdAt": "2025-01-16T19:16:37.170Z",
+    "isPublic": false,
+    "category": "INTERNAL",
+    "content": "Progress update: Work continuing as planned. 39% complete."
+  },
+  {
+    "id": "2c0d5464-3835-44f6-bfa9-625ef4dc9713",
+    "jobId": "3e52663f-518d-4ca2-8379-c550b3fab6e5",
+    "userId": "tech-10",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-01-16T22:01:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 30,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "af51431b-4291-4c91-90f1-e9cd86d2f54d",
+    "jobId": "94c7143b-8f40-44c0-ba28-e8a2a9313077",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-24T19:28:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/24/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "a1503b50-7215-44d5-b780-714d90446d05",
+    "jobId": "94c7143b-8f40-44c0-ba28-e8a2a9313077",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-26T20:23:37.170Z",
+    "isPublic": false,
+    "category": "INTERNAL",
+    "content": "Progress update: Work continuing as planned. 22% complete."
+  },
+  {
+    "id": "4d17c77d-b81f-4a41-90ee-edb8f42c2337",
+    "jobId": "94c7143b-8f40-44c0-ba28-e8a2a9313077",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-24T19:28:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 38% complete."
+  },
+  {
+    "id": "4248c000-12d2-4fd6-bd2b-6935e6d4c8a3",
+    "jobId": "94c7143b-8f40-44c0-ba28-e8a2a9313077",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-26T00:32:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 23% complete."
+  },
+  {
+    "id": "845afad9-2de5-41a5-aebf-86a8ef3f87c7",
+    "jobId": "94c7143b-8f40-44c0-ba28-e8a2a9313077",
+    "userId": "tech-08",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-27T14:10:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 24,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "4540d03d-c1cf-4e93-bc9d-d96d5c3581b6",
+    "jobId": "94c7143b-8f40-44c0-ba28-e8a2a9313077",
+    "userId": "tech-08",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-25T20:56:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Kitchen",
+        "readingType": "MOISTURE",
+        "value": 79,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "5eb61104-17a1-4c67-b6f7-ebf46f90602d",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-13T23:54:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/13/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "904d44a7-18a5-453b-a9ae-582ff4e487c7",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-14T00:11:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "445c2db4-d9d7-4511-87b4-b87b08d34036",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-13T16:40:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-009",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "d2d0b6ab-17e3-4636-bda3-6d2577e3e727",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-13T14:34:37.170Z",
+    "isPublic": false,
+      "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "0c2f0e11-941d-4680-89c4-b492781e227a",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-13T19:53:37.170Z",
+    "isPublic": false,
+    "category": "ISSUE",
+    "content": "Progress update: Work continuing as planned. 36% complete."
+  },
+  {
+    "id": "b29c761f-e015-4e69-afa7-563940dd5725",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-13T23:44:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 48% complete."
+  },
+  {
+    "id": "078769af-b855-48f1-af06-3e07a303b23a",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "tech-08",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-13T19:37:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Living Room",
+        "readingType": "MOISTURE",
+        "value": 68,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "35105fc7-ae22-4bd6-80d7-0b8b7fe9f20b",
+    "jobId": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "userId": "tech-08",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-13T17:29:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 75,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "1efb1924-8009-4c7d-90d5-4302aa560005",
+    "jobId": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-19T22:38:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/19/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "6dc622c8-00f9-446d-8fd9-9103e217d5c7",
+    "jobId": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "userId": "tech-09",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-19T16:25:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-002",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "36796950-d9a3-4f49-ae2b-9a731f13ff55",
+    "jobId": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "userId": "tech-09",
+    "type": "NOTE",
+    "createdAt": "2025-02-23T15:35:37.170Z",
+    "isPublic": false,
+    "category": "INTERNAL",
+    "content": "Progress update: Work continuing as planned. 32% complete."
+  },
+  {
+    "id": "6ffdc8a7-a058-4690-8416-33e40ee3dbf1",
+    "jobId": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "userId": "tech-09",
+    "type": "NOTE",
+    "createdAt": "2025-02-20T15:44:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 23% complete."
+  },
+  {
+    "id": "72f12cd7-895d-4d62-a389-483cb33afab3",
+    "jobId": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "userId": "tech-09",
+    "type": "NOTE",
+    "createdAt": "2025-02-22T18:19:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Progress update: Work continuing as planned. 13% complete."
+  },
+  {
+    "id": "14434c38-4d56-49e4-8199-26021dd79c95",
+    "jobId": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "userId": "tech-09",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-19T20:31:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 51,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "998c6a51-888d-4c1e-9436-77aab35494a3",
+    "jobId": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "userId": "tech-09",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-02-23T18:36:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 20,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "caf75ff5-2b74-4b4a-b511-7244180abb16",
+    "jobId": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-03T20:39:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/3/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "a389b408-d90e-446e-87dc-117ce7a9aa2d",
+    "jobId": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "userId": "tech-07",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-03T22:59:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-008",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "25235104-7a6f-48d2-a7e8-f3c66a59b178",
+    "jobId": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "userId": "tech-07",
+    "type": "NOTE",
+    "createdAt": "2025-03-04T00:51:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 22% complete."
+  },
+  {
+    "id": "8427c2c5-7ab0-4487-ac52-9619f1dbfd25",
+    "jobId": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "userId": "tech-07",
+    "type": "NOTE",
+    "createdAt": "2025-03-03T18:04:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 29% complete."
+  },
+  {
+    "id": "97ddd13a-b90d-4718-9096-15f055526847",
+    "jobId": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "userId": "tech-07",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-03T16:32:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 30,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "cfc01332-f410-44ea-bc43-8923ccce31de",
+    "jobId": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "userId": "tech-07",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-04T00:08:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 27,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "3bd95e50-0f4c-4b5e-be56-92ac0fcae009",
+    "jobId": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "userId": "tech-07",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-03T18:41:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 25,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "4c899ede-276b-44c7-91d3-53db96cf32e4",
+    "jobId": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-04-01T18:11:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 4/1/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "94696312-0cb7-4f07-a48b-69ef4e2c2aa5",
+    "jobId": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-04-01T15:58:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-005",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "a029178f-c009-41f6-9abc-7b201b8839b0",
+    "jobId": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-04-01T20:01:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-007",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "7ed05801-3643-4104-89f2-91a1856bc572",
+    "jobId": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-04-01T21:13:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-003",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "ae8cb838-ff54-44c0-bd84-a24af55f13f1",
+    "jobId": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "userId": "tech-02",
+    "type": "NOTE",
+    "createdAt": "2025-04-02T17:59:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 32% complete."
+  },
+  {
+    "id": "d825a4c8-721f-4280-915c-2971c7a358b6",
+    "jobId": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "userId": "tech-02",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-04-02T14:28:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 73,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "0047d217-8c1b-4e4b-b6b0-c388de6104f7",
+    "jobId": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "userId": "tech-02",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-04-02T16:14:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Living Room",
+        "readingType": "MOISTURE",
+        "value": 76,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "736ea09b-2a27-420d-83d8-ab71dc49d59e",
+    "jobId": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T22:55:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/2/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "bfac1d2a-6be8-481c-8c50-ac15d0ac1e53",
+    "jobId": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "userId": "tech-06",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-03T01:45:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-010",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "204c71b1-fd34-44ca-8a13-8c2a54790d17",
+    "jobId": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "userId": "tech-06",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T17:56:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 40% complete."
+  },
+  {
+    "id": "ea78a87b-e746-4e45-9674-85a682dec4f2",
+    "jobId": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "userId": "tech-06",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T15:27:37.170Z",
+    "isPublic": false,
+    "category": "INTERNAL",
+    "content": "Progress update: Work continuing as planned. 45% complete."
+  },
+  {
+    "id": "5b1dfb69-79e5-4771-a8f3-5bcd73e309b6",
+    "jobId": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "userId": "tech-06",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T16:19:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 47% complete."
+  },
+  {
+    "id": "076b01bd-19c8-43bf-a114-ab6b2a794393",
+    "jobId": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "userId": "tech-06",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-02T16:51:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Kitchen",
+        "readingType": "MOISTURE",
+        "value": 36,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "d83fc133-d075-48bf-9815-ea942737663a",
+    "jobId": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "userId": "tech-06",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-03-02T22:02:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 46,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "f7610ac9-3be0-41ff-9990-4d609706b545",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-17T19:54:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/17/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "f8ae8106-1dd3-4a38-b6db-57fd310d7876",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-18T01:20:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-003",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "30266210-5e82-42ed-8fff-5187a8e2cc07",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-17T16:29:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-005",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "4c8cfc28-289b-4143-b0bb-9857e1bf8293",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-17T15:53:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "4b112870-2d52-4de6-81c0-ef0641af13f1",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "NOTE",
+    "createdAt": "2025-01-19T16:15:37.170Z",
+    "isPublic": false,
+    "category": "GENERAL",
+    "content": "Progress update: Work continuing as planned. 24% complete."
+  },
+  {
+    "id": "a95a3001-7f43-4070-81f9-e99cda5ec018",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "NOTE",
+    "createdAt": "2025-01-18T23:58:37.170Z",
+    "isPublic": false,
+    "category": "CUSTOMER_COMMUNICATION",
+    "content": "Progress update: Work continuing as planned. 18% complete."
+  },
+  {
+    "id": "10f4a403-4b91-43ce-9f41-70bbb85fc80e",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-01-18T17:02:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bedroom",
+        "readingType": "MOISTURE",
+        "value": 48,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "80243260-4c88-45b6-9189-1de23aea46cf",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-01-17T21:51:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Bathroom",
+        "readingType": "MOISTURE",
+        "value": 42,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "0188cb86-31f8-4bf5-b5b1-e771ab82696a",
+    "jobId": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "userId": "tech-03",
+    "type": "MOISTURE_READING",
+    "createdAt": "2025-01-17T17:17:37.170Z",
+    "isPublic": false,
+    "readings": [
+      {
+        "location": "Living Room",
+        "readingType": "MOISTURE",
+        "value": 15,
+        "unit": "%"
+      }
+    ],
+    "notes": "Standard moisture reading"
+  },
+  {
+    "id": "460a773a-87d2-49e1-91df-af060f137aac",
+    "jobId": "31439a8d-abed-4de6-b7e3-afd9da8d7e7b",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-02-23T15:50:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/23/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "77731d2c-b455-4298-b7f6-3198862c5130",
+    "jobId": "31439a8d-abed-4de6-b7e3-afd9da8d7e7b",
+    "userId": "tech-07",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-23T15:01:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-006",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "6844187c-c36b-4335-b8f8-a34c65e7d688",
+    "jobId": "31439a8d-abed-4de6-b7e3-afd9da8d7e7b",
+    "userId": "tech-07",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-24T01:53:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-009",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "6fac25d7-7c23-47cd-935e-04407cad3958",
+    "jobId": "31439a8d-abed-4de6-b7e3-afd9da8d7e7b",
+    "userId": "tech-07",
+    "type": "NOTE",
+    "createdAt": "2025-02-23T15:50:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "6adb05aa-064f-4485-a553-52295be4ce8b",
+    "jobId": "3b6f9705-9e52-4bbd-b079-509341e91d0c",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T21:19:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/10/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "abb0a2dc-b2d7-48a0-be8b-840551b8bc95",
+    "jobId": "3b6f9705-9e52-4bbd-b079-509341e91d0c",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T14:39:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "47480b17-1d01-4d73-852b-42551a7c3d90",
+    "jobId": "3b6f9705-9e52-4bbd-b079-509341e91d0c",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T21:22:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-007",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "a6a73076-8bf2-4ea4-abe0-bd7b14ced238",
+    "jobId": "3b6f9705-9e52-4bbd-b079-509341e91d0c",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T14:09:37.170Z",
+    "isPublic": false,
+      "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "7093eb20-a1f9-4272-9a63-9a19e8bff254",
+    "jobId": "3b6f9705-9e52-4bbd-b079-509341e91d0c",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T21:19:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "f7cbaad0-53fb-4e27-b101-5dc006c7a6bd",
+    "jobId": "83f04dd7-8025-4f53-b7d1-d8675830b52a",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-31T15:52:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/31/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "2c1550eb-eb13-49cb-8d9b-3fc17a5cb9d1",
+    "jobId": "83f04dd7-8025-4f53-b7d1-d8675830b52a",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-31T18:19:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "b439b5e0-9537-4207-8649-bde6f6c7124c",
+    "jobId": "83f04dd7-8025-4f53-b7d1-d8675830b52a",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-31T14:02:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-010",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "fc674dec-724e-4932-b51a-6af10c389c03",
+    "jobId": "83f04dd7-8025-4f53-b7d1-d8675830b52a",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-31T21:22:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-009",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "363b50ee-a46e-45eb-abf2-eaefc9a209aa",
+    "jobId": "83f04dd7-8025-4f53-b7d1-d8675830b52a",
+    "userId": "tech-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-31T15:52:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "cf9cfe9e-9f34-46de-b1e7-7874478e2316",
+    "jobId": "5f2b583b-66a4-4d50-b739-974de2f5eba9",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T16:02:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/2/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "0e297de2-3996-4e36-a4d2-b1b2021bd62e",
+    "jobId": "5f2b583b-66a4-4d50-b739-974de2f5eba9",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-02T16:36:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "d187a419-34fa-44b6-9df4-a7abc101a4ce",
+    "jobId": "5f2b583b-66a4-4d50-b739-974de2f5eba9",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T16:02:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "826910fb-9004-4ab5-97b9-15ca167993f6",
+    "jobId": "fd2f96fc-3a3f-4005-b9d9-dc2ba0c0dbfb",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T18:53:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/10/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "29bded1b-6bc4-4314-ad50-83823f914e92",
+    "jobId": "fd2f96fc-3a3f-4005-b9d9-dc2ba0c0dbfb",
+    "userId": "tech-07",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T23:35:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-010",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "600a07d9-2a2d-484d-a4fe-987f945daf0c",
+    "jobId": "fd2f96fc-3a3f-4005-b9d9-dc2ba0c0dbfb",
+    "userId": "tech-07",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-10T14:35:37.170Z",
+    "isPublic": false,
+      "equipmentId": "equip-002",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "052e506a-f589-4df5-a709-d3af246cab57",
+    "jobId": "fd2f96fc-3a3f-4005-b9d9-dc2ba0c0dbfb",
+    "userId": "tech-07",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T18:53:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "2d052594-41dc-4731-b641-9c9cb371573b",
+    "jobId": "524affd3-774f-4916-85a6-8f184ef37343",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-02-05T18:50:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/5/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "e094de01-b754-4239-845f-93bbc2f40ea7",
+    "jobId": "524affd3-774f-4916-85a6-8f184ef37343",
+    "userId": "tech-09",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-05T18:06:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "5947fcaa-d54b-411b-a56d-3f4396cf6a84",
+    "jobId": "524affd3-774f-4916-85a6-8f184ef37343",
+    "userId": "tech-09",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-05T19:31:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "d5c199cd-cc3c-4515-b9e8-12695fb19d5a",
+    "jobId": "524affd3-774f-4916-85a6-8f184ef37343",
+    "userId": "tech-09",
+    "type": "NOTE",
+    "createdAt": "2025-02-05T18:50:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "768cc27e-d83c-40ad-b8fa-50fae47a06aa",
+    "jobId": "851bdc0b-e607-4f6e-8b97-54895ce5d11e",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-25T00:12:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/24/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "6d36e9fe-1345-4b1c-bc46-eee1fe6bcf59",
+    "jobId": "851bdc0b-e607-4f6e-8b97-54895ce5d11e",
+    "userId": "tech-04",
+    "type": "NOTE",
+    "createdAt": "2025-02-25T00:12:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "0b67dbab-f2fa-4a14-ac14-a0a413d489db",
+    "jobId": "65bfb958-4c03-4eb6-a240-5f983c659436",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-26T15:25:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/26/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "9754ac13-146a-4a32-856e-8428905972b9",
+    "jobId": "65bfb958-4c03-4eb6-a240-5f983c659436",
+    "userId": "tech-06",
+    "type": "NOTE",
+    "createdAt": "2025-01-26T15:25:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "85add2dc-d43a-4d7c-ac84-93e59ff27d96",
+    "jobId": "eb346980-662a-40c8-b81b-ee59aeac476c",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-21T16:20:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/21/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "031532f3-f757-4f7e-a39e-4dd6c9a09d41",
+    "jobId": "eb346980-662a-40c8-b81b-ee59aeac476c",
+    "userId": "tech-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-21T16:20:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "24d8cce5-a446-4f4b-a069-2f511b86f269",
+    "jobId": "eb346980-662a-40c8-b81b-ee59aeac476c",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-22T16:27:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "75a5f6fe-3afc-4a81-a665-93a35de88647",
+    "jobId": "8a63cb35-aba1-480d-bb36-4948016760f9",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-02-24T19:00:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/24/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "b66ee1f2-f3f8-4b65-96ef-a15ab4d8fbd0",
+    "jobId": "8a63cb35-aba1-480d-bb36-4948016760f9",
+    "userId": "tech-06",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-24T15:04:37.170Z",
+    "isPublic": false,
+      "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "49625ab0-5231-4288-8f49-1523f9ce0372",
+    "jobId": "8a63cb35-aba1-480d-bb36-4948016760f9",
+    "userId": "tech-06",
+    "type": "NOTE",
+    "createdAt": "2025-02-24T19:00:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "4fb360bc-b6e5-435e-a2e3-db1d212e99cd",
+    "jobId": "8a63cb35-aba1-480d-bb36-4948016760f9",
+    "userId": "office-01",
+    "type": "NOTE",
+    "createdAt": "2025-02-27T01:08:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "5f078d1a-d150-4e01-befc-dd37b762675c",
+    "jobId": "95f5a159-3524-459e-8c24-c51e948ec177",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-05T17:15:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/5/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "f3886eff-f023-49f4-99dc-e7cd125dc265",
+    "jobId": "95f5a159-3524-459e-8c24-c51e948ec177",
+    "userId": "tech-10",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-05T23:37:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "10a08a1e-78e3-4bfc-811f-32d5812cb610",
+    "jobId": "95f5a159-3524-459e-8c24-c51e948ec177",
+    "userId": "tech-10",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-05T15:53:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-008",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "743f96fc-643c-4f59-8526-fda8e239cf80",
+    "jobId": "95f5a159-3524-459e-8c24-c51e948ec177",
+    "userId": "tech-10",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-06T00:56:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-010",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "e090061c-e9d7-4958-b56f-d59f078bc3a4",
+    "jobId": "95f5a159-3524-459e-8c24-c51e948ec177",
+    "userId": "tech-10",
+    "type": "NOTE",
+    "createdAt": "2025-03-05T17:15:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "2c6daa98-0099-4ce7-a675-a4347c1fb09a",
+    "jobId": "95f5a159-3524-459e-8c24-c51e948ec177",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-08T00:13:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "91cc3634-2a38-4dc5-9986-f4d83a73eed3",
+    "jobId": "a2972393-afec-4b0e-82e8-a49b96c7a0c6",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-05T01:15:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/4/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "01cb4898-8a0b-4963-b56d-53082e9fa0bf",
+    "jobId": "a2972393-afec-4b0e-82e8-a49b96c7a0c6",
+    "userId": "tech-04",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-04T20:51:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-006",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "cae09c28-2e30-4272-afd1-2e1be87d053a",
+    "jobId": "a2972393-afec-4b0e-82e8-a49b96c7a0c6",
+    "userId": "tech-04",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-04T23:36:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-002",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "3398ab5d-a57f-4778-aac9-2ff3a79222ee",
+    "jobId": "a2972393-afec-4b0e-82e8-a49b96c7a0c6",
+    "userId": "tech-04",
+    "type": "NOTE",
+    "createdAt": "2025-01-05T01:15:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "5b39d595-121f-4cbe-9a4a-d685ace4f0df",
+    "jobId": "a2972393-afec-4b0e-82e8-a49b96c7a0c6",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-06T21:49:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "9fcdb106-206d-4c84-b5d4-6fadee826fa7",
+    "jobId": "949777a4-b2bc-40fc-a464-7664273e0baf",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-19T16:20:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/19/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "c6db5722-5573-439a-8bf8-2b93bc0a031e",
+    "jobId": "949777a4-b2bc-40fc-a464-7664273e0baf",
+    "userId": "tech-05",
+    "type": "NOTE",
+    "createdAt": "2025-02-19T16:20:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "b02a1bb5-691d-4f51-a3b2-16646002f052",
+    "jobId": "949777a4-b2bc-40fc-a464-7664273e0baf",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-21T22:12:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "aba930e5-7fcf-4b9d-a6f5-448e70fd9078",
+    "jobId": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-10T15:39:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/10/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "c021fc12-7530-46ed-b0c4-611a32f745a2",
+    "jobId": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-10T21:55:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-006",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "0d60ae61-a347-4ab9-8f3e-330bf61f048b",
+    "jobId": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-10T16:33:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-001",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "62b60676-5a9f-4bd6-948a-13e5e3a0e76e",
+    "jobId": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "userId": "tech-02",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-11T00:18:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-007",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "245b4d01-4bfd-4759-8de2-19e1d59179ac",
+    "jobId": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "userId": "tech-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-10T15:39:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "4c9278e5-85bd-4578-b9d0-cfc713ffb0a0",
+    "jobId": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-11T20:24:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "35108015-ccfa-4a88-91fd-a0b7aa10b988",
+    "jobId": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "userId": "office-02",
+    "type": "NOTE",
+    "createdAt": "2025-01-13T00:56:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice approved and ready for generation."
+  },
+  {
+    "id": "30ff9a8b-7001-44fe-bbbe-e26cb83f56c0",
+    "jobId": "31639fec-6d92-497a-b3ba-c6887f457754",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-15T15:09:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/15/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "e7f5c464-1842-44a1-bb8f-2d22d056b466",
+    "jobId": "31639fec-6d92-497a-b3ba-c6887f457754",
+    "userId": "tech-06",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-02-15T15:06:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "774ed4f8-a6fe-400a-a247-ea616f74bda3",
+    "jobId": "31639fec-6d92-497a-b3ba-c6887f457754",
+    "userId": "tech-06",
+    "type": "NOTE",
+    "createdAt": "2025-02-15T15:09:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "5fdf3bcd-e60f-46c0-bfdc-100153611fa9",
+    "jobId": "31639fec-6d92-497a-b3ba-c6887f457754",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-17T17:23:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "a33c77a7-f735-4ab8-85ad-c6900795acf1",
+    "jobId": "31639fec-6d92-497a-b3ba-c6887f457754",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-20T01:57:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice approved and ready for generation."
+  },
+  {
+    "id": "00733d3c-8aac-42cf-959f-f1d7a56120cf",
+    "jobId": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-08T01:39:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/7/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "ee134255-c975-45ca-8380-41c16fe17aa6",
+    "jobId": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "userId": "tech-04",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-07T16:15:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-009",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "a2f05682-fd49-45be-8d7b-7e5d0e89ef57",
+    "jobId": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "userId": "tech-04",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-07T15:39:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-004",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "6be8eb28-7b5c-4ccc-81d2-9351a8916aa3",
+    "jobId": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "userId": "tech-04",
+    "type": "NOTE",
+    "createdAt": "2025-01-08T01:39:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "bde3b520-3ea6-459a-a30f-6ec86d249cd3",
+    "jobId": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-08T19:00:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "5db00c23-942f-4ebb-83f0-b29d953c6bd3",
+    "jobId": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-09T22:01:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice approved and ready for generation."
+  },
+  {
+    "id": "ea4f1c8b-496d-413f-a0fb-99874d78042f",
+    "jobId": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-13T15:06:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice #INV-2025-0047 generated and sent to customer. Amount: $1692.00"
+  },
+  {
+    "id": "b75e2f60-3565-457e-a31d-d80e1978d415",
+    "jobId": "a9baea5b-4144-4395-812b-d0696ff0cbfb",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-26T22:27:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 2/26/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "62da6f59-8c8d-4ac8-81f0-4cc9147d6b1c",
+    "jobId": "a9baea5b-4144-4395-812b-d0696ff0cbfb",
+    "userId": "tech-05",
+    "type": "NOTE",
+    "createdAt": "2025-02-26T22:27:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "b3ec6b90-3cfa-4caa-aadc-e51c48e7f941",
+    "jobId": "a9baea5b-4144-4395-812b-d0696ff0cbfb",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-02-28T21:55:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "4ccfa1e0-9c30-4b2f-872a-8bbb6b899660",
+    "jobId": "a9baea5b-4144-4395-812b-d0696ff0cbfb",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-02T18:20:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice approved and ready for generation."
+  },
+  {
+    "id": "c169cdee-81fc-4fa7-b70a-e8f64f823684",
+    "jobId": "a9baea5b-4144-4395-812b-d0696ff0cbfb",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-06T18:17:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice #INV-2025-0048 generated and sent to customer. Amount: $1002.00"
+  },
+  {
+    "id": "ece7d7a6-adfa-441e-a06b-1e70998ae608",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-01T21:29:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/1/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "633e6e25-7fc9-49e0-9435-50a61ed0ee4f",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "tech-09",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-01T19:47:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-009",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "572dd28e-6a13-4bd7-9106-2b9f0d42ee4d",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "tech-09",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-01T16:22:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-003",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "86d73411-8166-4601-94a4-23a9bd2ce2ce",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "tech-09",
+    "type": "NOTE",
+    "createdAt": "2025-03-01T21:29:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "f2217411-a93f-4d60-9572-fed07ae5e2d5",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-03T16:20:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "01570891-87ea-487e-9f46-cbbd4d646652",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-06T16:11:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice approved and ready for generation."
+  },
+  {
+    "id": "54e56f2b-32b7-4b7d-bdf8-e9af603fc681",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-09T14:31:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice #INV-2025-0049 generated and sent to customer. Amount: $1204.00"
+  },
+  {
+    "id": "917d811a-d1ce-4c1b-b87f-4dd03d18509d",
+    "jobId": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-03-13T17:25:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Payment received: $1204.00 via CREDIT_CARD. Reference: PAY-48549"
+  },
+  {
+    "id": "b44ad15b-0f47-421b-aacd-337cbd9ea239",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-03T22:12:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 3/3/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "279b1520-f7bd-4189-aed1-00b5eab0a18a",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "tech-04",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-04T01:36:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-008",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "a7af0017-cf18-4757-a70f-74428a9312de",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "tech-04",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-03-03T23:48:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-009",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "d080526e-3f2b-41b6-b7f6-f3c6c1339c85",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "tech-04",
+    "type": "NOTE",
+    "createdAt": "2025-03-03T22:12:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "9b3c2ccd-aa50-4bd7-8b0e-1929d1ff216d",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-05T23:59:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "85bd4bdb-a820-4c69-863d-369455a12bd3",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-07T23:51:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice approved and ready for generation."
+  },
+  {
+    "id": "4c083fec-a5aa-4286-a4f6-d560d40d7295",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-10T15:44:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice #INV-2025-0050 generated and sent to customer. Amount: $1409.00"
+  },
+  {
+    "id": "e7946c20-cb88-48d3-944d-5093c9e6d95f",
+    "jobId": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "userId": "admin-02",
+    "type": "NOTE",
+    "createdAt": "2025-03-16T20:46:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Payment received: $1409.00 via CHECK. Reference: PAY-33410"
+  },
+  {
+    "id": "ba64d097-37cc-43dd-aacd-c718bc1ec0e9",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-05T18:25:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job scheduled for 1/5/2025. Tech assigned: N/A."
+  },
+  {
+    "id": "971863cc-05c8-4812-9f42-943890ed0460",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-05T20:19:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-008",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "6e74d7bc-75a0-488e-8bd5-de95ca967620",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-05T20:10:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-007",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "cca87d3d-7de4-4be2-9e28-400ddf3b0c12",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "tech-08",
+    "type": "EQUIPMENT_LOG",
+    "createdAt": "2025-01-05T19:53:37.170Z",
+    "isPublic": false,
+    "equipmentId": "equip-009",
+    "action": "DEPLOYED",
+    "notes": "Placed undefined in Living Room"
+  },
+  {
+    "id": "7fd84725-79f4-47c4-aa29-566f7875221c",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "tech-08",
+    "type": "NOTE",
+    "createdAt": "2025-01-05T18:25:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked ready for review. Final readings logged and photos taken."
+  },
+  {
+    "id": "4355ef85-8485-46cf-9676-7c3c10f32855",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-08T20:18:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Job marked as completed. Final costs calculated."
+  },
+  {
+    "id": "1662db29-7024-4f32-90f6-d1ee35814c8f",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-11T01:11:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice approved and ready for generation."
+  },
+  {
+    "id": "27500bae-02ad-4613-9796-71954712c5f5",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-12T20:00:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Invoice #INV-2025-0051 generated and sent to customer. Amount: $1357.00"
+  },
+  {
+    "id": "8dfa5046-d21f-4535-b433-a6039ee2ee40",
+    "jobId": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "userId": "admin-01",
+    "type": "NOTE",
+    "createdAt": "2025-01-14T23:59:37.170Z",
+    "isPublic": false,
+    "category": "SYSTEM",
+    "content": "Payment received: $1357.00 via BANK_TRANSFER. Reference: PAY-53385"
+  }
+] 

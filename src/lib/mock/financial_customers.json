@@ -1,0 +1,395 @@
+[
+  {
+    "id": "customer-1",
+    "name": "Eastside Retail Plaza",
+    "contactPerson": "Jane Davis",
+    "email": "jane.davis@eastsideretailplaza.com",
+    "phone": "(816) 215-5654",
+    "primaryAddress": {
+      "street": "1623 Cedar Ln",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90002"
+    },
+    "notes": "Customer notes: Preferred contact by email",
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-2",
+    "name": "Gonzalez Home",
+    "contactPerson": "Jennifer Smith",
+    "email": "jennifer.smith@gonzalezhome.com",
+    "phone": "(994) 325-9639",
+    "primaryAddress": {
+      "street": "5670 Washington Ave",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90002"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-3",
+    "name": "Riverside Mall",
+    "contactPerson": "Sarah Williams",
+    "email": "sarah.williams@riversidemall.com",
+    "phone": "(295) 328-5531",
+    "primaryAddress": {
+      "street": "8975 Oak Ave",
+      "city": "Springfield",
+      "state": "IL",
+      "zip": "62705"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-4",
+    "name": "Parkview Office Building",
+    "contactPerson": "Elizabeth Miller",
+    "email": "elizabeth.miller@parkviewofficebuilding.com",
+    "phone": "(770) 297-7870",
+    "primaryAddress": {
+      "street": "6168 Pine Rd",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98003"
+    },
+    "billingAddress": {
+      "street": "6997 Pine Rd",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90003"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-5",
+    "name": "Westfield Mall",
+    "contactPerson": "John Davis",
+    "email": "john.davis@westfieldmall.com",
+    "phone": "(990) 835-2953",
+    "primaryAddress": {
+      "street": "3236 Maple Dr",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98002"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-6",
+    "name": "Cedar Ridge Condos",
+    "email": "cedarridgecondos.residence@example.com",
+    "phone": "(922) 981-1838",
+    "primaryAddress": {
+      "street": "5483 Main St",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98002"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-7",
+    "name": "Cedar Ridge Condos",
+    "email": "cedarridgecondos.residence@example.com",
+    "phone": "(809) 464-8690",
+    "primaryAddress": {
+      "street": "1940 Cedar Ln",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98003"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-8",
+    "name": "Metro Fitness Center",
+    "contactPerson": "Jane Davis",
+    "email": "jane.davis@metrofitnesscenter.com",
+    "phone": "(987) 903-1527",
+    "primaryAddress": {
+      "street": "3630 Sunset Blvd",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90001"
+    },
+    "notes": "Customer notes: Preferred contact by phone",
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-9",
+    "name": "Hernandez Property",
+    "email": "hernandezproperty.residence@example.com",
+    "phone": "(300) 825-1146",
+    "primaryAddress": {
+      "street": "9375 Pine Rd",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98002"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-10",
+    "name": "Green Valley School",
+    "contactPerson": "Jennifer Jones",
+    "email": "jennifer.jones@greenvalleyschool.com",
+    "phone": "(862) 957-6448",
+    "primaryAddress": {
+      "street": "2067 River Rd",
+      "city": "Lakeside",
+      "state": "TX",
+      "zip": "75001"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-11",
+    "name": "Pioneer Bank",
+    "contactPerson": "William Smith",
+    "email": "william.smith@pioneerbank.com",
+    "phone": "(579) 300-9484",
+    "primaryAddress": {
+      "street": "1993 Maple Dr",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98001"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-12",
+    "name": "Martinez Home",
+    "contactPerson": "Michael Garcia",
+    "email": "michael.garcia@martinezhome.com",
+    "phone": "(547) 809-5236",
+    "primaryAddress": {
+      "street": "8980 Mountain View",
+      "city": "Hillcrest",
+      "state": "NY",
+      "zip": "10003"
+    },
+    "notes": "Customer notes: Preferred contact by email",
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-13",
+    "name": "Magnolia Apartments",
+    "contactPerson": "Sarah Rodriguez",
+    "email": "sarah.rodriguez@magnoliaapartments.com",
+    "phone": "(179) 491-1979",
+    "primaryAddress": {
+      "street": "1247 Mountain View",
+      "city": "Hillcrest",
+      "state": "NY",
+      "zip": "10002"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-14",
+    "name": "Gonzalez Home",
+    "contactPerson": "David Jones",
+    "email": "david.jones@gonzalezhome.com",
+    "phone": "(848) 755-5600",
+    "primaryAddress": {
+      "street": "8064 Cedar Ln",
+      "city": "Hillcrest",
+      "state": "NY",
+      "zip": "10001"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-15",
+    "name": "Brown Residence",
+    "email": "brownresidence.residence@example.com",
+    "phone": "(299) 128-3083",
+    "primaryAddress": {
+      "street": "8867 Washington Ave",
+      "city": "Springfield",
+      "state": "IL",
+      "zip": "62701"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-16",
+    "name": "Eastside Retail Plaza",
+    "contactPerson": "Robert Brown",
+    "email": "robert.brown@eastsideretailplaza.com",
+    "phone": "(354) 152-4594",
+    "primaryAddress": {
+      "street": "9757 Lake Dr",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98001"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-17",
+    "name": "Mountain View Apartments",
+    "contactPerson": "Robert Williams",
+    "email": "robert.williams@mountainviewapartments.com",
+    "phone": "(791) 471-6048",
+    "primaryAddress": {
+      "street": "8400 Washington Ave",
+      "city": "Hillcrest",
+      "state": "NY",
+      "zip": "10002"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-18",
+    "name": "Pioneer Bank",
+    "contactPerson": "Michael Johnson",
+    "email": "michael.johnson@pioneerbank.com",
+    "phone": "(227) 842-5823",
+    "primaryAddress": {
+      "street": "8528 Valley Way",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90002"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-19",
+    "name": "Smith Family Residence",
+    "email": "smithfamilyresidence.residence@example.com",
+    "phone": "(523) 976-1295",
+    "primaryAddress": {
+      "street": "6184 Valley Way",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90002"
+    },
+    "notes": "Customer notes: Preferred contact by email",
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-20",
+    "name": "Valley Medical Center",
+    "contactPerson": "Robert Rodriguez",
+    "email": "robert.rodriguez@valleymedicalcenter.com",
+    "phone": "(909) 326-4732",
+    "primaryAddress": {
+      "street": "9786 Maple Dr",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98003"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-21",
+    "name": "Valley Medical Center",
+    "contactPerson": "Emily Smith",
+    "email": "emily.smith@valleymedicalcenter.com",
+    "phone": "(110) 261-5033",
+    "primaryAddress": {
+      "street": "8918 Cedar Ln",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90004"
+    },
+    "notes": "Customer notes: Preferred contact by phone",
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-22",
+    "name": "Rodriguez Estate",
+    "email": "rodriguezestate.residence@example.com",
+    "phone": "(390) 456-2153",
+    "primaryAddress": {
+      "street": "1552 Cedar Ln",
+      "city": "Springfield",
+      "state": "IL",
+      "zip": "62704"
+    },
+    "notes": "Customer notes: Preferred contact by phone",
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-23",
+    "name": "Wilson Property",
+    "email": "wilsonproperty.residence@example.com",
+    "phone": "(817) 684-6668",
+    "primaryAddress": {
+      "street": "7116 Lake Dr",
+      "city": "Lakeside",
+      "state": "TX",
+      "zip": "75001"
+    },
+    "billingAddress": {
+      "street": "2982 Lake Dr",
+      "city": "Lakeside",
+      "state": "TX",
+      "zip": "75003"
+    },
+    "notes": "Customer notes: Preferred contact by phone",
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-24",
+    "name": "Martinez Home",
+    "contactPerson": "Jane Rodriguez",
+    "email": "jane.rodriguez@martinezhome.com",
+    "phone": "(783) 696-6887",
+    "primaryAddress": {
+      "street": "4403 Elm St",
+      "city": "Riverdale",
+      "state": "CA",
+      "zip": "90002"
+    },
+    "billingAddress": {
+      "street": "6856 Main St",
+      "city": "Springfield",
+      "state": "IL",
+      "zip": "62704"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  },
+  {
+    "id": "customer-25",
+    "name": "Willow Creek Church",
+    "contactPerson": "Emily Martinez",
+    "email": "emily.martinez@willowcreekchurch.com",
+    "phone": "(476) 900-9021",
+    "primaryAddress": {
+      "street": "6080 Cedar Ln",
+      "city": "Oakdale",
+      "state": "WA",
+      "zip": "98001"
+    },
+    "createdAt": "2024-01-01T07:00:00.000Z",
+    "isActive": true
+  }
+]

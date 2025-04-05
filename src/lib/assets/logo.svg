@@ -1,0 +1,22 @@
+<svg width="120" height="100" viewBox="0 0 120 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Shield shape with gradient -->
+  <defs>
+    <linearGradient id="blueGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#61C3E2" />
+      <stop offset="100%" stop-color="#264F8E" />
+    </linearGradient>
+    <linearGradient id="burgundyGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#9A3667" />
+      <stop offset="100%" stop-color="#751D44" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Outer Shield - Blue Gradient -->
+  <path d="M60 10C78 10 90 16 90 16L90 45C90 65 75 80 60 90C45 80 30 65 30 45L30 16C30 16 42 10 60 10Z" fill="url(#blueGradient)" />
+  
+  <!-- Inner D - Burgundy Gradient -->
+  <path d="M45 24C50 24 70 28 70 45C70 62 50 66 45 66L45 24Z" fill="url(#burgundyGradient)" />
+  
+  <!-- White cutout -->
+  <path d="M45 32L45 58C48 58 59 56 59 45C59 34 48 32 45 32Z" fill="white" />
+</svg> 

@@ -1,0 +1,2338 @@
+[
+  {
+    "id": "c9d3a198-f8a6-42aa-8e93-bd4e9c0f6c4b",
+    "jobNumber": "J-2025-0001",
+    "customerId": "cust-005",
+    "title": "Office Cleanup Services - Northwest Insurance Group",
+    "type": "OTHER",
+    "description": "General cleanup and restoration services.",
+    "status": "NEW",
+    "createdAt": "2025-03-26T18:13:37.170Z",
+    "assignedUserIds": [],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "general",
+      "custom"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    }
+  },
+  {
+    "id": "a54195ad-9c7b-4605-8749-716aefd8f2d4",
+    "jobNumber": "J-2025-0002",
+    "customerId": "cust-002",
+    "title": "Bedroom Fire Restoration - Parkside Apartments LLC",
+    "type": "FIRE",
+    "description": "Small fire with extensive smoke damage. Cleanup and restoration required.",
+    "status": "NEW",
+    "createdAt": "2025-03-11T14:59:37.170Z",
+    "assignedUserIds": [],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [],
+    "priority": 2,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "burn"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    }
+  },
+  {
+    "id": "b962a61e-751f-408f-a93c-9ff1ddbf95bc",
+    "jobNumber": "J-2025-0003",
+    "customerId": "cust-004",
+    "title": "Kitchen Smoke Damage - Riverside Hotel",
+    "type": "FIRE",
+    "description": "Electrical fire damaged walls and ceiling. Smoke odor remediation needed.",
+    "status": "NEW",
+    "createdAt": "2025-02-17T23:44:37.170Z",
+    "assignedUserIds": [],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "soot"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    }
+  },
+  {
+    "id": "6b61dba3-a7a9-4e79-baab-58b2c5974620",
+    "jobNumber": "J-2025-0004",
+    "customerId": "cust-002",
+    "title": "Kitchen Pipe Burst - Parkside Apartments LLC",
+    "type": "WATER",
+    "description": "Water damage caused by a pipe burst. Areas affected include flooring and drywall.",
+    "status": "NEW",
+    "createdAt": "2025-03-07T19:22:37.170Z",
+    "assignedUserIds": [],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [],
+    "priority": 3,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "leak",
+      "leak"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    }
+  },
+  {
+    "id": "a964c7fd-1c0e-4d2a-aa61-b2c5248de3a2",
+    "jobNumber": "J-2025-0005",
+    "customerId": "cust-001",
+    "title": "Garage Fire Damage - Thompson Family",
+    "type": "FIRE",
+    "description": "Fire damage in kitchen area. Smoke damage throughout the property.",
+    "status": "NEW",
+    "createdAt": "2025-01-08T16:44:37.170Z",
+    "assignedUserIds": [],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "fire",
+      "smoke"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    }
+  },
+  {
+    "id": "2e8d9a3f-3e59-4d3d-aac2-f7cfe6452ff8",
+    "jobNumber": "J-2025-0006",
+    "customerId": "cust-002",
+    "title": "Bedroom Fire Restoration - Parkside Apartments LLC",
+    "type": "FIRE",
+    "description": "Small fire with extensive smoke damage. Cleanup and restoration required.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-01-02T18:49:37.170Z",
+    "assignedUserIds": [
+      "tech-10"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "burn",
+      "burn"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-01-03T17:05:37.170Z",
+    "estimatedCompletionDate": "2025-01-11T23:52:37.170Z"
+  },
+  {
+    "id": "a753be0f-b105-4b18-8b58-c64f9a40b275",
+    "jobNumber": "J-2025-0007",
+    "customerId": "cust-002",
+    "title": "Garage Mold Removal - Parkside Apartments LLC",
+    "type": "MOLD",
+    "description": "Mold discovered in bathroom walls. Remediation and prevention needed.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-03-18T22:34:37.170Z",
+    "assignedUserIds": [
+      "tech-05"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "musty"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-22T22:37:37.170Z",
+    "estimatedCompletionDate": "2025-04-04T20:03:37.170Z"
+  },
+  {
+    "id": "5dcfee6c-bc07-4738-8a1f-82ea7bfbc41a",
+    "jobNumber": "J-2025-0008",
+    "customerId": "cust-004",
+    "title": "Attic Pipe Burst - Riverside Hotel",
+    "type": "WATER",
+    "description": "Flooding from heavy rain. Multiple rooms affected with standing water.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-03-21T18:36:37.170Z",
+    "assignedUserIds": [
+      "tech-04"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "flood",
+      "leak"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-23T14:45:37.170Z",
+    "estimatedCompletionDate": "2025-03-26T22:48:37.170Z"
+  },
+  {
+    "id": "b7eae2a0-4742-4c68-ae1b-05ba2e48087d",
+    "jobNumber": "J-2025-0009",
+    "customerId": "cust-005",
+    "title": "Attic General Restoration - Northwest Insurance Group",
+    "type": "OTHER",
+    "description": "General cleanup and restoration services.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-02-28T15:15:37.170Z",
+    "assignedUserIds": [
+      "tech-05"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [],
+    "priority": 2,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "custom",
+      "custom"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-02T01:29:37.170Z",
+    "estimatedCompletionDate": "2025-03-09T18:44:37.170Z"
+  },
+  {
+    "id": "c1fd8c83-c122-43db-af8b-2b48a579b140",
+    "jobNumber": "J-2025-0010",
+    "customerId": "cust-005",
+    "title": "Bedroom Mold Cleanup - Northwest Insurance Group",
+    "type": "MOLD",
+    "description": "Mold discovered in bathroom walls. Remediation and prevention needed.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-03-07T00:40:37.170Z",
+    "assignedUserIds": [
+      "tech-10"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores",
+      "mold"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-09T16:38:37.170Z",
+    "estimatedCompletionDate": "2025-03-22T21:38:37.170Z"
+  },
+  {
+    "id": "c0b995d0-4c12-4438-bac4-b45a2db3dca8",
+    "jobNumber": "J-2025-0011",
+    "customerId": "cust-002",
+    "title": "Attic Smoke Damage - Parkside Apartments LLC",
+    "type": "SMOKE",
+    "description": "Smoke damage from kitchen fire. Cleaning and deodorization needed.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-02-01T23:11:37.170Z",
+    "assignedUserIds": [
+      "tech-01"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "odor",
+      "particles"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-02-06T15:47:37.170Z",
+    "estimatedCompletionDate": "2025-02-14T00:22:37.170Z"
+  },
+  {
+    "id": "c102d368-dfaa-4e6b-b9a9-179fd1561885",
+    "jobNumber": "J-2025-0012",
+    "customerId": "cust-005",
+    "title": "Attic Cleanup Services - Northwest Insurance Group",
+    "type": "OTHER",
+    "description": "Restoration services for property damage.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-01-18T21:07:37.170Z",
+    "assignedUserIds": [
+      "tech-01"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [],
+    "priority": 2,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "general",
+      "general"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-01-25T01:05:37.170Z",
+    "estimatedCompletionDate": "2025-01-27T15:03:37.170Z"
+  },
+  {
+    "id": "504b208e-4fa3-4cd8-830d-6efee90d051b",
+    "jobNumber": "J-2025-0013",
+    "customerId": "cust-001",
+    "title": "Attic Mold Treatment - Thompson Family",
+    "type": "MOLD",
+    "description": "Mold in HVAC system affecting air quality throughout the property.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-03-16T15:36:37.170Z",
+    "assignedUserIds": [
+      "tech-10"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-17T15:54:37.170Z",
+    "estimatedCompletionDate": "2025-03-31T21:39:37.170Z"
+  },
+  {
+    "id": "2cd8556b-703a-440f-92e3-624336027702",
+    "jobNumber": "J-2025-0014",
+    "customerId": "cust-002",
+    "title": "Kitchen Mold Removal - Parkside Apartments LLC",
+    "type": "MOLD",
+    "description": "Mold discovered in bathroom walls. Remediation and prevention needed.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-01-16T00:38:37.170Z",
+    "assignedUserIds": [
+      "tech-06"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [],
+    "priority": 2,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-01-19T23:42:37.170Z",
+    "estimatedCompletionDate": "2025-01-26T16:52:37.170Z"
+  },
+  {
+    "id": "61308532-42e2-4c60-9b43-9c322a628823",
+    "jobNumber": "J-2025-0015",
+    "customerId": "cust-001",
+    "title": "Basement Mold Cleanup - Thompson Family",
+    "type": "MOLD",
+    "description": "Mold in HVAC system affecting air quality throughout the property.",
+    "status": "SCHEDULED",
+    "createdAt": "2025-03-02T22:55:37.170Z",
+    "assignedUserIds": [
+      "tech-09"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-03T17:44:37.170Z",
+    "estimatedCompletionDate": "2025-03-16T14:32:37.170Z"
+  },
+  {
+    "id": "99d74adf-0f19-4dca-b501-e8884ff654d6",
+    "jobNumber": "J-2025-0016",
+    "customerId": "cust-001",
+    "title": "Garage Electrical Fire - Thompson Family",
+    "type": "FIRE",
+    "description": "Small fire with extensive smoke damage. Cleanup and restoration required.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-02-05T21:38:37.170Z",
+    "assignedUserIds": [
+      "tech-05"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [
+      "equip-010",
+      "equip-006",
+      "equip-001"
+    ],
+    "priority": 3,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "fire",
+      "soot"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-02-12T16:38:37.170Z",
+    "estimatedCompletionDate": "2025-02-20T22:17:37.170Z"
+  },
+  {
+    "id": "efffed03-0d5d-451c-88ee-f6879f6b1ae9",
+    "jobNumber": "J-2025-0017",
+    "customerId": "cust-002",
+    "title": "Basement Mold Remediation - Parkside Apartments LLC",
+    "type": "MOLD",
+    "description": "Extensive mold growth in basement due to previous water damage.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-01-29T19:33:37.170Z",
+    "assignedUserIds": [
+      "tech-04"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "humidity",
+      "spores"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-02-04T23:35:37.170Z",
+    "estimatedCompletionDate": "2025-02-15T20:30:37.170Z"
+  },
+  {
+    "id": "d50ce592-b775-496d-bca2-c126eb2f56db",
+    "jobNumber": "J-2025-0018",
+    "customerId": "cust-003",
+    "title": "Living Room General Restoration - James and Sarah Wilson",
+    "type": "OTHER",
+    "description": "Restoration services for property damage.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-03-09T17:16:37.170Z",
+    "assignedUserIds": [
+      "tech-09"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-007"
+    ],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "specialized"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-13T16:40:37.170Z",
+    "estimatedCompletionDate": "2025-03-21T16:36:37.170Z"
+  },
+  {
+    "id": "0a0061c4-a8b2-4f4c-bf6f-00ce073fb1c5",
+    "jobNumber": "J-2025-0019",
+    "customerId": "cust-005",
+    "title": "Garage Smoke Damage - Northwest Insurance Group",
+    "type": "SMOKE",
+    "description": "Smoke damage from kitchen fire. Cleaning and deodorization needed.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-03-04T00:35:37.170Z",
+    "assignedUserIds": [
+      "tech-06"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [
+      "equip-006"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "particles"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-05T15:18:37.170Z",
+    "estimatedCompletionDate": "2025-03-10T22:54:37.170Z"
+  },
+  {
+    "id": "73f35473-061b-4270-a247-69595f82ff6f",
+    "jobNumber": "J-2025-0020",
+    "customerId": "cust-004",
+    "title": "Basement Mold Removal - Riverside Hotel",
+    "type": "MOLD",
+    "description": "Extensive mold growth in basement due to previous water damage.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-03-23T20:31:37.170Z",
+    "assignedUserIds": [
+      "tech-03"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [
+      "equip-005"
+    ],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores",
+      "mold"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-29T21:12:37.170Z",
+    "estimatedCompletionDate": "2025-04-10T19:42:37.170Z"
+  },
+  {
+    "id": "278a7bd2-8dd6-40a6-aac5-ec4e104ca028",
+    "jobNumber": "J-2025-0021",
+    "customerId": "cust-004",
+    "title": "Kitchen Water Intrusion - Riverside Hotel",
+    "type": "WATER",
+    "description": "Water intrusion from roof leak. Ceiling and wall damage in affected areas.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-03-05T00:28:37.170Z",
+    "assignedUserIds": [
+      "tech-08"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [
+      "equip-005",
+      "equip-008",
+      "equip-007"
+    ],
+    "priority": 2,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "leak"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-10T22:23:37.170Z",
+    "estimatedCompletionDate": "2025-03-23T20:33:37.170Z"
+  },
+  {
+    "id": "76e49cb3-955d-40c3-aaa8-0993db06b08f",
+    "jobNumber": "J-2025-0022",
+    "customerId": "cust-001",
+    "title": "Bathroom Hail Damage - Thompson Family",
+    "type": "STORM",
+    "description": "Wind damage to exterior with resulting water damage inside.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-02-04T18:52:37.170Z",
+    "assignedUserIds": [
+      "tech-05"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [
+      "equip-008",
+      "equip-001",
+      "equip-007"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "storm"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-02-07T22:59:37.170Z",
+    "estimatedCompletionDate": "2025-02-16T21:37:37.170Z"
+  },
+  {
+    "id": "3e52663f-518d-4ca2-8379-c550b3fab6e5",
+    "jobNumber": "J-2025-0023",
+    "customerId": "cust-003",
+    "title": "Attic Pipe Burst - James and Sarah Wilson",
+    "type": "WATER",
+    "description": "Water intrusion from roof leak. Ceiling and wall damage in affected areas.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-01-11T20:18:37.170Z",
+    "assignedUserIds": [
+      "tech-10"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-008"
+    ],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "leak",
+      "water"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-01-16T19:09:37.170Z",
+    "estimatedCompletionDate": "2025-01-31T01:56:37.170Z"
+  },
+  {
+    "id": "94c7143b-8f40-44c0-ba28-e8a2a9313077",
+    "jobNumber": "J-2025-0024",
+    "customerId": "cust-001",
+    "title": "Attic Mold Treatment - Thompson Family",
+    "type": "MOLD",
+    "description": "Extensive mold growth in basement due to previous water damage.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-03-23T22:45:37.170Z",
+    "assignedUserIds": [
+      "tech-08"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "musty",
+      "mold"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-24T19:28:37.170Z",
+    "estimatedCompletionDate": "2025-03-27T15:48:37.170Z"
+  },
+  {
+    "id": "e5d705ca-d1e0-46b0-a9af-406de801d43a",
+    "jobNumber": "J-2025-0025",
+    "customerId": "cust-004",
+    "title": "Kitchen Wind Damage - Riverside Hotel",
+    "type": "STORM",
+    "description": "Storm damage to roof and interior. Water intrusion in multiple areas.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-03-09T01:34:37.170Z",
+    "assignedUserIds": [
+      "tech-08"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [
+      "equip-001",
+      "equip-009",
+      "equip-004"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "storm"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-13T23:54:37.170Z",
+    "estimatedCompletionDate": "2025-03-18T19:38:37.170Z"
+  },
+  {
+    "id": "08a96fd0-bf85-4eb0-acab-c3da81f203d1",
+    "jobNumber": "J-2025-0026",
+    "customerId": "cust-005",
+    "title": "Office Flood Damage - Northwest Insurance Group",
+    "type": "WATER",
+    "description": "Water intrusion from roof leak. Ceiling and wall damage in affected areas.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-02-13T15:18:37.170Z",
+    "assignedUserIds": [
+      "tech-09"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [
+      "equip-002"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "flood",
+      "leak"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-02-19T22:38:37.170Z",
+    "estimatedCompletionDate": "2025-02-25T21:50:37.170Z"
+  },
+  {
+    "id": "7a40c87f-4f1a-4835-9c6f-2fe3f9bc28fa",
+    "jobNumber": "J-2025-0027",
+    "customerId": "cust-003",
+    "title": "Living Room Flood Damage - James and Sarah Wilson",
+    "type": "WATER",
+    "description": "Water intrusion from roof leak. Ceiling and wall damage in affected areas.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-02-25T01:54:37.170Z",
+    "assignedUserIds": [
+      "tech-07"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-008"
+    ],
+    "priority": 3,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "leak"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-03T20:39:37.170Z",
+    "estimatedCompletionDate": "2025-03-14T14:21:37.170Z"
+  },
+  {
+    "id": "ef847d28-0140-4368-a495-c7a1ae90a234",
+    "jobNumber": "J-2025-0028",
+    "customerId": "cust-002",
+    "title": "Garage Electrical Fire - Parkside Apartments LLC",
+    "type": "FIRE",
+    "description": "Fire damage in kitchen area. Smoke damage throughout the property.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-03-25T20:27:37.170Z",
+    "assignedUserIds": [
+      "tech-02"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [
+      "equip-005",
+      "equip-007",
+      "equip-003"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "fire",
+      "fire"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-04-01T18:11:37.170Z",
+    "estimatedCompletionDate": "2025-04-10T00:18:37.170Z"
+  },
+  {
+    "id": "c0d42fe8-53e4-41bb-a333-6850a63833a5",
+    "jobNumber": "J-2025-0029",
+    "customerId": "cust-001",
+    "title": "Bedroom General Restoration - Thompson Family",
+    "type": "OTHER",
+    "description": "Restoration services for property damage.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-02-23T22:33:37.170Z",
+    "assignedUserIds": [
+      "tech-06"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [
+      "equip-010"
+    ],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "specialized",
+      "specialized"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": false,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-03-02T22:55:37.170Z",
+    "estimatedCompletionDate": "2025-03-08T18:30:37.170Z"
+  },
+  {
+    "id": "8b5443f8-ca6f-4e71-af08-259460cd02a9",
+    "jobNumber": "J-2025-0030",
+    "customerId": "cust-002",
+    "title": "Bedroom Hail Damage - Parkside Apartments LLC",
+    "type": "STORM",
+    "description": "Hail damage to roof with leaks causing interior water damage.",
+    "status": "IN_PROGRESS",
+    "createdAt": "2025-01-15T00:46:37.170Z",
+    "assignedUserIds": [
+      "tech-03"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [
+      "equip-003",
+      "equip-005",
+      "equip-004"
+    ],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "debris",
+      "debris"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": false,
+      "mark_ready_for_review": false
+    },
+    "scheduledStartDate": "2025-01-17T19:54:37.170Z",
+    "estimatedCompletionDate": "2025-01-21T17:11:37.170Z"
+  },
+  {
+    "id": "31439a8d-abed-4de6-b7e3-afd9da8d7e7b",
+    "jobNumber": "J-2025-0031",
+    "customerId": "cust-003",
+    "title": "Bedroom Wind Damage - James and Sarah Wilson",
+    "type": "STORM",
+    "description": "Storm damage to roof and interior. Water intrusion in multiple areas.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-02-21T17:29:37.170Z",
+    "assignedUserIds": [
+      "tech-07"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-006",
+      "equip-009"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "wind",
+      "wind"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-02-23T15:50:37.170Z",
+    "estimatedCompletionDate": "2025-03-04T20:01:37.170Z"
+  },
+  {
+    "id": "3b6f9705-9e52-4bbd-b079-509341e91d0c",
+    "jobNumber": "J-2025-0032",
+    "customerId": "cust-004",
+    "title": "Bedroom Fire Restoration - Riverside Hotel",
+    "type": "FIRE",
+    "description": "Electrical fire damaged walls and ceiling. Smoke odor remediation needed.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-03-09T01:55:37.170Z",
+    "assignedUserIds": [
+      "tech-08"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [
+      "equip-004",
+      "equip-007",
+      "equip-001"
+    ],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "burn"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-03-10T21:19:37.170Z",
+    "estimatedCompletionDate": "2025-03-22T16:04:37.170Z"
+  },
+  {
+    "id": "83f04dd7-8025-4f53-b7d1-d8675830b52a",
+    "jobNumber": "J-2025-0033",
+    "customerId": "cust-005",
+    "title": "Kitchen Electrical Fire - Northwest Insurance Group",
+    "type": "FIRE",
+    "description": "Small fire with extensive smoke damage. Cleanup and restoration required.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-03-26T21:00:37.170Z",
+    "assignedUserIds": [
+      "tech-02"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [
+      "equip-001",
+      "equip-010",
+      "equip-009"
+    ],
+    "priority": 3,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "fire",
+      "burn"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-03-31T15:52:37.170Z",
+    "estimatedCompletionDate": "2025-04-06T18:30:37.170Z"
+  },
+  {
+    "id": "5f2b583b-66a4-4d50-b739-974de2f5eba9",
+    "jobNumber": "J-2025-0034",
+    "customerId": "cust-003",
+    "title": "Bathroom Mold Cleanup - James and Sarah Wilson",
+    "type": "MOLD",
+    "description": "Extensive mold growth in basement due to previous water damage.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-02-24T20:00:37.170Z",
+    "assignedUserIds": [
+      "tech-08"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-001"
+    ],
+    "priority": 3,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "mold"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-03-02T16:02:37.170Z",
+    "estimatedCompletionDate": "2025-03-09T01:03:37.170Z"
+  },
+  {
+    "id": "fd2f96fc-3a3f-4005-b9d9-dc2ba0c0dbfb",
+    "jobNumber": "J-2025-0035",
+    "customerId": "cust-003",
+    "title": "Attic Specialized Restoration - James and Sarah Wilson",
+    "type": "OTHER",
+    "description": "Restoration services for property damage.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-03-06T23:52:37.170Z",
+    "assignedUserIds": [
+      "tech-07"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-010",
+      "equip-002"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "custom"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-03-10T18:53:37.170Z",
+    "estimatedCompletionDate": "2025-03-20T17:52:37.170Z"
+  },
+  {
+    "id": "524affd3-774f-4916-85a6-8f184ef37343",
+    "jobNumber": "J-2025-0036",
+    "customerId": "cust-004",
+    "title": "Bedroom Hail Damage - Riverside Hotel",
+    "type": "STORM",
+    "description": "Hail damage to roof with leaks causing interior water damage.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-02-04T15:35:37.170Z",
+    "assignedUserIds": [
+      "tech-09"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [
+      "equip-004",
+      "equip-001"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "storm",
+      "hail"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-02-05T18:50:37.170Z",
+    "estimatedCompletionDate": "2025-02-16T21:03:37.170Z"
+  },
+  {
+    "id": "851bdc0b-e607-4f6e-8b97-54895ce5d11e",
+    "jobNumber": "J-2025-0037",
+    "customerId": "cust-005",
+    "title": "Attic Mold Cleanup - Northwest Insurance Group",
+    "type": "MOLD",
+    "description": "Extensive mold growth in basement due to previous water damage.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-02-20T19:50:37.170Z",
+    "assignedUserIds": [
+      "tech-04"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-02-25T00:12:37.170Z",
+    "estimatedCompletionDate": "2025-03-05T20:46:37.170Z"
+  },
+  {
+    "id": "65bfb958-4c03-4eb6-a240-5f983c659436",
+    "jobNumber": "J-2025-0038",
+    "customerId": "cust-005",
+    "title": "Garage Specialized Restoration - Northwest Insurance Group",
+    "type": "OTHER",
+    "description": "General cleanup and restoration services.",
+    "status": "PENDING_COMPLETION",
+    "createdAt": "2025-01-22T17:19:37.170Z",
+    "assignedUserIds": [
+      "tech-06"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [],
+    "priority": 2,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "specialized"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-01-26T15:25:37.170Z",
+    "estimatedCompletionDate": "2025-02-09T16:19:37.170Z"
+  },
+  {
+    "id": "eb346980-662a-40c8-b81b-ee59aeac476c",
+    "jobNumber": "J-2025-0039",
+    "customerId": "cust-004",
+    "title": "Garage Smoke Cleanup - Riverside Hotel",
+    "type": "SMOKE",
+    "description": "Smoke damage from kitchen fire. Cleaning and deodorization needed.",
+    "status": "COMPLETED",
+    "createdAt": "2025-01-17T19:07:37.170Z",
+    "assignedUserIds": [
+      "tech-01"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "odor",
+      "smoke"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-01-21T16:20:37.170Z",
+    "estimatedCompletionDate": "2025-02-01T01:23:37.170Z",
+    "completedDate": "2025-01-22T16:27:37.170Z",
+    "laborCost": 510,
+    "equipmentCost": 0,
+    "materialsCost": 325,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "c663b711-2deb-4568-9b5a-312422bf101a",
+        "description": "Labor",
+        "quantity": 36.6,
+        "unitPrice": 94.74,
+        "total": 510,
+        "category": "LABOR",
+        "internalCost": 357
+      },
+      {
+        "id": "118bfc77-9262-4dd0-a49c-69e5d3f79f75",
+        "description": "Dehumidifier Filters",
+        "quantity": 2.8,
+        "unitPrice": 33.05,
+        "total": 92.53,
+        "category": "MATERIALS",
+        "internalCost": 55.518
+      },
+      {
+        "id": "8b619291-eb5b-4bd9-bc2a-495183ceeca0",
+        "description": "Dehumidifier Filters",
+        "quantity": 6.4,
+        "unitPrice": 36.32,
+        "total": 232.47,
+        "category": "MATERIALS",
+        "internalCost": 139.482
+      }
+    ],
+    "total": 835
+  },
+  {
+    "id": "8a63cb35-aba1-480d-bb36-4948016760f9",
+    "jobNumber": "J-2025-0040",
+    "customerId": "cust-004",
+    "title": "Kitchen Mold Remediation - Riverside Hotel",
+    "type": "MOLD",
+    "description": "Mold in HVAC system affecting air quality throughout the property.",
+    "status": "COMPLETED",
+    "createdAt": "2025-02-19T21:30:37.170Z",
+    "assignedUserIds": [
+      "tech-06"
+    ],
+    "location": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "equipmentIds": [
+      "equip-004"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores",
+      "humidity"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-02-24T19:00:37.170Z",
+    "estimatedCompletionDate": "2025-02-28T16:42:37.170Z",
+    "completedDate": "2025-02-27T01:08:37.170Z",
+    "laborCost": 224,
+    "equipmentCost": 192,
+    "materialsCost": 762,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "b5ed563d-115e-4289-a488-4ed3d613e625",
+        "description": "Labor",
+        "quantity": 9.2,
+        "unitPrice": 71.51,
+        "total": 224,
+        "category": "LABOR",
+        "internalCost": 156.79999999999998
+      },
+      {
+        "id": "67b879ec-1afd-4fd7-9ad6-a7bed892b80d",
+        "description": "Insulation Material",
+        "quantity": 1.7,
+        "unitPrice": 448.24,
+        "total": 762,
+        "category": "MATERIALS",
+        "internalCost": 457.2
+      },
+      {
+        "id": "f745d39f-1e80-4813-bbe4-6bdd8dca0b5a",
+        "description": "Dehumidifier Rental",
+        "quantity": 8,
+        "unitPrice": 24,
+        "total": 192,
+        "category": "EQUIPMENT",
+        "internalCost": 76.80000000000001
+      }
+    ],
+    "total": 1178
+  },
+  {
+    "id": "95f5a159-3524-459e-8c24-c51e948ec177",
+    "jobNumber": "J-2025-0041",
+    "customerId": "cust-003",
+    "title": "Basement Hail Damage - James and Sarah Wilson",
+    "type": "STORM",
+    "description": "Storm damage to roof and interior. Water intrusion in multiple areas.",
+    "status": "COMPLETED",
+    "createdAt": "2025-02-28T21:09:37.170Z",
+    "assignedUserIds": [
+      "tech-10"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-004",
+      "equip-008",
+      "equip-010"
+    ],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "storm",
+      "hail"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-03-05T17:15:37.170Z",
+    "estimatedCompletionDate": "2025-03-19T19:29:37.170Z",
+    "completedDate": "2025-03-08T00:13:37.170Z",
+    "laborCost": 506,
+    "equipmentCost": 171,
+    "materialsCost": 703,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "130ec774-d416-4f5f-a1a7-cdf254b7a068",
+        "description": "Labor",
+        "quantity": 28.2,
+        "unitPrice": 94.33,
+        "total": 506,
+        "category": "LABOR",
+        "internalCost": 354.2
+      },
+      {
+        "id": "7df16a8f-7adb-4421-946c-26c03b115d1b",
+        "description": "Mold Treatment Chemicals",
+        "quantity": 2.8,
+        "unitPrice": 49.31,
+        "total": 138.08,
+        "category": "MATERIALS",
+        "internalCost": 82.848
+      },
+      {
+        "id": "5455c217-c54e-4b33-89cc-8a067bbf667d",
+        "description": "Dehumidifier Filters",
+        "quantity": 9,
+        "unitPrice": 21.59,
+        "total": 194.28,
+        "category": "MATERIALS",
+        "internalCost": 116.568
+      },
+      {
+        "id": "5c35d03b-6c27-4ea7-b840-0cd099fdda6f",
+        "description": "Replacement Drywall",
+        "quantity": 2.6,
+        "unitPrice": 142.55,
+        "total": 370.64,
+        "category": "MATERIALS",
+        "internalCost": 222.384
+      },
+      {
+        "id": "e2a7b740-58fc-43bb-847e-f3d1fb04290d",
+        "description": "Dehumidifier Rental",
+        "quantity": 9,
+        "unitPrice": 9.23,
+        "total": 83.03,
+        "category": "EQUIPMENT",
+        "internalCost": 33.212
+      },
+      {
+        "id": "c75c8ebb-ab7a-40a1-83e5-c2dc5dc27df6",
+        "description": "Dehumidifier Rental",
+        "quantity": 9,
+        "unitPrice": 5.38,
+        "total": 48.45,
+        "category": "EQUIPMENT",
+        "internalCost": 19.380000000000003
+      },
+      {
+        "id": "79ab2c55-6d11-4e59-b040-efaa8b6ad1fb",
+        "description": "Air Mover Rental",
+        "quantity": 4,
+        "unitPrice": 9.88,
+        "total": 39.519999999999996,
+        "category": "EQUIPMENT",
+        "internalCost": 15.808
+      }
+    ],
+    "total": 1380
+  },
+  {
+    "id": "a2972393-afec-4b0e-82e8-a49b96c7a0c6",
+    "jobNumber": "J-2025-0042",
+    "customerId": "cust-002",
+    "title": "Kitchen Pipe Burst - Parkside Apartments LLC",
+    "type": "WATER",
+    "description": "Flooding from heavy rain. Multiple rooms affected with standing water.",
+    "status": "COMPLETED",
+    "createdAt": "2025-01-03T20:53:37.170Z",
+    "assignedUserIds": [
+      "tech-04"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [
+      "equip-006",
+      "equip-002"
+    ],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "moisture"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-01-05T01:15:37.170Z",
+    "estimatedCompletionDate": "2025-01-10T16:16:37.170Z",
+    "completedDate": "2025-01-06T21:49:37.170Z",
+    "laborCost": 294,
+    "equipmentCost": 346,
+    "materialsCost": 160,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "955b096c-4776-43ca-a5c3-c93442160f04",
+        "description": "Labor",
+        "quantity": 25.3,
+        "unitPrice": 89.83,
+        "total": 294,
+        "category": "LABOR",
+        "internalCost": 205.79999999999998
+      },
+      {
+        "id": "13e35374-e2c9-43cb-b6ac-997358b8ce7f",
+        "description": "Dehumidifier Filters",
+        "quantity": 6.2,
+        "unitPrice": 8.68,
+        "total": 53.84,
+        "category": "MATERIALS",
+        "internalCost": 32.304
+      },
+      {
+        "id": "214eaace-7daa-4bc6-9add-b2de0295421f",
+        "description": "Mold Treatment Chemicals",
+        "quantity": 4.7,
+        "unitPrice": 22.59,
+        "total": 106.16,
+        "category": "MATERIALS",
+        "internalCost": 63.696
+      },
+      {
+        "id": "7baf2e0f-d11f-44d2-a25f-a0baeae97b21",
+        "description": "Thermal Imaging Camera Usage",
+        "quantity": 9,
+        "unitPrice": 18.95,
+        "total": 170.54,
+        "category": "EQUIPMENT",
+        "internalCost": 68.216
+      },
+      {
+        "id": "68928bd3-f96a-4726-93a3-0476f8043abe",
+        "description": "Moisture Meter Usage",
+        "quantity": 7,
+        "unitPrice": 25.07,
+        "total": 175.46,
+        "category": "EQUIPMENT",
+        "internalCost": 70.18400000000001
+      }
+    ],
+    "total": 800
+  },
+  {
+    "id": "949777a4-b2bc-40fc-a464-7664273e0baf",
+    "jobNumber": "J-2025-0043",
+    "customerId": "cust-001",
+    "title": "Living Room Mold Cleanup - Thompson Family",
+    "type": "MOLD",
+    "description": "Mold discovered in bathroom walls. Remediation and prevention needed.",
+    "status": "COMPLETED",
+    "createdAt": "2025-02-14T18:59:37.170Z",
+    "assignedUserIds": [
+      "tech-05"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "humidity",
+      "musty"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-02-19T16:20:37.170Z",
+    "estimatedCompletionDate": "2025-03-03T17:17:37.170Z",
+    "completedDate": "2025-02-21T22:12:37.170Z",
+    "laborCost": 720,
+    "equipmentCost": 0,
+    "materialsCost": 711,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "bcc9487f-ddf8-40b7-99c2-3cd3cb386c52",
+        "description": "Labor",
+        "quantity": 46.9,
+        "unitPrice": 75.68,
+        "total": 720,
+        "category": "LABOR",
+        "internalCost": 503.99999999999994
+      },
+      {
+        "id": "3e40ed95-b353-42f9-80bf-99e67e5fb40e",
+        "description": "Wood Restoration Materials",
+        "quantity": 6.9,
+        "unitPrice": 46.65,
+        "total": 321.88,
+        "category": "MATERIALS",
+        "internalCost": 193.128
+      },
+      {
+        "id": "d3b8e0fe-e6bf-4ebb-b21d-8f458a7d7fce",
+        "description": "Replacement Drywall",
+        "quantity": 3,
+        "unitPrice": 129.71,
+        "total": 389.12,
+        "category": "MATERIALS",
+        "internalCost": 233.47199999999998
+      }
+    ],
+    "total": 1431
+  },
+  {
+    "id": "81217c9c-3155-4800-924a-d2ae9997a482",
+    "jobNumber": "J-2025-0044",
+    "customerId": "cust-002",
+    "title": "Basement Mold Removal - Parkside Apartments LLC",
+    "type": "MOLD",
+    "description": "Extensive mold growth in basement due to previous water damage.",
+    "status": "INVOICE_APPROVAL",
+    "createdAt": "2025-01-05T00:22:37.170Z",
+    "assignedUserIds": [
+      "tech-02"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [
+      "equip-006",
+      "equip-001",
+      "equip-007"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "humidity",
+      "spores"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-01-10T15:39:37.170Z",
+    "estimatedCompletionDate": "2025-01-18T00:56:37.170Z",
+    "completedDate": "2025-01-11T20:24:37.170Z",
+    "laborCost": 636,
+    "equipmentCost": 357,
+    "materialsCost": 463,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "d6b98de6-09bf-4ca4-993a-a38f4e2dfe2a",
+        "description": "Labor",
+        "quantity": 41.4,
+        "unitPrice": 68.88,
+        "total": 636,
+        "category": "LABOR",
+        "internalCost": 445.2
+      },
+      {
+        "id": "09a47a7e-6040-4c9f-ab40-67fa889f9562",
+        "description": "Paint and Primer",
+        "quantity": 7.4,
+        "unitPrice": 13.72,
+        "total": 101.54,
+        "category": "MATERIALS",
+        "internalCost": 60.924
+      },
+      {
+        "id": "a4ee309c-fce6-4f72-b26c-4d5efdb48bed",
+        "description": "Paint and Primer",
+        "quantity": 1.6,
+        "unitPrice": 225.91,
+        "total": 361.46,
+        "category": "MATERIALS",
+        "internalCost": 216.87599999999998
+      },
+      {
+        "id": "1a5e6ae4-2716-4178-af86-afcac2932423",
+        "description": "Specialty Equipment",
+        "quantity": 7,
+        "unitPrice": 51,
+        "total": 357,
+        "category": "EQUIPMENT",
+        "internalCost": 142.8
+      }
+    ],
+    "total": 1456,
+    "approvalDate": "2025-01-13T00:56:37.170Z"
+  },
+  {
+    "id": "31639fec-6d92-497a-b3ba-c6887f457754",
+    "jobNumber": "J-2025-0045",
+    "customerId": "cust-002",
+    "title": "Bathroom Mold Removal - Parkside Apartments LLC",
+    "type": "MOLD",
+    "description": "Mold discovered in bathroom walls. Remediation and prevention needed.",
+    "status": "INVOICE_APPROVAL",
+    "createdAt": "2025-02-11T01:06:37.170Z",
+    "assignedUserIds": [
+      "tech-06"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [
+      "equip-004"
+    ],
+    "priority": 2,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "spores"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-02-15T15:09:37.170Z",
+    "estimatedCompletionDate": "2025-02-27T00:57:37.170Z",
+    "completedDate": "2025-02-17T17:23:37.170Z",
+    "laborCost": 270,
+    "equipmentCost": 200,
+    "materialsCost": 882,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "4bef2ea6-bee8-4e69-a1c0-fd0acc73a17b",
+        "description": "Labor",
+        "quantity": 42.1,
+        "unitPrice": 82.13,
+        "total": 270,
+        "category": "LABOR",
+        "internalCost": 189
+      },
+      {
+        "id": "0c495fd2-bcd1-4c6a-97a9-ea24224b9983",
+        "description": "Carpet Cleaning Solution",
+        "quantity": 2.7,
+        "unitPrice": 83.05,
+        "total": 224.23,
+        "category": "MATERIALS",
+        "internalCost": 134.53799999999998
+      },
+      {
+        "id": "fc2cc655-84a3-42f6-8a8b-2c33ce023735",
+        "description": "Disposal Fees",
+        "quantity": 9.2,
+        "unitPrice": 71.5,
+        "total": 657.77,
+        "category": "MATERIALS",
+        "internalCost": 394.662
+      },
+      {
+        "id": "60e644eb-0d3a-4ebb-9c72-18a2fecd75f3",
+        "description": "Thermal Imaging Camera Usage",
+        "quantity": 5,
+        "unitPrice": 40,
+        "total": 200,
+        "category": "EQUIPMENT",
+        "internalCost": 80
+      }
+    ],
+    "total": 1352,
+    "approvalDate": "2025-02-20T01:57:37.170Z"
+  },
+  {
+    "id": "86608c27-9442-4652-a7cb-f9870a2710f5",
+    "jobNumber": "J-2025-0046",
+    "customerId": "cust-005",
+    "title": "Garage General Restoration - Northwest Insurance Group",
+    "type": "OTHER",
+    "description": "Restoration services for property damage.",
+    "status": "INVOICED",
+    "createdAt": "2025-01-03T21:58:37.170Z",
+    "assignedUserIds": [
+      "tech-04"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [
+      "equip-009",
+      "equip-004"
+    ],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "custom"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-01-08T01:39:37.170Z",
+    "estimatedCompletionDate": "2025-01-19T23:08:37.170Z",
+    "completedDate": "2025-01-08T19:00:37.170Z",
+    "laborCost": 495,
+    "equipmentCost": 250,
+    "materialsCost": 947,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "0bdb011b-4872-43f7-a2f1-435c4c80903c",
+        "description": "Labor",
+        "quantity": 43.4,
+        "unitPrice": 71.67,
+        "total": 495,
+        "category": "LABOR",
+        "internalCost": 346.5
+      },
+      {
+        "id": "07359302-b9c3-44d9-920b-d9faf6aa9911",
+        "description": "Paint and Primer",
+        "quantity": 2.7,
+        "unitPrice": 128.44,
+        "total": 346.78,
+        "category": "MATERIALS",
+        "internalCost": 208.06799999999998
+      },
+      {
+        "id": "6b007b4b-5a95-4922-99ff-2175071920cc",
+        "description": "Dehumidifier Filters",
+        "quantity": 6.9,
+        "unitPrice": 86.99,
+        "total": 600.22,
+        "category": "MATERIALS",
+        "internalCost": 360.132
+      },
+      {
+        "id": "718d7f2f-1b21-4af4-b1e4-e5eaaa251a3b",
+        "description": "Thermal Imaging Camera Usage",
+        "quantity": 1,
+        "unitPrice": 250,
+        "total": 250,
+        "category": "EQUIPMENT",
+        "internalCost": 100
+      }
+    ],
+    "total": 1692,
+    "approvalDate": "2025-01-09T22:01:37.170Z",
+    "invoiceDate": "2025-01-13T15:06:37.170Z",
+    "invoiceDueDate": "2025-02-12T20:52:37.170Z",
+    "invoiceNumber": "INV-2025-0047"
+  },
+  {
+    "id": "a9baea5b-4144-4395-812b-d0696ff0cbfb",
+    "jobNumber": "J-2025-0047",
+    "customerId": "cust-005",
+    "title": "Living Room Pipe Burst - Northwest Insurance Group",
+    "type": "WATER",
+    "description": "Water damage caused by a pipe burst. Areas affected include flooring and drywall.",
+    "status": "INVOICED",
+    "createdAt": "2025-02-21T00:06:37.170Z",
+    "assignedUserIds": [
+      "tech-05"
+    ],
+    "location": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "equipmentIds": [],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "water"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-02-26T22:27:37.170Z",
+    "estimatedCompletionDate": "2025-03-10T22:40:37.170Z",
+    "completedDate": "2025-02-28T21:55:37.170Z",
+    "laborCost": 416,
+    "equipmentCost": 0,
+    "materialsCost": 586,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "ab2044eb-16d6-4cf6-9a1b-9c96594e1157",
+        "description": "Labor",
+        "quantity": 42.4,
+        "unitPrice": 89.94,
+        "total": 416,
+        "category": "LABOR",
+        "internalCost": 291.2
+      },
+      {
+        "id": "654d03bc-5e24-456e-a2a5-152fb58c63ae",
+        "description": "Dehumidifier Filters",
+        "quantity": 5.9,
+        "unitPrice": 99.32,
+        "total": 586,
+        "category": "MATERIALS",
+        "internalCost": 351.59999999999997
+      }
+    ],
+    "total": 1002,
+    "approvalDate": "2025-03-02T18:20:37.170Z",
+    "invoiceDate": "2025-03-06T18:17:37.170Z",
+    "invoiceDueDate": "2025-04-05T18:01:37.170Z",
+    "invoiceNumber": "INV-2025-0048"
+  },
+  {
+    "id": "296a2188-ea86-4067-a06b-1d1e058da380",
+    "jobNumber": "J-2025-0048",
+    "customerId": "cust-003",
+    "title": "Living Room Flood Damage - James and Sarah Wilson",
+    "type": "WATER",
+    "description": "Water damage caused by a pipe burst. Areas affected include flooring and drywall.",
+    "status": "PAID",
+    "createdAt": "2025-02-25T01:56:37.170Z",
+    "assignedUserIds": [
+      "tech-09"
+    ],
+    "location": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "equipmentIds": [
+      "equip-009",
+      "equip-003"
+    ],
+    "priority": 5,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "water"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-03-01T21:29:37.170Z",
+    "estimatedCompletionDate": "2025-03-07T22:15:37.170Z",
+    "completedDate": "2025-03-03T16:20:37.170Z",
+    "laborCost": 364,
+    "equipmentCost": 120,
+    "materialsCost": 720,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "7d99bac0-9a22-4676-8133-63bf69b06af8",
+        "description": "Labor",
+        "quantity": 30.5,
+        "unitPrice": 82.34,
+        "total": 364,
+        "category": "LABOR",
+        "internalCost": 254.79999999999998
+      },
+      {
+        "id": "8a9997ef-7807-4bb9-bd4c-82d7f4264ef2",
+        "description": "Disposal Fees",
+        "quantity": 2.3,
+        "unitPrice": 57.98,
+        "total": 133.36,
+        "category": "MATERIALS",
+        "internalCost": 80.016
+      },
+      {
+        "id": "667ba498-2ddf-47fa-9a12-a5e285334dd5",
+        "description": "Antimicrobial Solution",
+        "quantity": 3,
+        "unitPrice": 32.29,
+        "total": 96.87,
+        "category": "MATERIALS",
+        "internalCost": 58.122
+      },
+      {
+        "id": "0356ec87-8a51-4dd4-bcd2-09573251761f",
+        "description": "Antimicrobial Solution",
+        "quantity": 4.2,
+        "unitPrice": 116.61,
+        "total": 489.77,
+        "category": "MATERIALS",
+        "internalCost": 293.86199999999997
+      },
+      {
+        "id": "56bdf565-9ac7-49d0-be53-65aa3879ddee",
+        "description": "Specialty Equipment",
+        "quantity": 10,
+        "unitPrice": 5.74,
+        "total": 57.42,
+        "category": "EQUIPMENT",
+        "internalCost": 22.968000000000004
+      },
+      {
+        "id": "df372606-6d4e-423e-a604-676ebc484c98",
+        "description": "Moisture Meter Usage",
+        "quantity": 1,
+        "unitPrice": 62.58,
+        "total": 62.58,
+        "category": "EQUIPMENT",
+        "internalCost": 25.032
+      }
+    ],
+    "total": 1204,
+    "approvalDate": "2025-03-06T16:11:37.170Z",
+    "invoiceDate": "2025-03-09T14:31:37.170Z",
+    "invoiceDueDate": "2025-04-08T19:36:37.170Z",
+    "invoiceNumber": "INV-2025-0049",
+    "payment": {
+      "amount": 1204,
+      "method": "CREDIT_CARD",
+      "date": "2025-03-13T17:25:37.170Z",
+      "reference": "PAY-48549"
+    }
+  },
+  {
+    "id": "31469e3b-f475-401f-bcf2-34e1b2f5b446",
+    "jobNumber": "J-2025-0049",
+    "customerId": "cust-002",
+    "title": "Living Room Specialized Restoration - Parkside Apartments LLC",
+    "type": "OTHER",
+    "description": "Specialized cleanup after biohazard situation.",
+    "status": "PAID",
+    "createdAt": "2025-02-26T17:57:37.170Z",
+    "assignedUserIds": [
+      "tech-04"
+    ],
+    "location": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "equipmentIds": [
+      "equip-008",
+      "equip-009"
+    ],
+    "priority": 4,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "custom"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-03-03T22:12:37.170Z",
+    "estimatedCompletionDate": "2025-03-08T18:01:37.170Z",
+    "completedDate": "2025-03-05T23:59:37.170Z",
+    "laborCost": 644,
+    "equipmentCost": 174,
+    "materialsCost": 591,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "60361ed9-58c2-487a-b10d-21c92c8f3a44",
+        "description": "Labor",
+        "quantity": 12.7,
+        "unitPrice": 68.22,
+        "total": 644,
+        "category": "LABOR",
+        "internalCost": 450.79999999999995
+      },
+      {
+        "id": "18f819a4-6390-4308-b8de-1b36dee729a2",
+        "description": "Paint and Primer",
+        "quantity": 3.3,
+        "unitPrice": 179.09,
+        "total": 591,
+        "category": "MATERIALS",
+        "internalCost": 354.59999999999997
+      },
+      {
+        "id": "6bb13363-dc59-4765-ad57-1c43804645dd",
+        "description": "Moisture Meter Usage",
+        "quantity": 5,
+        "unitPrice": 34.8,
+        "total": 174,
+        "category": "EQUIPMENT",
+        "internalCost": 69.60000000000001
+      }
+    ],
+    "total": 1409,
+    "approvalDate": "2025-03-07T23:51:37.170Z",
+    "invoiceDate": "2025-03-10T15:44:37.170Z",
+    "invoiceDueDate": "2025-04-10T00:28:37.170Z",
+    "invoiceNumber": "INV-2025-0050",
+    "payment": {
+      "amount": 1409,
+      "method": "CHECK",
+      "date": "2025-03-16T20:46:37.170Z",
+      "reference": "PAY-33410"
+    }
+  },
+  {
+    "id": "6a6c289e-72e7-4b5d-8b29-ce8519e078b0",
+    "jobNumber": "J-2025-0050",
+    "customerId": "cust-001",
+    "title": "Basement Mold Cleanup - Thompson Family",
+    "type": "MOLD",
+    "description": "Mold discovered in bathroom walls. Remediation and prevention needed.",
+    "status": "PAID",
+    "createdAt": "2025-01-04T15:34:37.170Z",
+    "assignedUserIds": [
+      "tech-08"
+    ],
+    "location": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "equipmentIds": [
+      "equip-008",
+      "equip-007",
+      "equip-009"
+    ],
+    "priority": 1,
+    "tags": [
+      "restoration",
+      "cleanup",
+      "mold"
+    ],
+    "completionTasks": {
+      "finalReadingsLogged": true,
+      "afterPhotosTaken": true,
+      "mark_ready_for_review": true
+    },
+    "scheduledStartDate": "2025-01-05T18:25:37.170Z",
+    "estimatedCompletionDate": "2025-01-16T18:14:37.170Z",
+    "completedDate": "2025-01-08T20:18:37.170Z",
+    "laborCost": 468,
+    "equipmentCost": 588,
+    "materialsCost": 301,
+    "finalNotes": "Job completed successfully. Site cleaned and customer satisfied.",
+    "lineItems": [
+      {
+        "id": "563a85e1-b219-4624-8e89-df32a76f7c74",
+        "description": "Labor",
+        "quantity": 27.7,
+        "unitPrice": 69.17,
+        "total": 468,
+        "category": "LABOR",
+        "internalCost": 327.59999999999997
+      },
+      {
+        "id": "b138096c-7fc5-49ff-846d-270580aa5dd3",
+        "description": "Paint and Primer",
+        "quantity": 7.3,
+        "unitPrice": 13.41,
+        "total": 97.89,
+        "category": "MATERIALS",
+        "internalCost": 58.733999999999995
+      },
+      {
+        "id": "e4b2c497-4f38-4244-b024-01136ff32a02",
+        "description": "Replacement Drywall",
+        "quantity": 2.4,
+        "unitPrice": 33.9,
+        "total": 81.35,
+        "category": "MATERIALS",
+        "internalCost": 48.809999999999995
+      },
+      {
+        "id": "da82496d-2585-4f5e-bd01-d63d3ef49444",
+        "description": "Paint and Primer",
+        "quantity": 5.5,
+        "unitPrice": 22.14,
+        "total": 121.76000000000002,
+        "category": "MATERIALS",
+        "internalCost": 73.05600000000001
+      },
+      {
+        "id": "9e431bc4-cefc-420e-a035-980c707cb893",
+        "description": "Moisture Meter Usage",
+        "quantity": 8,
+        "unitPrice": 19.13,
+        "total": 153.06,
+        "category": "EQUIPMENT",
+        "internalCost": 61.224000000000004
+      },
+      {
+        "id": "65562cc0-e1cb-4fd6-a3e9-53843cf586b0",
+        "description": "Specialty Equipment",
+        "quantity": 2,
+        "unitPrice": 98.66,
+        "total": 197.32,
+        "category": "EQUIPMENT",
+        "internalCost": 78.928
+      },
+      {
+        "id": "b7f5ae80-6228-401e-b84f-6bbdaa0b8e62",
+        "description": "Thermal Imaging Camera Usage",
+        "quantity": 4,
+        "unitPrice": 59.41,
+        "total": 237.62,
+        "category": "EQUIPMENT",
+        "internalCost": 95.048
+      }
+    ],
+    "total": 1357,
+    "approvalDate": "2025-01-11T01:11:37.170Z",
+    "invoiceDate": "2025-01-12T20:00:37.170Z",
+    "invoiceDueDate": "2025-02-11T20:31:37.170Z",
+    "invoiceNumber": "INV-2025-0051",
+    "payment": {
+      "amount": 1357,
+      "method": "BANK_TRANSFER",
+      "date": "2025-01-14T23:59:37.170Z",
+      "reference": "PAY-53385"
+    }
+  }
+]

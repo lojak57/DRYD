@@ -1,0 +1,142 @@
+[
+  {
+    "id": "admin-01",
+    "firstName": "Alex",
+    "lastName": "Rodriguez",
+    "email": "alex@dryadrestoration.com",
+    "role": "ADMIN",
+    "isActive": true,
+    "phoneNumber": "503-555-1111",
+    "createdAt": "2023-01-15T08:00:00Z"
+  },
+  {
+    "id": "tech-01",
+    "firstName": "Taylor",
+    "lastName": "Smith",
+    "email": "taylor@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-2222",
+    "createdAt": "2023-01-20T09:30:00Z"
+  },
+  {
+    "id": "tech-02",
+    "firstName": "Jordan",
+    "lastName": "Chen",
+    "email": "jordan@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-3333",
+    "createdAt": "2023-02-10T10:15:00Z"
+  },
+  {
+    "id": "tech-03",
+    "firstName": "Casey",
+    "lastName": "Johnson",
+    "email": "casey@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-4444",
+    "createdAt": "2023-03-05T11:45:00Z"
+  },
+  {
+    "id": "tech-04",
+    "firstName": "Maria",
+    "lastName": "Garcia",
+    "email": "maria@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-7777",
+    "createdAt": "2023-03-12T08:30:00Z"
+  },
+  {
+    "id": "tech-05",
+    "firstName": "David",
+    "lastName": "Lee",
+    "email": "david@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-8888",
+    "createdAt": "2023-03-15T09:20:00Z"
+  },
+  {
+    "id": "tech-06",
+    "firstName": "Miguel",
+    "lastName": "Rodriguez",
+    "email": "miguel@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-9999",
+    "createdAt": "2023-04-01T10:10:00Z"
+  },
+  {
+    "id": "tech-07",
+    "firstName": "Sarah",
+    "lastName": "Wilson",
+    "email": "sarah@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-1010",
+    "createdAt": "2023-04-05T11:05:00Z"
+  },
+  {
+    "id": "tech-08",
+    "firstName": "James",
+    "lastName": "Thompson",
+    "email": "james@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-1212",
+    "createdAt": "2023-04-10T13:15:00Z"
+  },
+  {
+    "id": "tech-09",
+    "firstName": "Lisa",
+    "lastName": "Patel",
+    "email": "lisa@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-1313",
+    "createdAt": "2023-04-15T14:30:00Z"
+  },
+  {
+    "id": "tech-10",
+    "firstName": "Robert",
+    "lastName": "Nguyen",
+    "email": "robert@dryadrestoration.com",
+    "role": "TECH",
+    "isActive": true,
+    "phoneNumber": "503-555-1414",
+    "createdAt": "2023-04-20T15:45:00Z"
+  },
+  {
+    "id": "office-01",
+    "firstName": "Morgan",
+    "lastName": "Williams",
+    "email": "morgan@dryadrestoration.com",
+    "role": "OFFICE",
+    "isActive": true,
+    "phoneNumber": "503-555-5555",
+    "createdAt": "2023-01-18T09:00:00Z"
+  },
+  {
+    "id": "office-02",
+    "firstName": "Jamie",
+    "lastName": "Garcia",
+    "email": "jamie@dryadrestoration.com",
+    "role": "OFFICE",
+    "isActive": true,
+    "phoneNumber": "503-555-6666",
+    "createdAt": "2023-02-01T08:30:00Z"
+  },
+  {
+    "id": "admin-02",
+    "firstName": "Sam",
+    "lastName": "Patel",
+    "email": "sam@dryadrestoration.com",
+    "role": "ADMIN",
+    "isActive": true,
+    "phoneNumber": "503-555-7777",
+    "createdAt": "2023-01-10T07:30:00Z"
+  }
+] 

@@ -1,0 +1,122 @@
+[
+  {
+    "id": "equip-001",
+    "type": "AIR_MOVER",
+    "model": "Dri-Eaz Sahara Pro X3",
+    "serialNumber": "AM-2023-0123",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2023-01-15T00:00:00Z",
+    "lastMaintenanceDate": "2023-11-10T00:00:00Z",
+    "notes": "High-capacity air mover for large areas",
+    "storageLocation": "Warehouse A, Shelf 2"
+  },
+  {
+    "id": "equip-002",
+    "type": "AIR_MOVER",
+    "model": "Dri-Eaz Sahara Pro X3",
+    "serialNumber": "AM-2023-0124",
+    "status": "DEPLOYED",
+    "currentJobId": "j002",
+    "purchaseDate": "2023-01-15T00:00:00Z",
+    "lastMaintenanceDate": "2023-10-05T00:00:00Z",
+    "notes": "Right fan housing was repaired in September",
+    "storageLocation": "Warehouse A, Shelf 2"
+  },
+  {
+    "id": "equip-003",
+    "type": "DEHUMIDIFIER",
+    "model": "Phoenix D850",
+    "serialNumber": "DH-2022-5501",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2022-06-20T00:00:00Z",
+    "lastMaintenanceDate": "2023-12-15T00:00:00Z",
+    "notes": "Commercial-grade dehumidifier",
+    "storageLocation": "Warehouse B, Floor Unit"
+  },
+  {
+    "id": "equip-004",
+    "type": "DEHUMIDIFIER",
+    "model": "Phoenix D850",
+    "serialNumber": "DH-2022-5502",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2022-06-20T00:00:00Z",
+    "lastMaintenanceDate": "2023-12-15T00:00:00Z",
+    "notes": "Commercial-grade dehumidifier",
+    "storageLocation": "Warehouse B, Floor Unit"
+  },
+  {
+    "id": "equip-005",
+    "type": "AIR_SCRUBBER",
+    "model": "Nikro HEPA 750",
+    "serialNumber": "AS-2023-0088",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2023-03-10T00:00:00Z",
+    "lastMaintenanceDate": "2023-11-22T00:00:00Z",
+    "notes": "Includes fresh filter, 750 CFM capacity",
+    "storageLocation": "Warehouse A, Shelf 3"
+  },
+  {
+    "id": "equip-006",
+    "type": "HEPA_FILTER",
+    "model": "Dri-Eaz HEPA 500",
+    "serialNumber": "HF-2022-1244",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2022-08-05T00:00:00Z",
+    "lastMaintenanceDate": "2023-09-18T00:00:00Z",
+    "notes": "New filters installed in September",
+    "storageLocation": "Warehouse A, Shelf 4"
+  },
+  {
+    "id": "equip-007",
+    "type": "MOISTURE_METER",
+    "model": "Protimeter BLD5365",
+    "serialNumber": "MM-2023-0042",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2023-02-28T00:00:00Z",
+    "lastMaintenanceDate": "2023-11-05T00:00:00Z",
+    "notes": "Digital moisture meter, calibrated November 2023",
+    "storageLocation": "Office Supply Cabinet, Drawer 2"
+  },
+  {
+    "id": "equip-008",
+    "type": "THERMAL_IMAGING_CAMERA",
+    "model": "FLIR E6-XT",
+    "serialNumber": "TC-2021-0013",
+    "status": "DEPLOYED",
+    "currentJobId": "j003",
+    "purchaseDate": "2021-11-12T00:00:00Z",
+    "lastMaintenanceDate": "2023-08-30T00:00:00Z",
+    "notes": "Advanced thermal imaging camera, calibrated annually",
+    "storageLocation": "Office Supply Cabinet, Drawer 1"
+  },
+  {
+    "id": "equip-009",
+    "type": "OZONE_GENERATOR",
+    "model": "OdorStop OS2500",
+    "serialNumber": "OZ-2022-0007",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2022-05-15T00:00:00Z",
+    "lastMaintenanceDate": "2023-10-10T00:00:00Z",
+    "notes": "Commercial ozone generator for odor treatment",
+    "storageLocation": "Warehouse B, Shelf 1"
+  },
+  {
+    "id": "equip-010",
+    "type": "HEATER",
+    "model": "Dri-Eaz Dragon 3600",
+    "serialNumber": "HT-2022-0031",
+    "status": "AVAILABLE",
+    "currentJobId": null,
+    "purchaseDate": "2022-10-01T00:00:00Z",
+    "lastMaintenanceDate": "2023-09-05T00:00:00Z",
+    "notes": "Portable indirect-fired heater, 3600 BTU",
+    "storageLocation": "Warehouse B, Floor Unit"
+  }
+] 

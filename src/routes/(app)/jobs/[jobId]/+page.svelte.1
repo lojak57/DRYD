@@ -1,0 +1,724 @@
+<script lang="ts">
+  import { page } from '$app/stores';
+  import { onMount } from 'svelte';
+  import { writable } from 'svelte/store';
+  import type { Job } from '$lib/types/Job';
+  import { JobStatus } from '$lib/types/Job';
+  import { getJobById, updateJobStatus } from '$lib/services/jobs';
+  import JobWorkflowIndicator from '$lib/components/jobs/JobWorkflowIndicator.svelte';
+  import { getCustomerById } from '$lib/services/customers';
+  import { getLogEntriesByJobId, addLogEntry } from '$lib/services/logEntries';
+  import type { LogEntry } from '$lib/types/LogEntry';
+  import { LogEntryType } from '$lib/types/LogEntry';
+  import ActivityLogFeed from '$lib/components/field/ActivityLogFeed.svelte';
+  import AddNoteForm from '$lib/components/field/AddNoteForm.svelte';
+  import AddPhotoForm from '$lib/components/field/AddPhotoForm.svelte';
+  import AddReadingForm from '$lib/components/field/AddReadingForm.svelte';
+  import AddEquipmentLogForm from '$lib/components/field/AddEquipmentLogForm.svelte';
+  import { currentUser } from '$lib/stores/authStore';
+  import { calculateEquipmentUsage, calculateTotalCosts, formatDateShort } from '$lib/utils/billingUtils';
+  import PageHeader from '$lib/components/ui/PageHeader.svelte';
+  import { allLogEntries } from '$lib/stores/logEntryStore';
+  import { getLaborEntriesByJobId, addLaborEntries } from '$lib/services/laborEntries';
+  import JobCompletionModal from '$lib/components/jobs/JobCompletionModal.svelte';
+  import JobCompletionReport from '$lib/components/jobs/JobCompletionReport.svelte';
+  
+  const currentJob = writable<Job | null>(null);
+  const isLoading = writable<boolean>(true);
+  const error = writable<string | null>(null);
+  const customerName = writable<string>('');
+  
+  // Add state to manage which form is visible
+  let showForm: 'note' | 'photo' | 'reading' | 'equipment' | null = null;
+  
+  // Add state for filtering and view mode
+  let selectedFilter: LogEntryType | 'ALL' = 'ALL';
+  let viewMode: 'log' | 'gallery' = 'log';
+  
+  // Reactive statement to get the current Job ID from the URL
+  $: currentJobId = $page.params.jobId;
+
+  // Reactive statement to filter ALL log entries for the current job and sort them
+  $: jobLogEntries = $allLogEntries
+    .filter(entry => entry.jobId === currentJobId)
+    .sort((a, b) => new Date(b.timestamp).getTime() - new Date(a.timestamp).getTime()); // Sort newest first
+
+  // Reactive statement to apply the UI filter (NOTE, PHOTO, etc.) to the job's logs
+  $: filteredLogEntries = jobLogEntries.filter(entry =>
+    selectedFilter === 'ALL' || entry.type === selectedFilter
+  );
+
+  // State for tracking job completion
+  let isCompletingJob = false;
+  let completionError = '';
+  
+  // Equipment billing calculations
+  $: equipmentUsage = ($currentJob && jobLogEntries.length > 0)
+    ? calculateEquipmentUsage(jobLogEntries)
+    : new Map();
+
+  $: billingSummary = ($currentJob && equipmentUsage.size > 0)
+    ? calculateTotalCosts(equipmentUsage)
+    : { details: [], totalCost: 0 };
+  
+  // Add a store for labor entries
+  const laborEntries = writable([]);
+
+  // Add state for completion modal
+  let showCompletionModal = false;
+  let techDetails = [];
+
+  // Function to load labor data for completed jobs
+  async function loadLaborData(jobId) {
+    if (!jobId) return;
+    
+    try {
+      const entries = await getLaborEntriesByJobId(jobId);
+      laborEntries.set(entries);
+    } catch (err) {
+      console.error('Error loading labor data:', err);
+    }
+  }
+
+  // Replace the old markJobComplete function with these new functions
+  function openCompleteJobModal() {
+    showCompletionModal = true;
+  }
+
+  function handleCancelCompletion() {
+    showCompletionModal = false;
+  }
+
+  async function handleConfirmCompletion(laborData) {
+    if (!$currentJob) return;
+    
+    isCompletingJob = true;
+    completionError = '';
+    
+    try {
+      // 1. Add Labor Entries
+      if (laborData.length > 0) {
+        const entriesToAdd = laborData.map(ld => ({
+          jobId: $currentJob.id,
+          userId: ld.userId,
+          userName: techDetails.find(t => t.id === ld.userId)?.name || 'Unknown',
+          hours: ld.hours
+        }));
+        
+        await addLaborEntries(entriesToAdd);
+        
+        // Update the local labor entries store
+        const newEntries = await getLaborEntriesByJobId($currentJob.id);
+        laborEntries.set(newEntries);
+      }
+      
+      // 2. Update Job Status
+      const updatedJob = await updateJobStatus($currentJob.id, JobStatus.COMPLETED);
+      
+      // 3. Update the local job store
+      if (updatedJob) {
+        currentJob.set(updatedJob);
+      }
+      
+      // 4. Close the modal
+      showCompletionModal = false;
+    } catch (err) {
+      console.error('Error completing job:', err);
+      completionError = 'Failed to complete the job. Please try again.';
+    } finally {
+      isCompletingJob = false;
+    }
+  }
+
+  onMount(async () => {
+    isLoading.set(true);
+    error.set(null);
+    const jobId = $page.params.jobId;
+
+    if (!jobId) {
+      error.set('Job ID not found in URL.');
+      isLoading.set(false);
+      return;
+    }
+
+    try {
+      const jobData = await getJobById(jobId);
+      if (jobData) {
+        currentJob.set(jobData);
+        
+        // Load customer info
+        try {
+          const customerData = await getCustomerById(jobData.customerId);
+          if (customerData) {
+            customerName.set(customerData.name);
+          }
+        } catch (customerErr) {
+          console.error('Error loading customer details:', customerErr);
+        }
+      } else {
+        error.set(`Job with ID ${jobId} not found.`);
+      }
+    } catch (err) {
+      console.error('Error loading job details:', err);
+      error.set('Failed to load job details.');
+    } finally {
+      isLoading.set(false);
+    }
+
+    // Load user details for assigned techs
+    if ($currentJob?.assignedUserIds) {
+      const promises = $currentJob.assignedUserIds.map(async (userId) => {
+        const user = await getUserById(userId);
+        return user ? { id: user.id, name: getFullName(user) } : null;
+      });
+      
+      const results = await Promise.all(promises);
+      techDetails = results.filter(tech => tech !== null);
+    }
+    
+    // Load labor data for completed jobs
+    if ($currentJob?.status === JobStatus.COMPLETED) {
+      loadLaborData($currentJob.id);
+    }
+  });
+  
+  // Format date for display
+  function formatDate(date: Date | undefined): string {
+    if (!date) return 'N/A';
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric'
+    });
+  }
+
+  // Helper function to calculate billing summary (placeholder)
+  function calculateBillingSummary(job) {
+    if (!job) return { details: [], totalCost: 0 };
+    
+    // This is a placeholder - in a real app, you would calculate actual costs
+    const totalCost = job.equipmentIds.length * 150; // Simplified example
+    
+    return {
+      details: [],
+      totalCost
+    };
+  }
+</script>
+
+<div class="max-w-6xl mx-auto">
+  {#if $currentJob}
+    <PageHeader title={$currentJob.title} back="/dashboard">
+      <svelte:fragment slot="subtitle">
+        Job #{$currentJob.jobNumber}
+      </svelte:fragment>
+    </PageHeader>
+  {:else}
+    <PageHeader title="Job Details" back="/dashboard" />
+  {/if}
+
+  <div class="bg-white rounded-lg shadow-lg border border-gray-300 overflow-hidden">
+    <div class="p-4 bg-dryd-gradient text-white">
+      <div class="flex justify-between items-center">
+        {#if $currentJob}
+          <div>
+            <div class="inline-flex items-center px-3 py-1 rounded-full {
+              $currentJob.status === JobStatus.NEW ? 'bg-blue-500' :
+              $currentJob.status === JobStatus.SCHEDULED ? 'bg-purple-500' :
+              $currentJob.status === JobStatus.IN_PROGRESS ? 'bg-amber-500' :
+              $currentJob.status === JobStatus.ON_HOLD ? 'bg-red-500' :
+              $currentJob.status === JobStatus.COMPLETED ? 'bg-green-500' :
+              $currentJob.status === JobStatus.INVOICED ? 'bg-indigo-500' :
+              $currentJob.status === JobStatus.PAID ? 'bg-teal-500' :
+              'bg-gray-500'
+            }">
+              <span class="font-semibold text-xs text-white">{$currentJob.status}</span>
+            </div>
+          </div>
+          <JobWorkflowIndicator status={$currentJob.status} compact={true} />
+        {:else}
+          <!-- This will never show since PageHeader handles the case when job is loading -->
+        {/if}
+      </div>
+    </div>
+
+    <div class="p-6 bg-gray-50">
+      {#if $isLoading}
+        <div class="flex justify-center items-center h-64">
+          <p class="text-gray-500">Loading job details...</p>
+        </div>
+      {:else if $error}
+        <div class="bg-red-50 p-6 rounded-lg border border-red-200 mb-4">
+          <p class="text-red-700">{$error}</p>
+          <a href="/dashboard" class="text-blue-600 hover:text-blue-800 mt-4 inline-block">← Back to Dashboard</a>
+        </div>
+      {:else if $currentJob}
+        <!-- Refactored Job Details Section -->
+        <div class="mt-2 grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
+          <!-- Job Status Workflow -->
+          <div class="md:col-span-2 lg:col-span-3">
+            <JobWorkflowIndicator status={$currentJob.status} compact={false} />
+          </div>
+          
+          <!-- Mark as Complete Button (Admin/Office only) -->
+          {#if $currentJob && $currentUser && ($currentUser.role === 'ADMIN' || $currentUser.role === 'OFFICE') && $currentJob.status !== JobStatus.COMPLETED && $currentJob.status !== JobStatus.CANCELLED}
+            <div class="md:col-span-2 lg:col-span-3 bg-white rounded-lg p-4 border border-gray-200 shadow-sm">
+              <div class="flex items-center justify-between">
+                <div>
+                  <h3 class="text-lg font-semibold text-gray-800">Job Actions</h3>
+                  <p class="text-sm text-gray-600 mt-1">Mark this job as complete when all work has been finished</p>
+                </div>
+                <button
+                  on:click={openCompleteJobModal}
+                  disabled={isCompletingJob}
+                  class="bg-green-600 hover:bg-green-700 text-white py-2 px-4 rounded-md shadow-sm transition-all duration-150 ease-in-out focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {#if isCompletingJob}
+                    <span class="inline-flex items-center">
+                      <svg class="animate-spin -ml-1 mr-2 h-4 w-4 text-white" fill="none" viewBox="0 0 24 24">
+                        <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                        <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                      </svg>
+                      Processing...
+                    </span>
+                  {:else}
+                    <span class="inline-flex items-center">
+                      <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                      </svg>
+                      Mark Job as Complete
+                    </span>
+                  {/if}
+                </button>
+              </div>
+              {#if completionError}
+                <p class="mt-2 text-red-600 text-sm">{completionError}</p>
+              {/if}
+            </div>
+          {/if}
+          
+          <!-- Job Details -->
+          <div class="bg-white rounded-lg shadow p-5 border border-gray-200 hover:shadow-md transition-shadow duration-200">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center border-b pb-2 border-gray-200">
+              <svg class="h-6 w-6 mr-2 text-dryd-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Job Details
+            </h3>
+            <dl class="space-y-3 text-sm">
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">ID:</dt>
+                <dd class="text-right text-gray-900 font-semibold">{$currentJob.id}</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">Type:</dt>
+                <dd class="text-right text-gray-900">{$currentJob.jobType}</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">Priority:</dt>
+                <dd class="text-right">
+                  <span class="px-2 py-1 bg-amber-100 text-amber-800 rounded font-medium text-xs">
+                    {$currentJob.priority} / 5
+                  </span>
+                </dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">Customer:</dt>
+                <dd class="text-right text-gray-900">{$customerName || 'Loading...'}</dd>
+              </div>
+            </dl>
+          </div>
+          
+          <!-- Dates -->
+          <div class="bg-white rounded-lg shadow p-5 border border-gray-200 hover:shadow-md transition-shadow duration-200">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center border-b pb-2 border-gray-200">
+              <svg class="h-6 w-6 mr-2 text-dryd-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              Important Dates
+            </h3>
+            <dl class="space-y-3 text-sm">
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">Created:</dt>
+                <dd class="text-right text-gray-900">{formatDate($currentJob.createdAt)}</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">Incident:</dt>
+                <dd class="text-right text-gray-900">{formatDate($currentJob.incidentDate)}</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">Scheduled Start:</dt>
+                <dd class="text-right text-gray-900">{formatDate($currentJob.scheduledStartDate)}</dd>
+              </div>
+              <div class="flex justify-between items-center">
+                <dt class="font-medium text-gray-500">Est. Completion:</dt>
+                <dd class="text-right text-gray-900">{formatDate($currentJob.estimatedCompletionDate)}</dd>
+              </div>
+              {#if $currentJob.completedDate}
+                <div class="flex justify-between items-center">
+                  <dt class="font-medium text-gray-500">Completed:</dt>
+                  <dd class="text-right text-green-600 font-semibold">{formatDate($currentJob.completedDate)}</dd>
+                </div>
+              {/if}
+            </dl>
+          </div>
+          
+          <!-- Site Address -->
+          <div class="bg-white rounded-lg shadow p-5 border border-gray-200 hover:shadow-md transition-shadow duration-200">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center border-b pb-2 border-gray-200">
+              <svg class="h-6 w-6 mr-2 text-dryd-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              </svg>
+              Site Address
+            </h3>
+            <div class="flex items-start mb-4">
+              <svg class="h-5 w-5 text-gray-500 flex-shrink-0 mt-0.5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+              </svg>
+              <div>
+                <p class="text-gray-900 font-medium">{$currentJob.siteAddress.street}</p>
+                <p class="text-gray-900">{$currentJob.siteAddress.city}, {$currentJob.siteAddress.state} {$currentJob.siteAddress.zip}</p>
+              </div>
+            </div>
+            {#if $currentJob.accessInstructions}
+              <div class="mt-3 border-t border-gray-100 pt-3">
+                <h4 class="text-sm font-semibold text-gray-700 mb-1">Access Instructions:</h4>
+                <p class="text-sm text-gray-800">{$currentJob.accessInstructions}</p>
+              </div>
+            {/if}
+          </div>
+          
+          <!-- Description -->
+          <div class="bg-white rounded-lg shadow p-5 border border-gray-200 hover:shadow-md transition-shadow duration-200 md:col-span-2 lg:col-span-2">
+            <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center border-b pb-2 border-gray-200">
+              <svg class="h-6 w-6 mr-2 text-dryd-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              Description
+            </h3>
+            <p class="text-gray-800 whitespace-pre-line">{$currentJob.description}</p>
+          </div>
+          
+          <!-- Insurance Information -->
+          {#if $currentJob.insuranceInfo}
+            <div class="bg-white rounded-lg shadow p-5 border border-gray-200 hover:shadow-md transition-shadow duration-200 lg:col-span-1">
+              <h3 class="text-lg font-semibold mb-4 text-gray-800 flex items-center border-b pb-2 border-gray-200">
+                <svg class="h-6 w-6 mr-2 text-dryd-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+                </svg>
+                Insurance Information
+              </h3>
+              <div class="space-y-4">
+                <div>
+                  <div class="flex items-center mb-1">
+                    <svg class="h-4 w-4 text-gray-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4" />
+                    </svg>
+                    <h4 class="text-sm font-semibold text-gray-700">Insurance Provider</h4>
+                  </div>
+                  <p class="text-gray-900 ml-6">{$currentJob.insuranceInfo.company}</p>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4">
+                  <div>
+                    <p class="text-sm font-medium text-gray-500">Claim #</p>
+                    <p class="text-gray-900">{$currentJob.insuranceInfo.claimNumber}</p>
+                  </div>
+                  <div>
+                    <p class="text-sm font-medium text-gray-500">Policy #</p>
+                    <p class="text-gray-900">{$currentJob.insuranceInfo.policyNumber}</p>
+                  </div>
+                </div>
+                
+                {#if $currentJob.insuranceInfo.adjustorName}
+                  <div class="border-t border-gray-100 pt-3">
+                    <div class="flex items-center mb-1">
+                      <svg class="h-4 w-4 text-gray-500 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5.121 17.804A13.937 13.937 0 0112 16c2.5 0 4.847.655 6.879 1.804M15 10a3 3 0 11-6 0 3 3 0 016 0zm6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <h4 class="text-sm font-semibold text-gray-700">Adjustor</h4>
+                    </div>
+                    <p class="text-gray-900 ml-6">{$currentJob.insuranceInfo.adjustorName}</p>
+                    
+                    <div class="mt-2 ml-6 space-y-1">
+                      {#if $currentJob.insuranceInfo.adjustorPhone}
+                        <div class="flex items-center text-sm">
+                          <svg class="h-3 w-3 text-gray-500 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                          </svg>
+                          <span class="text-gray-700">{$currentJob.insuranceInfo.adjustorPhone}</span>
+                        </div>
+                      {/if}
+                      {#if $currentJob.insuranceInfo.adjustorEmail}
+                        <div class="flex items-center text-sm">
+                          <svg class="h-3 w-3 text-gray-500 mr-1" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                          </svg>
+                          <span class="text-gray-700 break-all">{$currentJob.insuranceInfo.adjustorEmail}</span>
+                        </div>
+                      {/if}
+                    </div>
+                  </div>
+                {/if}
+              </div>
+            </div>
+          {/if}
+        </div>
+        
+        <!-- Billing Summary Section -->
+        {#if $currentJob?.status === JobStatus.COMPLETED}
+          <div class="mt-8 bg-white rounded-lg p-6 shadow-md border border-gray-200">
+            <h3 class="text-xl font-bold mb-4 text-gray-800 flex items-center">
+              <svg class="h-6 w-6 mr-2 text-dryd-burgundy" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              Equipment Billing Summary
+            </h3>
+            {#if billingSummary.details.length > 0}
+              <div class="overflow-x-auto">
+                <table class="w-full text-sm text-left text-gray-600">
+                  <thead class="text-xs font-medium text-gray-700 uppercase bg-gray-100">
+                    <tr>
+                      <th scope="col" class="px-4 py-3">Equipment ID</th>
+                      <th scope="col" class="px-4 py-3">Type</th>
+                      <th scope="col" class="px-4 py-3">Model</th>
+                      <th scope="col" class="px-4 py-3 text-right">Days Used</th>
+                      <th scope="col" class="px-4 py-3 text-right">Daily Rate</th>
+                      <th scope="col" class="px-4 py-3 text-right">Item Cost</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {#each billingSummary.details as item (item.equipmentId)}
+                      <tr class="bg-white border-b hover:bg-gray-50">
+                        <td class="px-4 py-3">{item.equipmentId}</td>
+                        <td class="px-4 py-3">{item.type}</td>
+                        <td class="px-4 py-3">{item.model}</td>
+                        <td class="px-4 py-3 text-right">{item.durationDays}</td>
+                        <td class="px-4 py-3 text-right">${item.rate.toFixed(2)}</td>
+                        <td class="px-4 py-3 text-right font-semibold">${item.cost.toFixed(2)}</td>
+                      </tr>
+                    {/each}
+                    <tr class="font-bold text-gray-900 bg-gray-50">
+                      <th scope="row" colspan="5" class="px-4 py-3 text-base text-right">Total Equipment Cost</th>
+                      <td class="px-4 py-3 text-base text-right">${billingSummary.totalCost.toFixed(2)}</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="mt-4 p-4 bg-gray-50 rounded-md border border-gray-200 text-sm text-gray-600">
+                <p>
+                  <span class="font-semibold">Note:</span> This is an estimated equipment cost based on usage duration. 
+                  Final invoice may include additional services and fees.
+                </p>
+              </div>
+            {:else}
+              <div class="p-6 bg-gray-50 rounded-md border border-gray-200">
+                <p class="text-gray-600 text-center">No equipment usage data found for this job.</p>
+              </div>
+            {/if}
+          </div>
+        {/if}
+        
+        <!-- Activity Log Section with improved button layout -->
+        <div class="mt-8">
+          {#if $currentJob?.status === JobStatus.COMPLETED}
+            <JobCompletionReport
+              job={$currentJob}
+              logEntries={$logEntries}
+              laborEntries={$laborEntries}
+              {billingSummary}
+            />
+          {:else}
+            <div class="bg-white rounded-lg shadow-md border border-gray-200 overflow-hidden">
+              <div class="p-5 bg-gray-50 border-b border-gray-200">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <h3 class="text-xl font-bold text-gray-800 flex items-center">
+                    <svg class="h-6 w-6 mr-2 text-dryd-blue" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002-2h2a2 2 0 002 2M9 5v2h6V5" />
+                    </svg>
+                    Activity Log
+                  </h3>
+                  
+                  <div class="flex items-center justify-between sm:justify-end gap-3 w-full sm:w-auto">
+                    <div class="flex-1 sm:flex-none">
+                      <select 
+                        bind:value={selectedFilter}
+                        class="w-full sm:w-auto px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm focus:outline-none focus:ring-2 focus:ring-dryd-blue focus:border-dryd-blue"
+                      >
+                        <option value="ALL">All Activities</option>
+                        <option value="NOTE">Notes Only</option>
+                        <option value="PHOTO">Photos Only</option>
+                        <option value="MOISTURE_READING">Readings Only</option>
+                        <option value="EQUIPMENT_PLACEMENT">Equipment Only</option>
+                      </select>
+                    </div>
+                    
+                    <button class="px-3 py-2 bg-white border border-gray-300 rounded-md text-sm shadow-sm hover:bg-gray-50 text-gray-600 focus:outline-none focus:ring-2 focus:ring-dryd-blue focus:border-dryd-blue">
+                      Photo Gallery
+                    </button>
+                  </div>
+                </div>
+              </div>
+              
+              <div class="p-5">
+                <!-- Quick action buttons - displayed as a responsive grid -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3 mb-6">
+                  <button 
+                    on:click={() => showForm = 'note'}
+                    class="flex items-center justify-center px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dryd-blue transition-colors text-gray-700"
+                  >
+                    <svg class="w-5 h-5 mr-2 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                    </svg>
+                    <span class="font-medium">Add Note</span>
+                  </button>
+                  
+                  <button 
+                    on:click={() => showForm = 'photo'}
+                    class="flex items-center justify-center px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dryd-blue transition-colors text-gray-700"
+                  >
+                    <svg class="w-5 h-5 mr-2 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                    </svg>
+                    <span class="font-medium">Add Photo</span>
+                  </button>
+                  
+                  <button 
+                    on:click={() => showForm = 'reading'}
+                    class="flex items-center justify-center px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dryd-blue transition-colors text-gray-700"
+                  >
+                    <svg class="w-5 h-5 mr-2 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                    </svg>
+                    <span class="font-medium">Add Moisture Reading</span>
+                  </button>
+                  
+                  <button
+                    on:click={() => showForm = 'equipment'}
+                    class="flex items-center justify-center px-4 py-3 bg-white border border-gray-300 rounded-lg shadow-sm hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dryd-blue transition-colors text-gray-700"
+                  >
+                    <svg class="w-5 h-5 mr-2 text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                    </svg>
+                    <span class="font-medium">Equipment Log</span>
+                  </button>
+                </div>
+                
+                <!-- Forms for adding different log types -->
+                {#if showForm === 'note'}
+                  <div class="mb-6 p-4 bg-blue-50 border border-blue-100 rounded-lg">
+                    <h3 class="text-lg font-semibold text-blue-800 mb-4 flex items-center">
+                      <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+                      </svg>
+                      Add a Note
+                    </h3>
+                    <AddNoteForm 
+                      jobId={$currentJob?.id || ''} 
+                      userId={$currentUser?.id || 'tech-1'} 
+                      on:newLogEntry={handleFormSubmit}
+                    />
+                  </div>
+                {:else if showForm === 'photo'}
+                  <div class="mb-6 p-4 bg-purple-50 border border-purple-100 rounded-lg">
+                    <h3 class="text-lg font-semibold text-purple-800 mb-4 flex items-center">
+                      <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 9a2 2 0 012-2h.93a2 2 0 001.664-.89l.812-1.22A2 2 0 0110.07 4h3.86a2 2 0 011.664.89l.812 1.22A2 2 0 0018.07 7H19a2 2 0 012 2v9a2 2 0 01-2 2H5a2 2 0 01-2-2V9z" />
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 13a3 3 0 11-6 0 3 3 0 016 0z" />
+                      </svg>
+                      Add a Photo
+                    </h3>
+                    <AddPhotoForm 
+                      jobId={$currentJob?.id || ''} 
+                      userId={$currentUser?.id || 'tech-1'} 
+                      on:newLogEntry={handleFormSubmit}
+                    />
+                  </div>
+                {:else if showForm === 'reading'}
+                  <div class="mb-6 p-4 bg-indigo-50 border border-indigo-100 rounded-lg">
+                    <h3 class="text-lg font-semibold text-indigo-800 mb-4 flex items-center">
+                      <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" />
+                      </svg>
+                      Add Moisture Reading
+                    </h3>
+                    <AddReadingForm 
+                      jobId={$currentJob?.id || ''} 
+                      userId={$currentUser?.id || 'tech-1'} 
+                      on:newLogEntry={handleFormSubmit}
+                    />
+                  </div>
+                {:else if showForm === 'equipment'}
+                  <div class="mb-6 p-4 bg-green-50 border border-green-100 rounded-lg">
+                    <h3 class="text-lg font-semibold text-green-800 mb-4 flex items-center">
+                      <svg class="w-5 h-5 mr-2" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+                      </svg>
+                      Equipment Log
+                    </h3>
+                    <AddEquipmentLogForm 
+                      jobId={$currentJob?.id || ''} 
+                      userId={$currentUser?.id || 'tech-1'}
+                      on:newLogEntry={handleFormSubmit}
+                    />
+                  </div>
+                {/if}
+              </div>
+              
+              <!-- Log Entry Display Modes -->
+              {#if viewMode === 'log'}
+                <ActivityLogFeed logEntries={filteredLogEntries} />
+              {:else if viewMode === 'gallery'}
+                <div class="bg-white p-4 rounded-lg shadow border border-gray-200">
+                  <h3 class="text-lg font-semibold text-gray-800 mb-4">Photo Gallery</h3>
+                  
+                  {#if $isLoading}
+                    <p class="text-center text-gray-500 py-6">Loading photos...</p>
+                  {:else if filteredLogEntries.filter(entry => entry.type === LogEntryType.PHOTO).length === 0}
+                    <p class="text-center text-gray-500 py-6">No photos have been added to this job yet.</p>
+                  {:else}
+                    <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+                      {#each filteredLogEntries.filter(entry => entry.type === LogEntryType.PHOTO) as entry}
+                        {@const photoContent = typeof entry.content === 'object' ? entry.content : null}
+                        {#if photoContent && 'url' in photoContent}
+                          <div class="bg-gray-50 rounded-lg overflow-hidden shadow-sm hover:shadow-md transition-shadow duration-200 border border-gray-200 group">
+                            <div class="aspect-w-3 aspect-h-2 w-full overflow-hidden bg-gray-200">
+                              <img 
+                                src={photoContent.url} 
+                                alt={photoContent.caption || "Job photo"} 
+                                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                on:error={(e) => { 
+                                  const img = e.target as HTMLImageElement;
+                                  img.src = 'https://via.placeholder.com/300x200?text=Photo+Preview';
+                                }}
+                              />
+                            </div>
+                            <div class="p-2 text-xs">
+                              <p class="truncate text-gray-700 font-medium">{photoContent.caption || getPhotoFilename(photoContent)}</p>
+                              <p class="text-gray-500 text-xs">{formatDate(entry.timestamp)}</p>
+                            </div>
+                          </div>
+                        {/if}
+                      {/each}
+                    </div>
+                  {/if}
+                </div>
+              {/if}
+            </div>
+          </div>
+        {/if}
+        
+        <div class="mt-8">
+          <a href="/dashboard" class="bg-dryd-burgundy hover:bg-dryd-burgundy-dark text-white py-3 px-6 rounded-md shadow-lg inline-flex items-center font-bold border-2 border-dryd-burgundy transition-all duration-200 ease-in-out hover:shadow-xl focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-dryd-burgundy active:scale-[.98] active:brightness-90 text-base">
+            <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-2" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M10 19l-7-7m0 0l7-7m-7 7h18" />
+            </svg>
+            Back to Dashboard
+          </a>
+        </div>
+      {/if}
+    </div>
+  </div>
+</div> 

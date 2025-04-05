@@ -1,0 +1,88 @@
+[
+  {
+    "id": "cust-001",
+    "name": "Thompson Family",
+    "contactPerson": "Robert Thompson",
+    "phone": "503-123-4567",
+    "email": "robert.thompson@example.com",
+    "primaryAddress": {
+      "street": "123 Oak Street",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97214"
+    },
+    "notes": "Repeat customer, very particular about scheduling.",
+    "createdAt": "2023-05-10T15:30:00Z"
+  },
+  {
+    "id": "cust-002",
+    "name": "Parkside Apartments LLC",
+    "contactPerson": "Maria Lopez",
+    "phone": "503-234-5678",
+    "email": "manager@parksideapts.example.com",
+    "primaryAddress": {
+      "street": "456 Pine Avenue",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97209"
+    },
+    "billingAddress": {
+      "street": "789 Corporate Plaza, Suite 300",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97201"
+    },
+    "notes": "Property management company. Invoices must reference unit number. Net-30 payment terms.",
+    "createdAt": "2023-03-15T12:45:00Z"
+  },
+  {
+    "id": "cust-003",
+    "name": "James and Sarah Wilson",
+    "contactPerson": "Sarah Wilson",
+    "phone": "503-345-6789",
+    "email": "sarah.wilson@example.com",
+    "primaryAddress": {
+      "street": "789 Maple Drive",
+      "city": "Beaverton",
+      "state": "OR",
+      "zip": "97005"
+    },
+    "createdAt": "2024-02-20T09:15:00Z"
+  },
+  {
+    "id": "cust-004",
+    "name": "Riverside Hotel",
+    "contactPerson": "Michael Wu",
+    "phone": "503-789-0123",
+    "email": "operations@riversidehotel.example.com",
+    "primaryAddress": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "billingAddress": {
+      "street": "888 Riverfront Parkway",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97204"
+    },
+    "notes": "Luxury hotel. Work must be scheduled during off-peak hours. Discretion required.",
+    "createdAt": "2023-09-05T14:30:00Z"
+  },
+  {
+    "id": "cust-005",
+    "name": "Northwest Insurance Group",
+    "contactPerson": "Jennifer Patel",
+    "phone": "503-890-1234",
+    "email": "claims@northwestinsurance.example.com",
+    "primaryAddress": {
+      "street": "2500 Insurance Plaza, Suite 400",
+      "city": "Portland",
+      "state": "OR",
+      "zip": "97205"
+    },
+    "notes": "Insurance company that refers claims. Need detailed documentation and photos.",
+    "createdAt": "2023-04-18T11:20:00Z"
+  }
+] 
