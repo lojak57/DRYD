@@ -50,6 +50,7 @@
 	"dependencies": {
 		"chart.js": "^4.4.8",
 		"date-fns": "^4.1.0",
+		"dayjs": "^1.11.13",
 		"nanoid": "^5.1.5",
 		"uuid": "^11.1.0"
 	}
