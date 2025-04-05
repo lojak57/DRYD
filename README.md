@@ -1,4 +1,4 @@
-# Dryad Restoration App
+# DRYD RESTORATION
 
 A comprehensive management system for restoration companies to track jobs, customers, quotes, and more.
 
