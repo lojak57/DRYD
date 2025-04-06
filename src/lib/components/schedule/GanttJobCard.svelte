@@ -1,149 +1,79 @@
 <script lang="ts">
-  import type { Job } from "$lib/types/Job";
-  import { JobStatus } from "$lib/types/Job";
-  import { goto } from "$app/navigation";
+  import { goto } from '$app/navigation';
+  import type { Job } from '$lib/types/Job';
+  import { JobStatus } from '$lib/types/Job';
   
   export let job: Job;
+  export let small: boolean = false;
   
-  // Get status-based styling
-  $: statusStyle = getStatusStyle(job.status);
-  
-  // Format job details for display
-  $: displayText = `${job.jobNumber}`;
-  $: titleText = job.title || 'Untitled Job';
-  
-  // Navigate to job detail page
-  function navigateToJob() {
+  // Navigate to job details on click
+  function viewJob() {
     goto(`/jobs/${job.id}`);
   }
   
-  // Get style based on job status
-  function getStatusStyle(status: JobStatus): { bgClass: string; textClass: string; borderClass: string; statusBgClass: string } {
+  // Get color based on job status
+  function getStatusColor(status: JobStatus): string {
     switch(status) {
+      case JobStatus.NEW:
+        return 'bg-blue-100 border-blue-300 text-blue-800';
       case JobStatus.SCHEDULED:
-        return { 
-          bgClass: "bg-blue-50", 
-          textClass: "text-blue-800",
-          borderClass: "border-blue-200",
-          statusBgClass: "bg-blue-100 border-blue-300"
-        };
+        return 'bg-indigo-100 border-indigo-300 text-indigo-800';
       case JobStatus.IN_PROGRESS:
-        return { 
-          bgClass: "bg-amber-50", 
-          textClass: "text-amber-800",
-          borderClass: "border-amber-200",
-          statusBgClass: "bg-amber-100 border-amber-300"
-        };
+        return 'bg-green-100 border-green-300 text-green-800';
       case JobStatus.ON_HOLD:
-        return { 
-          bgClass: "bg-red-50", 
-          textClass: "text-red-800",
-          borderClass: "border-red-200",
-          statusBgClass: "bg-red-100 border-red-300"
-        };
+        return 'bg-yellow-100 border-yellow-300 text-yellow-800';
       case JobStatus.PENDING_COMPLETION:
-        return { 
-          bgClass: "bg-indigo-50", 
-          textClass: "text-indigo-800",
-          borderClass: "border-indigo-200",
-          statusBgClass: "bg-indigo-100 border-indigo-300" 
-        };
+        return 'bg-purple-100 border-purple-300 text-purple-800';
       case JobStatus.COMPLETED:
-        return { 
-          bgClass: "bg-green-50", 
-          textClass: "text-green-800",
-          borderClass: "border-green-200",
-          statusBgClass: "bg-green-100 border-green-300" 
-        };
+        return 'bg-emerald-100 border-emerald-300 text-emerald-800';
       case JobStatus.INVOICE_APPROVAL:
-        return { 
-          bgClass: "bg-purple-50", 
-          textClass: "text-purple-800",
-          borderClass: "border-purple-200",
-          statusBgClass: "bg-purple-100 border-purple-300" 
-        };
       case JobStatus.INVOICED:
-        return { 
-          bgClass: "bg-pink-50", 
-          textClass: "text-pink-800",
-          borderClass: "border-pink-200",
-          statusBgClass: "bg-pink-100 border-pink-300" 
-        };
+        return 'bg-pink-100 border-pink-300 text-pink-800';
       case JobStatus.PAID:
-        return { 
-          bgClass: "bg-teal-50", 
-          textClass: "text-teal-800",
-          borderClass: "border-teal-200",
-          statusBgClass: "bg-teal-100 border-teal-300" 
-        };
+        return 'bg-teal-100 border-teal-300 text-teal-800';
       case JobStatus.CANCELLED:
-        return { 
-          bgClass: "bg-gray-50", 
-          textClass: "text-gray-800",
-          borderClass: "border-gray-200",
-          statusBgClass: "bg-gray-100 border-gray-300" 
-        };
+        return 'bg-gray-100 border-gray-300 text-gray-800';
       default:
-        return { 
-          bgClass: "bg-gray-50", 
-          textClass: "text-gray-800",
-          borderClass: "border-gray-200",
-          statusBgClass: "bg-gray-100 border-gray-300" 
-        };
+        return 'bg-gray-100 border-gray-300 text-gray-800';
     }
   }
   
-  // Get a shorter status display
-  function getShortStatus(status: JobStatus): string {
-    switch(status) {
-      case JobStatus.SCHEDULED:
-        return "Scheduled";
-      case JobStatus.IN_PROGRESS:
-        return "In Progress";
-      case JobStatus.ON_HOLD:
-        return "On Hold";
-      case JobStatus.PENDING_COMPLETION:
-        return "Pending";
-      case JobStatus.COMPLETED:
-        return "Completed";
-      case JobStatus.INVOICE_APPROVAL:
-        return "Invoice Review";
-      case JobStatus.INVOICED:
-        return "Invoiced";
-      case JobStatus.PAID:
-        return "Paid";
-      case JobStatus.CANCELLED:
-        return "Cancelled";
-      default:
-        return status;
-    }
-  }
+  // Get truncated title based on small prop
+  $: truncatedTitle = small 
+    ? job.title?.length > 8 
+      ? job.title.substring(0, 6) + '...' 
+      : job.title || 'Job'
+    : job.title?.length > 18 
+      ? job.title.substring(0, 16) + '...' 
+      : job.title || 'Job';
+  
+  // Get the color for this job
+  $: cardColor = getStatusColor(job.status);
 </script>
 
 <div 
-  class="job-card {statusStyle.bgClass} border {statusStyle.borderClass} rounded-md shadow-sm hover:shadow-md transition-shadow cursor-pointer flex flex-col justify-between"
-  on:click={navigateToJob}
-  on:keydown={(e) => e.key === 'Enter' && navigateToJob()}
-  tabindex="0"
+  on:click={viewJob}
+  class="job-card {cardColor} rounded border {small ? 'p-1' : 'p-2'} cursor-pointer hover:shadow-md transition-shadow"
   role="button"
-  aria-label="View job {job.jobNumber}"
+  tabindex="0"
+  on:keydown={e => e.key === 'Enter' && viewJob()}
 >
-  <div class="flex justify-between items-start">
-    <div class="text-xs font-bold {statusStyle.textClass} truncate">{displayText}</div>
-    <div class="text-xs {statusStyle.textClass} {statusStyle.statusBgClass} px-1.5 py-0.5 rounded border text-xs">
-      {getShortStatus(job.status)}
-    </div>
+  <!-- Job Title -->
+  <div class="font-medium {small ? 'text-[0.65rem] leading-[0.8rem]' : 'text-sm'}" title={job.title || 'Job'}>
+    {truncatedTitle}
   </div>
   
-  <div class="text-xs {statusStyle.textClass} truncate mt-1">{titleText}</div>
-  
-  <div class="text-xs text-gray-500 mt-1 flex items-center">
-    {#if job.location?.city}
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
-      </svg>
-      <span class="truncate">{job.location.city}</span>
+  <!-- Only show additional info if not small -->
+  {#if !small}
+    <!-- Job Type or Job Number -->
+    {#if job.jobNumber}
+      <div class="text-xs truncate opacity-80">
+        #{job.jobNumber}
+      </div>
+    {:else if job.type}
+      <div class="text-xs truncate opacity-80">
+        {job.type}
+      </div>
     {/if}
-  </div>
+  {/if}
 </div>

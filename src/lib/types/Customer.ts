@@ -34,8 +34,8 @@ export interface Customer {
   address?: Address;
   /** Customer notes */
   notes?: string;
-  /** When the customer was created */
-  createdAt: Date;
+  /** When the customer was created (ISO string) */
+  createdAt: string;
   /** Whether the customer is active */
   isActive?: boolean;
 } 

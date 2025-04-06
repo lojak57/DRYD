@@ -3,22 +3,20 @@
   import { goto } from '$app/navigation';
   import { customers, loadCustomers, isLoading } from '$lib/stores/customerStore';
   import type { Customer } from '$lib/types/Customer';
-  import PageHeader from '$lib/components/ui/PageHeader.svelte';
   import Card from '$lib/components/ui/Card.svelte';
   import Button from '$lib/components/ui/Button.svelte';
   import EmptyState from '$lib/components/ui/EmptyState.svelte';
   import LoadingSpinner from '$lib/components/ui/LoadingSpinner.svelte';
   import SearchInput from '$lib/components/ui/SearchInput.svelte';
-  import PlusIcon from '$lib/components/icons/PlusIcon.svelte';
-  
+
   // Local state
   let searchQuery = '';
   let filteredCustomers: Customer[] = [];
-  let sortField = 'name';
+  let sortField: keyof Customer | '' = '';
   let sortDirection: 'asc' | 'desc' = 'asc';
-  let showAddCustomerModal = false;
+  let showNewCustomerModal = false;
   
-  // New customer form
+  // New customer form state
   let newCustomer = {
     name: '',
     contactPerson: '',
@@ -32,103 +30,67 @@
     },
     notes: ''
   };
+  let isCreating = false;
   
-  // Form validation errors
-  let formErrors: Record<string, string> = {};
+  // Define a simple Plus icon inline instead of importing
+  const plusIconSvg = `<svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 mr-2" viewBox="0 0 20 20" fill="currentColor">
+    <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
+  </svg>`;
   
-  // Filter customers based on search query
+  // Add this type utility for safely accessing fields
+  function getField<T>(obj: T, field: keyof T | ''): string {
+    if (!field) return '';
+    return String(obj[field] || '');
+  }
+  
+  // Process customers when they change or search/sort changes
   $: {
-    if (searchQuery.trim() === '') {
-      filteredCustomers = [...$customers];
-    } else {
+    // Filter customers based on search query
+    if (searchQuery) {
       const query = searchQuery.toLowerCase();
       filteredCustomers = $customers.filter(customer => 
         customer.name.toLowerCase().includes(query) ||
         (customer.contactPerson && customer.contactPerson.toLowerCase().includes(query)) ||
-        customer.email.toLowerCase().includes(query) ||
-        customer.phone.includes(query) ||
-        customer.primaryAddress.street.toLowerCase().includes(query) ||
-        customer.primaryAddress.city.toLowerCase().includes(query) ||
-        customer.primaryAddress.state.toLowerCase().includes(query) ||
-        customer.primaryAddress.zip.includes(query) ||
-        (customer.notes && customer.notes.toLowerCase().includes(query))
+        (customer.email && customer.email.toLowerCase().includes(query)) ||
+        (customer.phone && customer.phone.toLowerCase().includes(query)) ||
+        (customer.primaryAddress && 
+          (customer.primaryAddress.street.toLowerCase().includes(query) ||
+           customer.primaryAddress.city.toLowerCase().includes(query) ||
+           customer.primaryAddress.state.toLowerCase().includes(query) ||
+           customer.primaryAddress.zip.toLowerCase().includes(query)))
       );
-    }
-    
-    // Sort customers
-    sortCustomers();
-  }
-  
-  // Handle sort
-  function sortCustomers() {
-    filteredCustomers.sort((a, b) => {
-      let valueA: any;
-      let valueB: any;
-      
-      // Extract the values to compare based on sort field
-      switch (sortField) {
-        case 'name':
-          valueA = a.name;
-          valueB = b.name;
-          break;
-        case 'contactPerson':
-          valueA = a.contactPerson || '';
-          valueB = b.contactPerson || '';
-          break;
-        case 'email':
-          valueA = a.email;
-          valueB = b.email;
-          break;
-        case 'phone':
-          valueA = a.phone;
-          valueB = b.phone;
-          break;
-        case 'address':
-          valueA = `${a.primaryAddress.city}, ${a.primaryAddress.state}`;
-          valueB = `${b.primaryAddress.city}, ${b.primaryAddress.state}`;
-          break;
-        default:
-          valueA = a.name;
-          valueB = b.name;
-      }
-      
-      // Compare the values
-      if (valueA < valueB) return sortDirection === 'asc' ? -1 : 1;
-      if (valueA > valueB) return sortDirection === 'asc' ? 1 : -1;
-      return 0;
-    });
-  }
-  
-  // Change sort
-  function changeSort(field: string) {
-    if (field === sortField) {
-      // Toggle direction if clicking the same field
-      sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
     } else {
-      // Set new field and reset direction to ascending
-      sortField = field;
-      sortDirection = 'asc';
+      filteredCustomers = [...$customers];
     }
     
-    sortCustomers();
-  }
-  
-  // Navigate to customer detail page
-  function viewCustomer(id: string) {
-    goto(`/customers/${id}`);
-  }
-  
-  // Toggle add customer modal
-  function toggleAddCustomerModal() {
-    showAddCustomerModal = !showAddCustomerModal;
-    if (!showAddCustomerModal) {
-      // Reset form when closing
-      resetForm();
+    // Sort customers if sort field is specified
+    if (sortField) {
+      filteredCustomers.sort((a, b) => {
+        const valueA = getField(a, sortField as keyof Customer);
+        const valueB = getField(b, sortField as keyof Customer);
+        
+        if (valueA === valueB) return 0;
+        
+        // Handle null/undefined values
+        if (valueA == null) return sortDirection === 'asc' ? -1 : 1;
+        if (valueB == null) return sortDirection === 'asc' ? 1 : -1;
+        
+        // Compare values based on sort direction
+        if (typeof valueA === 'string' && typeof valueB === 'string') {
+          return sortDirection === 'asc' 
+            ? valueA.localeCompare(valueB)
+            : valueB.localeCompare(valueA);
+        } else {
+          return sortDirection === 'asc'
+            ? valueA < valueB ? -1 : 1
+            : valueA < valueB ? 1 : -1;
+        }
+      });
     }
   }
   
-  // Reset form
-  function resetForm() {
+  // Reset the new customer form
+  function resetNewCustomerForm() {
     newCustomer = {
       name: '',
       contactPerson: '',
@@ -142,110 +104,97 @@
       },
       notes: ''
     };
-    formErrors = {};
   }
   
-  // Validate form
-  function validateForm(): boolean {
-    formErrors = {};
-    let isValid = true;
-    
-    if (!newCustomer.name.trim()) {
-      formErrors.name = 'Customer name is required';
-      isValid = false;
+  // Sort customers by the specified field
+  function sortCustomers(field: keyof Customer) {
+    if (sortField === field) {
+      // Toggle sort direction if clicking the same field
+      sortDirection = sortDirection === 'asc' ? 'desc' : 'asc';
+    } else {
+      // Set new sort field and default to ascending
+      sortField = field;
+      sortDirection = 'asc';
     }
-    
-    if (!newCustomer.email.trim()) {
-      formErrors.email = 'Email is required';
-      isValid = false;
-    } else if (!/\S+@\S+\.\S+/.test(newCustomer.email)) {
-      formErrors.email = 'Invalid email format';
-      isValid = false;
-    }
-    
-    if (!newCustomer.phone.trim()) {
-      formErrors.phone = 'Phone number is required';
-      isValid = false;
-    }
-    
-    if (!newCustomer.primaryAddress.street.trim()) {
-      formErrors.street = 'Street address is required';
-      isValid = false;
-    }
-    
-    if (!newCustomer.primaryAddress.city.trim()) {
-      formErrors.city = 'City is required';
-      isValid = false;
-    }
-    
-    if (!newCustomer.primaryAddress.state.trim()) {
-      formErrors.state = 'State is required';
-      isValid = false;
-    }
-    
-    if (!newCustomer.primaryAddress.zip.trim()) {
-      formErrors.zip = 'ZIP code is required';
-      isValid = false;
-    }
-    
-    return isValid;
   }
   
-  // Create customer
+  // Navigate to customer detail page
+  function viewCustomer(customerId: string) {
+    goto(`/customers/${customerId}`);
+  }
+  
+  // Validate form before submission
+  function validateForm() {
+    return !!newCustomer.name.trim();
+  }
+  
+  // Get validation state
+  $: isFormValid = validateForm();
+  
+  // Create a new customer
   async function createCustomer() {
-    if (!validateForm()) {
-      return;
-    }
+    if (!isFormValid) return;
+    
+    isCreating = true;
     
     try {
-      // Simulate API call to create customer
-      // In a real app, this would call a backend API
+      // In a real app, we would send this to an API
+      // For now, we'll simulate an API call with a timeout
+      await new Promise(resolve => setTimeout(resolve, 1000));
+      
+      // Generate a unique ID
       const newId = `customer-${Date.now()}`;
-      const customer: Customer = {
+      
+      // Create new customer object
+      const customerToAdd: Customer = {
         id: newId,
-        ...newCustomer,
-        isActive: true,
-        createdAt: new Date()
+        name: newCustomer.name,
+        contactPerson: newCustomer.contactPerson,
+        email: newCustomer.email,
+        phone: newCustomer.phone,
+        primaryAddress: newCustomer.primaryAddress,
+        notes: newCustomer.notes,
+        createdAt: new Date().toISOString(),
+        isActive: true
       };
       
       // Add to store
-      $customers = [...$customers, customer];
+      customers.update(existingCustomers => [customerToAdd, ...existingCustomers]);
       
-      // Close modal
-      toggleAddCustomerModal();
-      
-      // Navigate to new customer
-      viewCustomer(newId);
+      // Close modal and reset form
+      showNewCustomerModal = false;
+      resetNewCustomerForm();
     } catch (error) {
       console.error('Error creating customer:', error);
-      // Handle error (in a real app, this would show an error toast)
+    } finally {
+      isCreating = false;
     }
   }
   
-  // Load customers on mount
-  onMount(() => {
-    if ($customers.length === 0) {
-      loadCustomers();
+  // Load customers on mount if not already loaded
+  onMount(async () => {
+    if ($customers.length === 0 && !$isLoading) {
+      await loadCustomers();
     }
   });
 </script>
 
-<PageHeader title="Customers" subtitle="Manage customer information">
-  <div slot="actions">
-    <Button color="primary" on:click={toggleAddCustomerModal}>
-      <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5 mr-1" viewBox="0 0 20 20" fill="currentColor">
-        <path fill-rule="evenodd" d="M10 3a1 1 0 011 1v5h5a1 1 0 110 2h-5v5a1 1 0 11-2 0v-5H4a1 1 0 110-2h5V4a1 1 0 011-1z" clip-rule="evenodd" />
-      </svg>
-      Add Customer
+<div class="container mx-auto px-4 py-6">
+  <div class="flex flex-col md:flex-row md:justify-between md:items-center gap-4 mb-6">
+    <div>
+      <h1 class="text-2xl font-bold">Customers</h1>
+      <p class="text-gray-600 mt-1">Manage your customer relationships</p>
+    </div>
+    <Button color="blue" on:click={() => (showNewCustomerModal = true)}>
+      {@html plusIconSvg}
+      Add New Customer
     </Button>
   </div>
-</PageHeader>
-
-<Card className="mb-6">
-  <div class="p-4">
-    <SearchInput
-      bind:value={searchQuery}
-      placeholder="Search customers by name, contact, email, phone or address..."
+  
+  <div class="mb-6">
+    <SearchInput 
+      placeholder="Search customers by name, contact, email, phone, or address..." 
+      bind:value={searchQuery} 
     />
   </div>
   
@@ -254,347 +203,370 @@
       <LoadingSpinner size="lg" color="blue" />
     </div>
   {:else if $customers.length === 0}
-    <EmptyState
-      message="No customers found"
-      icon="users"
+    <EmptyState 
+      message="No customers yet" 
+      description="Add your first customer to get started"
       showAction={true}
-    >
-      <Button slot="action" on:click={toggleAddCustomerModal}>
-        Add Your First Customer
-      </Button>
-    </EmptyState>
+      on:action={() => (showNewCustomerModal = true)}
+      title="No customers found"
+    />
   {:else if filteredCustomers.length === 0}
-    <EmptyState
-      message="No matching customers"
+    <EmptyState 
+      message="No matching customers" 
+      description="Try a different search term"
       icon="search"
-      showAction={true}
-    >
-      <Button slot="action" on:click={() => searchQuery = ''}>
-        Clear Search
-      </Button>
-    </EmptyState>
+    />
   {:else}
-    <div class="overflow-x-auto">
-      <table class="w-full divide-y divide-gray-200">
-        <thead class="bg-gray-50">
-          <tr>
-            <th 
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-              on:click={() => changeSort('name')}
-            >
-              <div class="flex items-center">
-                <span>Customer</span>
-                {#if sortField === 'name'}
-                  <svg 
-                    class="ml-1 h-4 w-4" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    {#if sortDirection === 'asc'}
-                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                    {:else}
-                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    {/if}
-                  </svg>
+    <!-- Mobile view with cards -->
+    <div class="block md:hidden space-y-4">
+      {#each filteredCustomers as customer (customer.id)}
+        <Card class_="hover:shadow-lg transition-all cursor-pointer bg-white border-2 border-blue-100 rounded-lg shadow-md" on:click={() => viewCustomer(customer.id)}>
+          <div class="p-4">
+            <div class="flex items-start justify-between">
+              <div>
+                <h3 class="font-semibold text-lg text-gray-900">{customer.name}</h3>
+                {#if customer.contactPerson}
+                  <p class="text-gray-700 text-sm mt-1">{customer.contactPerson}</p>
                 {/if}
               </div>
-            </th>
-            <th 
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-              on:click={() => changeSort('contactPerson')}
-            >
-              <div class="flex items-center">
-                <span>Contact Person</span>
-                {#if sortField === 'contactPerson'}
-                  <svg 
-                    class="ml-1 h-4 w-4" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    {#if sortDirection === 'asc'}
-                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                    {:else}
-                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    {/if}
-                  </svg>
-                {/if}
+              <div on:click={(e) => e.stopPropagation()} role="button" tabindex="0" on:keydown={(e) => {
+                if (e.key === 'Enter') viewCustomer(customer.id);
+              }}>
+                <Button color="primary" size="sm" on:click={() => viewCustomer(customer.id)}>
+                  View
+                </Button>
               </div>
-            </th>
-            <th 
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-              on:click={() => changeSort('email')}
-            >
-              <div class="flex items-center">
-                <span>Email</span>
-                {#if sortField === 'email'}
-                  <svg 
-                    class="ml-1 h-4 w-4" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    {#if sortDirection === 'asc'}
-                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                    {:else}
-                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    {/if}
+            </div>
+            
+            <div class="mt-3 space-y-1 text-sm">
+              {#if customer.phone}
+                <p class="flex items-center text-gray-600">
+                  <svg class="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
                   </svg>
-                {/if}
-              </div>
-            </th>
-            <th 
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-              on:click={() => changeSort('phone')}
-            >
-              <div class="flex items-center">
-                <span>Phone</span>
-                {#if sortField === 'phone'}
-                  <svg 
-                    class="ml-1 h-4 w-4" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    {#if sortDirection === 'asc'}
-                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                    {:else}
-                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    {/if}
+                  {customer.phone}
+                </p>
+              {/if}
+              
+              {#if customer.email}
+                <p class="flex items-center text-gray-600">
+                  <svg class="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
                   </svg>
-                {/if}
-              </div>
-            </th>
-            <th 
-              class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer"
-              on:click={() => changeSort('address')}
-            >
-              <div class="flex items-center">
-                <span>Address</span>
-                {#if sortField === 'address'}
-                  <svg 
-                    class="ml-1 h-4 w-4" 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    viewBox="0 0 20 20" 
-                    fill="currentColor"
-                  >
-                    {#if sortDirection === 'asc'}
-                      <path fill-rule="evenodd" d="M14.707 12.707a1 1 0 01-1.414 0L10 9.414l-3.293 3.293a1 1 0 01-1.414-1.414l4-4a1 1 0 011.414 0l4 4a1 1 0 010 1.414z" clip-rule="evenodd" />
-                    {:else}
-                      <path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd" />
-                    {/if}
+                  {customer.email}
+                </p>
+              {/if}
+              
+              {#if customer.primaryAddress?.street}
+                <p class="flex items-center text-gray-600">
+                  <svg class="w-4 h-4 mr-2 text-blue-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
-                {/if}
+                  {customer.primaryAddress.street}, {customer.primaryAddress.city}
+                </p>
+              {/if}
+            </div>
+            
+            <div class="mt-3 pt-3 border-t border-blue-100 flex justify-between items-center">
+              <div class="text-xs text-gray-500">
+                Customer since {new Date(customer.createdAt).toLocaleDateString()}
               </div>
-            </th>
-            <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody class="bg-white divide-y divide-gray-200">
-          {#each filteredCustomers as customer}
-            <tr class="hover:bg-gray-50 cursor-pointer" on:click={() => viewCustomer(customer.id)}>
-              <td class="px-4 py-4 whitespace-nowrap">
-                <div class="flex items-center">
-                  <div class="flex-shrink-0 h-10 w-10 bg-dryd-blue rounded-full flex items-center justify-center text-white font-medium">
-                    {customer.name.charAt(0)}
+              <div class="flex space-x-2">
+                {#if customer.phone}
+                  <div on:click={(e) => e.stopPropagation()} role="button" tabindex="0" on:keydown={(e) => {
+                    if (e.key === 'Enter') window.location.href = `tel:${customer.phone}`;
+                  }}>
+                    <a 
+                      href={`tel:${customer.phone}`} 
+                      class="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-full"
+                      aria-label="Call customer"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+                      </svg>
+                    </a>
                   </div>
-                  <div class="ml-4">
+                {/if}
+                
+                {#if customer.email}
+                  <div on:click={(e) => e.stopPropagation()} role="button" tabindex="0" on:keydown={(e) => {
+                    if (e.key === 'Enter') window.location.href = `mailto:${customer.email}`;
+                  }}>
+                    <a 
+                      href={`mailto:${customer.email}`} 
+                      class="p-1.5 text-gray-500 hover:text-blue-600 hover:bg-blue-50 rounded-full"
+                      aria-label="Email customer"
+                    >
+                      <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                      </svg>
+                    </a>
+                  </div>
+                {/if}
+              </div>
+            </div>
+          </div>
+        </Card>
+      {/each}
+    </div>
+    
+    <!-- Desktop view with table -->
+    <div class="hidden md:block">
+      <Card>
+        <div class="overflow-x-auto">
+          <table class="min-w-full divide-y divide-gray-200">
+            <thead class="bg-gray-50">
+              <tr>
+                <th 
+                  class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                  on:click={() => sortCustomers('name')}
+                >
+                  <div class="flex items-center">
+                    <span>Name</span>
+                    {#if sortField === 'name'}
+                      <span class="ml-1">
+                        {sortDirection === 'asc' ? '↑' : '↓'}
+                      </span>
+                    {/if}
+                  </div>
+                </th>
+                <th 
+                  class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                  on:click={() => sortCustomers('contactPerson')}
+                >
+                  <div class="flex items-center">
+                    <span>Contact Person</span>
+                    {#if sortField === 'contactPerson'}
+                      <span class="ml-1">
+                        {sortDirection === 'asc' ? '↑' : '↓'}
+                      </span>
+                    {/if}
+                  </div>
+                </th>
+                <th 
+                  class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                  on:click={() => sortCustomers('email')}
+                >
+                  <div class="flex items-center">
+                    <span>Email</span>
+                    {#if sortField === 'email'}
+                      <span class="ml-1">
+                        {sortDirection === 'asc' ? '↑' : '↓'}
+                      </span>
+                    {/if}
+                  </div>
+                </th>
+                <th 
+                  class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100"
+                  on:click={() => sortCustomers('phone')}
+                >
+                  <div class="flex items-center">
+                    <span>Phone</span>
+                    {#if sortField === 'phone'}
+                      <span class="ml-1">
+                        {sortDirection === 'asc' ? '↑' : '↓'}
+                      </span>
+                    {/if}
+                  </div>
+                </th>
+                <th 
+                  class="px-4 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                >
+                  Address
+                </th>
+                <th class="px-4 py-3 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">
+                  Actions
+                </th>
+              </tr>
+            </thead>
+            <tbody class="bg-white divide-y divide-gray-200">
+              {#each filteredCustomers as customer (customer.id)}
+                <tr class="hover:bg-gray-50 cursor-pointer" on:click={() => viewCustomer(customer.id)}>
+                  <td class="px-4 py-4 whitespace-nowrap">
                     <div class="text-sm font-medium text-gray-900">{customer.name}</div>
-                  </div>
-                </div>
-              </td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                {customer.contactPerson || '-'}
-              </td>
-              <td class="px-4 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900 truncate max-w-[200px]">
-                  <a href="mailto:{customer.email}" class="text-dryd-blue hover:underline" on:click|stopPropagation>
-                    {customer.email}
-                  </a>
-                </div>
-              </td>
-              <td class="px-4 py-4 whitespace-nowrap">
-                <div class="text-sm text-gray-900">
-                  <a href="tel:{customer.phone}" class="text-dryd-blue hover:underline" on:click|stopPropagation>
-                    {customer.phone}
-                  </a>
-                </div>
-              </td>
-              <td class="px-4 py-4 whitespace-nowrap text-sm text-gray-500">
-                <div class="text-sm truncate max-w-[200px]">
-                  {customer.primaryAddress.city}, {customer.primaryAddress.state} {customer.primaryAddress.zip}
-                </div>
-              </td>
-              <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
-                <div on:click|stopPropagation>
-                  <Button color="primary" on:click={() => viewCustomer(customer.id)}>
-                    View
-                  </Button>
-                </div>
-              </td>
-            </tr>
-          {/each}
-        </tbody>
-      </table>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">{customer.contactPerson || 'N/A'}</div>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">
+                      {#if customer.email}
+                        <div on:click={(e) => e.stopPropagation()}>
+                          <a href="mailto:{customer.email}" class="text-blue-600 hover:underline">{customer.email}</a>
+                        </div>
+                      {:else}
+                        N/A
+                      {/if}
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">
+                      {#if customer.phone}
+                        <div on:click={(e) => e.stopPropagation()}>
+                          <a href="tel:{customer.phone}" class="text-blue-600 hover:underline">{customer.phone}</a>
+                        </div>
+                      {:else}
+                        N/A
+                      {/if}
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap">
+                    <div class="text-sm text-gray-500">
+                      {#if customer.primaryAddress}
+                        {customer.primaryAddress.city}, {customer.primaryAddress.state}
+                      {:else}
+                        N/A
+                      {/if}
+                    </div>
+                  </td>
+                  <td class="px-4 py-4 whitespace-nowrap text-right text-sm font-medium">
+                    <div on:click={(e) => e.stopPropagation()} role="button" tabindex="0" on:keydown={(e) => {
+                      if (e.key === 'Enter') viewCustomer(customer.id);
+                    }}>
+                      <Button color="primary" size="sm" on:click={() => viewCustomer(customer.id)}>
+                        View
+                      </Button>
+                    </div>
+                  </td>
+                </tr>
+              {/each}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     </div>
   {/if}
-</Card>
+</div>
 
 <!-- Add Customer Modal -->
-{#if showAddCustomerModal}
-  <div class="fixed inset-0 overflow-y-auto z-50">
-    <div class="flex items-center justify-center min-h-screen p-4">
-      <div class="fixed inset-0 bg-black bg-opacity-50 transition-opacity" on:click={toggleAddCustomerModal}></div>
-      
-      <div class="bg-white rounded-lg shadow-xl overflow-hidden w-full max-w-2xl z-10">
-        <div class="flex items-center justify-between p-4 border-b">
-          <h2 class="text-lg font-semibold text-gray-900">Add New Customer</h2>
-          <button type="button" class="text-gray-400 hover:text-gray-500" on:click={toggleAddCustomerModal}>
-            <svg class="h-6 w-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+{#if showNewCustomerModal}
+  <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+    <div class="bg-white rounded-lg max-w-md w-full max-h-[90vh] overflow-y-auto">
+      <div class="p-6">
+        <div class="flex justify-between items-center mb-4">
+          <h2 class="text-xl font-bold">Add New Customer</h2>
+          <button 
+            class="text-gray-500 hover:text-gray-700" 
+            on:click={() => (showNewCustomerModal = false)}
+          >
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
             </svg>
           </button>
         </div>
         
-        <form class="p-6" on:submit|preventDefault={createCustomer}>
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-            <!-- Customer Name -->
-            <div class="col-span-2">
-              <label for="name" class="block text-sm font-medium text-gray-700">Customer Name *</label>
-              <input 
-                type="text" 
-                id="name" 
+        <form on:submit|preventDefault={createCustomer}>
+          <div class="space-y-4">
+            <div>
+              <label for="name" class="block text-sm font-medium text-gray-700 mb-1">
+                Company/Customer Name <span class="text-red-500">*</span>
+              </label>
+              <input
+                id="name"
+                type="text"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 bind:value={newCustomer.name}
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue {formErrors.name ? 'border-red-500' : ''}"
+                required
               />
-              {#if formErrors.name}
-                <p class="mt-1 text-sm text-red-600">{formErrors.name}</p>
-              {/if}
             </div>
             
-            <!-- Contact Person -->
             <div>
-              <label for="contactPerson" class="block text-sm font-medium text-gray-700">Contact Person</label>
-              <input 
-                type="text" 
-                id="contactPerson" 
+              <label for="contactPerson" class="block text-sm font-medium text-gray-700 mb-1">
+                Contact Person
+              </label>
+              <input
+                id="contactPerson"
+                type="text"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 bind:value={newCustomer.contactPerson}
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue"
               />
             </div>
             
-            <!-- Email -->
             <div>
-              <label for="email" class="block text-sm font-medium text-gray-700">Email *</label>
-              <input 
-                type="email" 
-                id="email" 
+              <label for="email" class="block text-sm font-medium text-gray-700 mb-1">
+                Email
+              </label>
+              <input
+                id="email"
+                type="email"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 bind:value={newCustomer.email}
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue {formErrors.email ? 'border-red-500' : ''}"
               />
-              {#if formErrors.email}
-                <p class="mt-1 text-sm text-red-600">{formErrors.email}</p>
-              {/if}
             </div>
             
-            <!-- Phone -->
             <div>
-              <label for="phone" class="block text-sm font-medium text-gray-700">Phone *</label>
-              <input 
-                type="tel" 
-                id="phone" 
+              <label for="phone" class="block text-sm font-medium text-gray-700 mb-1">
+                Phone
+              </label>
+              <input
+                id="phone"
+                type="tel"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 bind:value={newCustomer.phone}
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue {formErrors.phone ? 'border-red-500' : ''}"
               />
-              {#if formErrors.phone}
-                <p class="mt-1 text-sm text-red-600">{formErrors.phone}</p>
-              {/if}
             </div>
             
-            <!-- Address Section -->
-            <div class="col-span-2">
-              <h3 class="text-sm font-medium text-gray-700 mb-2">Primary Address</h3>
+            <div>
+              <label class="block text-sm font-medium text-gray-700 mb-2">
+                Primary Address
+              </label>
               
-              <!-- Street -->
-              <div class="mb-4">
-                <label for="street" class="block text-sm font-medium text-gray-700">Street *</label>
-                <input 
-                  type="text" 
-                  id="street" 
+              <div class="grid grid-cols-1 gap-3">
+                <input
+                  type="text"
+                  placeholder="Street Address"
+                  class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                   bind:value={newCustomer.primaryAddress.street}
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue {formErrors.street ? 'border-red-500' : ''}"
                 />
-                {#if formErrors.street}
-                  <p class="mt-1 text-sm text-red-600">{formErrors.street}</p>
-                {/if}
-              </div>
-              
-              <div class="grid grid-cols-2 gap-4 mb-4">
-                <!-- City -->
-                <div>
-                  <label for="city" class="block text-sm font-medium text-gray-700">City *</label>
-                  <input 
-                    type="text" 
-                    id="city" 
-                    bind:value={newCustomer.primaryAddress.city}
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue {formErrors.city ? 'border-red-500' : ''}"
-                  />
-                  {#if formErrors.city}
-                    <p class="mt-1 text-sm text-red-600">{formErrors.city}</p>
-                  {/if}
-                </div>
                 
-                <!-- State -->
-                <div>
-                  <label for="state" class="block text-sm font-medium text-gray-700">State *</label>
-                  <input 
-                    type="text" 
-                    id="state" 
-                    bind:value={newCustomer.primaryAddress.state}
-                    class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue {formErrors.state ? 'border-red-500' : ''}"
+                <div class="grid grid-cols-2 gap-3">
+                  <input
+                    type="text"
+                    placeholder="City"
+                    class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                    bind:value={newCustomer.primaryAddress.city}
                   />
-                  {#if formErrors.state}
-                    <p class="mt-1 text-sm text-red-600">{formErrors.state}</p>
-                  {/if}
+                  
+                  <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <input
+                      type="text"
+                      placeholder="State"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      bind:value={newCustomer.primaryAddress.state}
+                    />
+                    
+                    <input
+                      type="text"
+                      placeholder="ZIP"
+                      class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
+                      bind:value={newCustomer.primaryAddress.zip}
+                    />
+                  </div>
                 </div>
-              </div>
-              
-              <!-- ZIP -->
-              <div>
-                <label for="zip" class="block text-sm font-medium text-gray-700">ZIP Code *</label>
-                <input 
-                  type="text" 
-                  id="zip" 
-                  bind:value={newCustomer.primaryAddress.zip}
-                  class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue {formErrors.zip ? 'border-red-500' : ''}"
-                />
-                {#if formErrors.zip}
-                  <p class="mt-1 text-sm text-red-600">{formErrors.zip}</p>
-                {/if}
               </div>
             </div>
             
-            <!-- Notes -->
-            <div class="col-span-2">
-              <label for="notes" class="block text-sm font-medium text-gray-700">Notes</label>
-              <textarea 
-                id="notes" 
-                rows="3" 
+            <div>
+              <label for="notes" class="block text-sm font-medium text-gray-700 mb-1">
+                Notes
+              </label>
+              <textarea
+                id="notes"
+                rows="3"
+                class="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
                 bind:value={newCustomer.notes}
-                class="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-dryd-blue focus:ring-dryd-blue"
               ></textarea>
             </div>
           </div>
           
-          <div class="mt-6 flex justify-end space-x-3">
-            <Button type="button" color="secondary" on:click={toggleAddCustomerModal}>
-              Cancel
+          <div class="mt-6 space-y-3">
+            <Button type="submit" color="blue" disabled={isCreating || !isFormValid} class_="w-full">
+              {isCreating ? 'Creating...' : 'Create Customer'}
             </Button>
-            <Button type="submit" color="primary">
-              Create Customer
+            
+            <Button color="gray" on:click={() => (showNewCustomerModal = false)} class_="w-full">
+              Cancel
             </Button>
           </div>
         </form>
