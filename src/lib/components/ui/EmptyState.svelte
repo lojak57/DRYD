@@ -1,7 +1,16 @@
 <script lang="ts">
+  // Default props
   export let message = 'No items found';
   export let icon = 'document';
   export let showAction = false;
+  
+  // For backward compatibility
+  export let title = '';
+  export let description = '';
+  
+  // Use title as fallback if provided
+  $: displayMessage = title || message;
+  $: displayDescription = description || '';
 </script>
 
 <div class="text-center py-12 px-4">
@@ -22,13 +31,21 @@
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" />
       </svg>
+    {:else if icon === 'folder'}
+      <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7v10a2 2 0 002 2h14a2 2 0 002-2V9a2 2 0 00-2-2h-6l-2-2H5a2 2 0 00-2 2z" />
+      </svg>
     {:else}
       <svg xmlns="http://www.w3.org/2000/svg" class="h-8 w-8" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4" />
       </svg>
     {/if}
   </div>
-  <h3 class="text-lg font-medium text-gray-900 mb-1">{message}</h3>
+  <h3 class="text-lg font-medium text-gray-900 mb-1">{displayMessage}</h3>
+  
+  {#if displayDescription}
+    <p class="text-sm text-gray-500 mb-3">{displayDescription}</p>
+  {/if}
   
   {#if showAction}
     <div class="mt-4">

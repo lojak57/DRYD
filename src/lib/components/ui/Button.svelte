@@ -7,6 +7,7 @@
   export let loading = false;
   export let icon = "";
   export let iconPosition = "left";
+  export let class_ = "";
   
   // Simple colors using standard Tailwind classes (no custom color references)
   const colors = {
@@ -46,7 +47,7 @@
 
 <button
   {type}
-  class="inline-flex items-center justify-center font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed {colorClasses} {sizeClasses} {widthClass}"
+  class="inline-flex items-center justify-center font-medium rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 shadow-sm transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed {colorClasses} {sizeClasses} {widthClass} {class_}"
   {disabled}
   on:click={handleClick}
   on:click

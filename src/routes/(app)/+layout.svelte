@@ -58,7 +58,7 @@
     
     // Update background image based on scroll position
     $: {
-        if (scrollY && innerHeight) {
+        if (scrollY && innerHeight && browser && document.body) {
             const scrollPercentage = scrollY / (document.body.scrollHeight - innerHeight);
             currentBgIndex = Math.min(
                 backgroundImages.length - 1,
