@@ -33,7 +33,6 @@
   let quoteError = '';
   let quoteLaborHours = 0;
   let quoteLaborCost = 0;
-  let laborLineItems: Array<{type: string, hours: number, cost: number}> = [];
   
   // Calculate totals
   $: totalHours = laborEntries.reduce((sum, entry) => sum + entry.hours, 0);
@@ -45,12 +44,9 @@
     
     quoteLoading = true;
     quoteError = '';
-    laborLineItems = [];
     
     try {
-      console.log('Loading quote with ID:', job.originatingQuoteId);
       quote = await getQuoteById(job.originatingQuoteId);
-      console.log('Quote data loaded:', quote);
       
       if (quote && quote.lineItems && quote.lineItems.length > 0) {
         // Extract labor items from quote
@@ -58,56 +54,11 @@
           item.category === 'LABOR' || 
           item.description.toLowerCase().includes('labor'));
         
-        console.log('Labor items from quote:', laborItems);
-        
         if (laborItems.length > 0) {
           quoteLaborCost = laborItems.reduce((sum, item) => sum + item.total, 0);
-          
-          // Group by labor type (from description)
-          const laborTypes = new Map<string, {hours: number, cost: number}>();
-          
-          laborItems.forEach(item => {
-            // Extract labor type from description (e.g., "Labor - Restoration Technician")
-            let laborType = item.description;
-            
-            // Extract technician type from description
-            if (item.description.includes(' - ')) {
-              laborType = item.description.split(' - ')[1].trim();
-            } else if (item.description.includes('-')) {
-              laborType = item.description.split('-')[1].trim();
-            }
-            
-            if (!laborType) laborType = 'General Labor';
-            
-            // Calculate hours based on quantity or estimate from cost
-            const hours = item.quantity > 0 ? item.quantity : Math.round(item.total / 45 * 10) / 10;
-            
-            // Add to or update the labor type in our map
-            if (laborTypes.has(laborType)) {
-              const existing = laborTypes.get(laborType)!;
-              laborTypes.set(laborType, {
-                hours: existing.hours + hours,
-                cost: existing.cost + item.total
-              });
-            } else {
-              laborTypes.set(laborType, {
-                hours: hours,
-                cost: item.total
-              });
-            }
-          });
-          
-          // Convert map to array for display
-          laborLineItems = Array.from(laborTypes.entries()).map(([type, data]) => ({
-            type,
-            hours: data.hours,
-            cost: data.cost
-          }));
-          
-          console.log('Processed labor line items:', laborLineItems);
-          
-          // Update total hours
-          quoteLaborHours = laborLineItems.reduce((sum, item) => sum + item.hours, 0);
+          // Estimate hours from cost using average hourly rate (default to $45/hour if we can't calculate)
+          const totalUnits = laborItems.reduce((sum, item) => sum + item.quantity, 0);
+          quoteLaborHours = totalUnits > 0 ? totalUnits : Math.round(quoteLaborCost / 45 * 10) / 10;
         }
       }
     } catch (error) {
@@ -238,39 +189,15 @@
       {:else if !job.originatingQuoteId}
         <p class="text-blue-700 text-sm">This job was not created from a quote.</p>
         <p class="text-blue-700 text-sm font-medium mt-1">Quote Labor Hours: 0</p>
-      {:else if laborLineItems.length === 0}
-        <p class="text-blue-700 text-sm">No labor items found in the original quote.</p>
-        <p class="text-blue-700 text-sm font-medium mt-1">Quote Labor Hours: 0</p>
       {:else}
-        <div class="mb-2">
-          <div class="flex justify-between mb-1">
-            <p class="text-sm font-medium text-blue-800">Technician Type</p>
-            <div class="flex">
-              <p class="text-sm font-medium text-blue-800 w-24 text-right mr-4">Hours</p>
-              <p class="text-sm font-medium text-blue-800 w-24 text-right">Cost</p>
-            </div>
+        <div class="grid grid-cols-2 gap-4">
+          <div>
+            <p class="text-sm text-blue-700">Quote Labor Hours:</p>
+            <p class="text-lg font-semibold text-blue-800">{quoteLaborHours.toFixed(1)} hours</p>
           </div>
-          
-          <div class="border-t border-blue-200 pt-1">
-            {#each laborLineItems as item}
-              <div class="flex justify-between py-1">
-                <p class="text-sm text-blue-700">{item.type}</p>
-                <div class="flex">
-                  <p class="text-sm text-blue-700 w-24 text-right mr-4">{item.hours.toFixed(1)}</p>
-                  <p class="text-sm text-blue-700 w-24 text-right">${item.cost.toFixed(2)}</p>
-                </div>
-              </div>
-            {/each}
-          </div>
-          
-          <div class="border-t border-blue-200 pt-1 mt-1">
-            <div class="flex justify-between py-1">
-              <p class="text-sm font-semibold text-blue-800">Total</p>
-              <div class="flex">
-                <p class="text-sm font-semibold text-blue-800 w-24 text-right mr-4">{quoteLaborHours.toFixed(1)}</p>
-                <p class="text-sm font-semibold text-blue-800 w-24 text-right">${quoteLaborCost.toFixed(2)}</p>
-              </div>
-            </div>
+          <div>
+            <p class="text-sm text-blue-700">Quote Labor Cost:</p>
+            <p class="text-lg font-semibold text-blue-800">${quoteLaborCost.toFixed(2)}</p>
           </div>
         </div>
       {/if}
